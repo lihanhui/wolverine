@@ -6,7 +6,7 @@ import org.apache.mesos.Protos.TaskStatus;
 
 import com.google.protobuf.ByteString;
 
-public abstract class AbstractWolverineTaskManager implements TaskManager{
+public abstract class AbstractWolverineTaskManager implements WolverineTaskManager{
 	private ExecutorDriver executorDriver;
 	private ExecutorInfo executorInfo;
 	

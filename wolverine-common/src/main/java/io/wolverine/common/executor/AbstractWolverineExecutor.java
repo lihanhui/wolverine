@@ -7,13 +7,13 @@ import org.apache.mesos.Protos.SlaveInfo;
 import org.apache.mesos.Protos.TaskID;
 import org.apache.mesos.Protos.TaskInfo;
 
-import io.wolverine.common.task.TaskManager;
+import io.wolverine.common.task.WolverineTaskManager;
 
 public abstract class AbstractWolverineExecutor implements WolverineExecutor {
-	private TaskManager taskManager;
+	private WolverineTaskManager taskManager;
 	private ExecutorEnv executorEnv;
 	
-	public AbstractWolverineExecutor(TaskManager taskManager) {
+	public AbstractWolverineExecutor(WolverineTaskManager taskManager) {
 		this.taskManager = taskManager;
 	}
 	

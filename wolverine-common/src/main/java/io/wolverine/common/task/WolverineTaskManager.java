@@ -1,6 +1,6 @@
 package io.wolverine.common.task;
 
-public interface TaskManager {
+public interface WolverineTaskManager {
 	public void launchTask(TaskInfo task); 
 	public void killTask(String taskId) ;
 	public void killAllTasks();
