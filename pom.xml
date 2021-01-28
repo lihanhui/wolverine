@@ -6,6 +6,6 @@
   <version>1.0</version>
   <packaging>pom</packaging>
   <modules>
-  	
+    <module>wolverine-common</module>
   </modules>
 </project>
