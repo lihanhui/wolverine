@@ -12,9 +12,10 @@ import io.wolverine.common.task.TaskStatus;
 
 public interface WolverineJobManager {
 	
-	public void resourceOffers(List<Offer> offers) ;
-	public void offerRescinded(String offerId);
-	public void statusUpdate(TaskStatus status);
+	void resourceOffers(List<Offer> offers) ;
+	void offerRescinded(String offerId);
+	void statusUpdate(TaskStatus status);
+	void frameworkMessage(byte[] data);
 	
 	void sendFrameworkMessage(String executorId,
             String slaveId,

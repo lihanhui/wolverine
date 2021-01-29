@@ -7,5 +7,11 @@ public class TaskInfo {
 		super();
 		this.taskInfo = taskInfo;
 	}
+	public org.apache.mesos.Protos.TaskInfo getTaskInfo() {
+		return taskInfo;
+	}
+	public void setTaskInfo(org.apache.mesos.Protos.TaskInfo taskInfo) {
+		this.taskInfo = taskInfo;
+	}
 	
 }

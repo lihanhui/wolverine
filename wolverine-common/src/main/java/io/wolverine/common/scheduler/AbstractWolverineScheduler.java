@@ -1,5 +1,6 @@
 package io.wolverine.common.scheduler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.mesos.Protos.ExecutorID;
@@ -15,41 +16,39 @@ import io.wolverine.common.job.WolverineJobManager;
 
 public class AbstractWolverineScheduler implements WolverineScheduler{
 	private WolverineJobManager jobManager;
-	
+	private SchedulerEnv schedulerEnv;
 	
 	public AbstractWolverineScheduler(WolverineJobManager jobManager) {
 		super();
 		this.jobManager = jobManager;
+		this.schedulerEnv = new SchedulerEnv();
 	}
 
 	public void registered(SchedulerDriver driver, FrameworkID frameworkId, MasterInfo masterInfo) {
-		// TODO Auto-generated method stub
-		
+		schedulerEnv.setFrameworkId(frameworkId);
+		schedulerEnv.setMasterInfo(masterInfo);
 	}
 
 	public void reregistered(SchedulerDriver driver, MasterInfo masterInfo) {
-		// TODO Auto-generated method stub
-		
+		schedulerEnv.setMasterInfo(masterInfo);
 	}
 
 	public void resourceOffers(SchedulerDriver driver, List<Offer> offers) {
-		// TODO Auto-generated method stub
-		
+		List<io.wolverine.common.task.Offer> list = new ArrayList<>();
+		offers.forEach( o -> list.add(new io.wolverine.common.task.Offer(o)));
+		this.jobManager.resourceOffers(list);
 	}
 
 	public void offerRescinded(SchedulerDriver driver, OfferID offerId) {
-		// TODO Auto-generated method stub
-		
+		this.jobManager.offerRescinded(offerId.getValue());
 	}
 
 	public void statusUpdate(SchedulerDriver driver, TaskStatus status) {
-		// TODO Auto-generated method stub
-		
+		this.jobManager.statusUpdate(new io.wolverine.common.task.TaskStatus(status));
 	}
 
 	public void frameworkMessage(SchedulerDriver driver, ExecutorID executorId, SlaveID slaveId, byte[] data) {
-		// TODO Auto-generated method stub
-		
+		this.jobManager.frameworkMessage(data);
 	}
 
 	public void disconnected(SchedulerDriver driver) {

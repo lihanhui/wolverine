@@ -7,5 +7,12 @@ public class Request {
 		super();
 		this.request = request;
 	}
+	public org.apache.mesos.Protos.Request getRequest() {
+		return request;
+	}
+
+	public void setRequest(org.apache.mesos.Protos.Request request) {
+		this.request = request;
+	}
 	
 }
