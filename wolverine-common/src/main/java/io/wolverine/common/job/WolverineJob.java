@@ -1,6 +1,6 @@
 package io.wolverine.common.job;
 
-import io.wolverine.common.message.TaskStatus;
+import org.apache.mesos.Protos.TaskStatus;
 
 public interface WolverineJob {
 	void statusUpdated(TaskStatus status);
