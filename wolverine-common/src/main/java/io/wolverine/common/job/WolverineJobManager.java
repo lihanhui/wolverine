@@ -8,8 +8,6 @@ import org.apache.mesos.Protos.Offer;
 import org.apache.mesos.Protos.TaskInfo;
 import org.apache.mesos.Protos.TaskStatus;
 
-import io.wolverine.common.message.Request;
-
 public interface WolverineJobManager {
 	
 	void resourceOffers(List<Offer> offers) ;
@@ -21,7 +19,6 @@ public interface WolverineJobManager {
             String slaveId,
             byte[] data);
 	
-	void requestResources(Collection<Request> requests);
 	void declineOffer(String offerId);
 	void acceptOffers(Collection<String> offerIds,
             Collection<org.apache.mesos.Protos.Offer.Operation> operations,

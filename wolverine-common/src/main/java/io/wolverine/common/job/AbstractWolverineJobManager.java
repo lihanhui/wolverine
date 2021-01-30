@@ -15,8 +15,6 @@ import org.apache.mesos.Protos.TaskInfo;
 import org.apache.mesos.Protos.TaskStatus;
 import org.apache.mesos.SchedulerDriver;
 
-import io.wolverine.common.message.Request;
-
 public abstract class AbstractWolverineJobManager implements WolverineJobManager{
 	private SchedulerDriver schedulerDriver;
 	private ConcurrentHashMap<String, Offer> offerMap = new ConcurrentHashMap<>();
@@ -57,14 +55,6 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 		Protos.SlaveID.Builder b2 = Protos.SlaveID.newBuilder();
 		b2.setValue(slaveId);
 		this.schedulerDriver.sendFrameworkMessage(b.build(), b2.build(), data);
-	}
-
-	@Override
-	public void requestResources(Collection<Request> requests) {
-		List<Protos.Request> requests2 = new ArrayList<>();
-		requests.forEach( r -> requests2.add(r.getRequest()));
-		
-		this.schedulerDriver.requestResources(requests2);
 	}
 
 	@Override

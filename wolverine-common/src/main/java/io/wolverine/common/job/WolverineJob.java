@@ -1,8 +1,11 @@
 package io.wolverine.common.job;
 
-import org.apache.mesos.Protos.TaskStatus;
+import io.wolverine.common.message.TaskStatusMsg;
 
 public interface WolverineJob {
-	void statusUpdated(TaskStatus status);
+	void statusUpdated(TaskStatusMsg status);
+	String getJobId();
 	TaskSpec getTaskSpec();
+	String getTarget();
+	boolean containerized();
 }
