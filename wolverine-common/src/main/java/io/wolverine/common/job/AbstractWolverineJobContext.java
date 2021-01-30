@@ -23,6 +23,14 @@ public class AbstractWolverineJobContext implements WolverineJobContext{
 	public void launchTasks(String jobId, TaskSpec taskSpec) {
 		List<Offer> offers = jobManager.queryOffers(taskSpec);
 		List<TaskInfo> taskInfos = new ArrayList<>();
+		List<String> offerIds = new ArrayList<>();
+		for(Offer o: offers) {
+			TaskInfo.Builder b = TaskInfo.newBuilder();
+			taskInfos.add(b.build());
+			
+			offerIds.add(o.getId().getValue());
+		}
+		this.jobManager.launchTasks(offerIds, taskInfos);
 	}
 
 }

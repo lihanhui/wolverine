@@ -1,6 +1,7 @@
 package io.wolverine.common.job;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -114,5 +115,10 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 			if(offers.size() >= taskSpec.getTasks()) break;
 		}
 		return offers;
+	}
+	public void launchTask(String offerId, TaskInfo taskInfo) {
+		OfferID.Builder b = OfferID.newBuilder();
+		b.setValue(offerId);
+		this.schedulerDriver.launchTasks(Arrays.asList(b.build()), Arrays.asList(taskInfo));
 	}
 }

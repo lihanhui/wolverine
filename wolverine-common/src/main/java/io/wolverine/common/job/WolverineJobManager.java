@@ -25,6 +25,7 @@ public interface WolverineJobManager {
             Filters filters);
 	void killTask(String taskId);
 	void launchTasks(Collection<String> offerIds, Collection<TaskInfo> tasks);
+	void launchTask(String offerId, TaskInfo taskInfo);
 	
 	List<Offer> queryOffers(TaskSpec taskSpec);
 }
