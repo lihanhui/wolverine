@@ -1,4 +1,4 @@
-package io.wolverine.common.task;
+package io.wolverine.common.message;
 
 public class TaskInfo {
 	private org.apache.mesos.Protos.TaskInfo taskInfo;

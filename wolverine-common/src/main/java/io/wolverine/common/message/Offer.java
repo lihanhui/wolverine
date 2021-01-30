@@ -1,4 +1,4 @@
-package io.wolverine.common.task;
+package io.wolverine.common.message;
 
 public class Offer {
 	private org.apache.mesos.Protos.Offer offer;

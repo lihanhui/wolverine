@@ -7,5 +7,7 @@
   <packaging>pom</packaging>
   <modules>
     <module>wolverine-common</module>
+    <module>wolverine-executor</module>
+    <module>wolverine-scheduler</module>
   </modules>
 </project>

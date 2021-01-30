@@ -1,5 +1,7 @@
 package io.wolverine.common.task;
 
+import io.wolverine.common.message.TaskInfo;
+
 public interface WolverineTaskManager {
 	public void launchTask(TaskInfo task); 
 	public void killTask(String taskId) ;

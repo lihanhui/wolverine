@@ -1,4 +1,4 @@
-package io.wolverine.common.task;
+package io.wolverine.common.message;
 
 public class Request {
 	private org.apache.mesos.Protos.Request request;

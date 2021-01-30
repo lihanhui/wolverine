@@ -4,8 +4,8 @@ import java.util.Collection;
 
 import org.apache.mesos.Protos.Filters;
 
-import io.wolverine.common.task.Request;
-import io.wolverine.common.task.TaskInfo;
+import io.wolverine.common.message.Request;
+import io.wolverine.common.message.TaskInfo;
 
 public interface WolverineJobContext {
 	void sendFrameworkMessage(String executorId,

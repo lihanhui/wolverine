@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.apache.mesos.Protos.Filters;
 
-import io.wolverine.common.task.Offer;
-import io.wolverine.common.task.Request;
-import io.wolverine.common.task.TaskInfo;
-import io.wolverine.common.task.TaskStatus;
+import io.wolverine.common.message.Offer;
+import io.wolverine.common.message.Request;
+import io.wolverine.common.message.TaskInfo;
+import io.wolverine.common.message.TaskStatus;
 
 public interface WolverineJobManager {
 	

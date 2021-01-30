@@ -23,10 +23,19 @@ public class AbstractWolverineScheduler implements WolverineScheduler{
 		this.jobManager = jobManager;
 		this.schedulerEnv = new SchedulerEnv();
 	}
+	
+	public WolverineJobManager getJobManager() {
+		return jobManager;
+	}
+	public void setJobManager(WolverineJobManager jobManager) {
+		this.jobManager = jobManager;
+	}
 
 	public void registered(SchedulerDriver driver, FrameworkID frameworkId, MasterInfo masterInfo) {
 		schedulerEnv.setFrameworkId(frameworkId);
 		schedulerEnv.setMasterInfo(masterInfo);
+		System.out.println("frameworkId:" + frameworkId);
+		System.out.println("masterInfo:" + masterInfo);
 	}
 
 	public void reregistered(SchedulerDriver driver, MasterInfo masterInfo) {
@@ -34,8 +43,11 @@ public class AbstractWolverineScheduler implements WolverineScheduler{
 	}
 
 	public void resourceOffers(SchedulerDriver driver, List<Offer> offers) {
-		List<io.wolverine.common.task.Offer> list = new ArrayList<>();
-		offers.forEach( o -> list.add(new io.wolverine.common.task.Offer(o)));
+		List<io.wolverine.common.message.Offer> list = new ArrayList<>();
+		offers.forEach( o -> {
+			System.out.println("offer:" + o);
+			list.add(new io.wolverine.common.message.Offer(o));
+		});
 		this.jobManager.resourceOffers(list);
 	}
 
@@ -44,7 +56,7 @@ public class AbstractWolverineScheduler implements WolverineScheduler{
 	}
 
 	public void statusUpdate(SchedulerDriver driver, TaskStatus status) {
-		this.jobManager.statusUpdate(new io.wolverine.common.task.TaskStatus(status));
+		this.jobManager.statusUpdate(new io.wolverine.common.message.TaskStatus(status));
 	}
 
 	public void frameworkMessage(SchedulerDriver driver, ExecutorID executorId, SlaveID slaveId, byte[] data) {
