@@ -34,8 +34,7 @@ public abstract class AbstractWolverineExecutor implements WolverineExecutor {
 	}
 
 	public void launchTask(ExecutorDriver driver, TaskInfo task) {
-		io.wolverine.common.message.TaskInfo taskInfo = new io.wolverine.common.message.TaskInfo(task);
-		this.taskManager.launchTask(taskInfo);
+		this.taskManager.launchTask(task);
 	}
 
 	public void killTask(ExecutorDriver driver, TaskID taskId) {

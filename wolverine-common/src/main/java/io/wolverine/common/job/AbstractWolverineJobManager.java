@@ -3,21 +3,23 @@ package io.wolverine.common.job;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.mesos.Protos;
 import org.apache.mesos.Protos.Filters;
+import org.apache.mesos.Protos.Offer;
 import org.apache.mesos.Protos.Offer.Operation;
-
-import io.wolverine.common.message.Offer;
-import io.wolverine.common.message.Request;
-import io.wolverine.common.message.TaskInfo;
-import io.wolverine.common.message.TaskStatus;
-
 import org.apache.mesos.Protos.OfferID;
+import org.apache.mesos.Protos.Resource;
+import org.apache.mesos.Protos.TaskInfo;
+import org.apache.mesos.Protos.TaskStatus;
 import org.apache.mesos.SchedulerDriver;
+
+import io.wolverine.common.message.Request;
 
 public abstract class AbstractWolverineJobManager implements WolverineJobManager{
 	private SchedulerDriver schedulerDriver;
+	private ConcurrentHashMap<String, Offer> offerMap = new ConcurrentHashMap<>();
 	
 	public AbstractWolverineJobManager(SchedulerDriver schedulerDriver) {
 		super();
@@ -26,20 +28,19 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 
 	@Override
 	public void resourceOffers(List<Offer> offers) {
-		// TODO Auto-generated method stub
-		
+		for(Offer o: offers){
+			offerMap.put(o.getId().getValue(), o);
+		}
 	}
 
 	@Override
 	public void offerRescinded(String offerId) {
-		// TODO Auto-generated method stub
-		
+		offerMap.remove(offerId);
 	}
 
 	@Override
 	public void statusUpdate(TaskStatus status) {
-		// TODO Auto-generated method stub
-		
+		//status.getTaskStatus().ge
 	}
 
 	@Override
@@ -96,9 +97,32 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 		});
 		List<Protos.TaskInfo> taskInfos2 = new ArrayList<>();
 		tasks.forEach( t -> {
-			taskInfos2.add(t.getTaskInfo());
+			taskInfos2.add(t);
 		});
 		this.schedulerDriver.launchTasks(offerIds2, taskInfos2);
 	}
-
+	@Override
+	public List<Offer> queryOffers(TaskSpec taskSpec){
+		List<Offer> offers = new ArrayList<>();
+		for(Offer o:this.offerMap.values()) {
+			boolean ok = true;
+			for(Resource r: o.getResourcesList()) {
+				if("cpus".equals(r.getName()) && r.getScalar().getValue() < taskSpec.getCores()) {
+					ok = false;
+					break;
+				}
+				if("mem".equals(r.getName()) && r.getScalar().getValue() < taskSpec.getMemory()) {
+					ok = false;
+					break;
+				}
+				if("disk".equals(r.getName()) && r.getScalar().getValue() < taskSpec.getDisk()) {
+					ok = false;
+					break;
+				}
+			}
+			if(ok) offers.add(o);
+			if(offers.size() >= taskSpec.getTasks()) break;
+		}
+		return offers;
+	}
 }

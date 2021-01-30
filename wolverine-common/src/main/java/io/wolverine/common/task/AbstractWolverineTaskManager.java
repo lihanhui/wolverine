@@ -2,11 +2,10 @@ package io.wolverine.common.task;
 
 import org.apache.mesos.ExecutorDriver;
 import org.apache.mesos.Protos.ExecutorInfo;
+import org.apache.mesos.Protos.TaskInfo;
 import org.apache.mesos.Protos.TaskStatus;
 
 import com.google.protobuf.ByteString;
-
-import io.wolverine.common.message.TaskInfo;
 
 public abstract class AbstractWolverineTaskManager implements WolverineTaskManager{
 	private ExecutorDriver executorDriver;

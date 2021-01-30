@@ -1,6 +1,6 @@
 package io.wolverine.common.task;
 
-import io.wolverine.common.message.TaskInfo;
+import org.apache.mesos.Protos.TaskInfo;
 
 public interface WolverineTaskManager {
 	public void launchTask(TaskInfo task); 

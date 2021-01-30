@@ -4,11 +4,11 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.mesos.Protos.Filters;
+import org.apache.mesos.Protos.Offer;
+import org.apache.mesos.Protos.TaskInfo;
+import org.apache.mesos.Protos.TaskStatus;
 
-import io.wolverine.common.message.Offer;
 import io.wolverine.common.message.Request;
-import io.wolverine.common.message.TaskInfo;
-import io.wolverine.common.message.TaskStatus;
 
 public interface WolverineJobManager {
 	
@@ -28,4 +28,6 @@ public interface WolverineJobManager {
             Filters filters);
 	void killTask(String taskId);
 	void launchTasks(Collection<String> offerIds, Collection<TaskInfo> tasks);
+	
+	List<Offer> queryOffers(TaskSpec taskSpec);
 }

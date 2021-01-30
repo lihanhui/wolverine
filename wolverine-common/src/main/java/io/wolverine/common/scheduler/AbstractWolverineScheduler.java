@@ -43,10 +43,10 @@ public class AbstractWolverineScheduler implements WolverineScheduler{
 	}
 
 	public void resourceOffers(SchedulerDriver driver, List<Offer> offers) {
-		List<io.wolverine.common.message.Offer> list = new ArrayList<>();
+		List<Offer> list = new ArrayList<>();
 		offers.forEach( o -> {
 			System.out.println("offer:" + o);
-			list.add(new io.wolverine.common.message.Offer(o));
+			list.add(o);
 		});
 		this.jobManager.resourceOffers(list);
 	}
@@ -56,7 +56,7 @@ public class AbstractWolverineScheduler implements WolverineScheduler{
 	}
 
 	public void statusUpdate(SchedulerDriver driver, TaskStatus status) {
-		this.jobManager.statusUpdate(new io.wolverine.common.message.TaskStatus(status));
+		this.jobManager.statusUpdate(status);
 	}
 
 	public void frameworkMessage(SchedulerDriver driver, ExecutorID executorId, SlaveID slaveId, byte[] data) {
