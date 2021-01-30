@@ -1,2 +1,2 @@
 # wolverine
-scheduler based on mesos
+Distributed scheduling System based on mesos
