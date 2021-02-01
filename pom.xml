@@ -9,5 +9,6 @@
     <module>wolverine-common</module>
     <module>wolverine-executor</module>
     <module>wolverine-scheduler</module>
+    <module>wolverine-proto</module>
   </modules>
 </project>
