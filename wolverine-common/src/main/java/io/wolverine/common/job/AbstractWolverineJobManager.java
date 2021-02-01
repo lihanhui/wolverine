@@ -121,4 +121,7 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 		b.setValue(offerId);
 		this.schedulerDriver.launchTasks(Arrays.asList(b.build()), Arrays.asList(taskInfo));
 	}
+	public TaskInfo getTaskInfo(String taskId) {
+		return null;
+	}
 }

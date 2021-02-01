@@ -11,6 +11,7 @@ public class AbstractWolverineJobContext implements WolverineJobContext{
 	@Override
 	public void sendFrameworkMessage(String taskId, byte[] data) {
 		// TODO Auto-generated method stub
+		TaskInfo taskInfo = this.jobManager.getTaskInfo(taskId);
 		
 	}
 
