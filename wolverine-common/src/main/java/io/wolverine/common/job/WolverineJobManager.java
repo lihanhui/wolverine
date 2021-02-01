@@ -3,7 +3,6 @@ package io.wolverine.common.job;
 import java.util.List;
 
 import org.apache.mesos.Protos.Offer;
-import org.apache.mesos.Protos.TaskInfo;
 import org.apache.mesos.Protos.TaskStatus;
 
 public interface WolverineJobManager {
@@ -19,7 +18,4 @@ public interface WolverineJobManager {
 	void killTask(String taskId);
 	void launchTasks(String jobId, TaskSpec taskSpec);
 	
-	//utils
-	List<Offer> queryOffers(TaskSpec taskSpec);
-	TaskInfo getTaskInfo(String taskId);
 }
