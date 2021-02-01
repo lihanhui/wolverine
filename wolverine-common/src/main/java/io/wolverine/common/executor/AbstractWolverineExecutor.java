@@ -42,7 +42,7 @@ public abstract class AbstractWolverineExecutor implements WolverineExecutor {
 	}
 
 	public void frameworkMessage(ExecutorDriver driver, byte[] data) {
-		this.taskManager.frameworkMsg(data);
+		this.taskManager.onFrameworkMsg(data);
 	}
 
 	public void shutdown(ExecutorDriver driver) {
