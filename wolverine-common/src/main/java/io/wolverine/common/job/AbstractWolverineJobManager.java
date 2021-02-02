@@ -59,14 +59,16 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 		b.setValue(taskId);
 		this.schedulerDriver.killTask(b.build());
 	}
+	private TaskInfo composeTaskInfo(Offer o, TaskSpec taskSpec) {
+		TaskInfo.Builder b = TaskInfo.newBuilder();
 
+		return null;
+	}
 	@Override
 	public void launchTasks(String jobId, TaskSpec taskSpec) {
 		List<Offer> offers = queryOffers(taskSpec);
 		for(Offer o: offers) {
-			TaskInfo.Builder b = TaskInfo.newBuilder();
-			//b.set
-			this.launchTask(o.getId(), b.build());
+			this.launchTask(o.getId(), composeTaskInfo(o, taskSpec));
 		}
 	}
 	

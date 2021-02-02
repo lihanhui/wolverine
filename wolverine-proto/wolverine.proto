@@ -7,10 +7,17 @@ enum DataType //枚举消息类型
         PROTOBUF = 1;
         
     }
-message TaskStatusMsg{
+enum CommandType //枚举消息类型
+    {
+        CREATE_TASK = 0; //proto3版本中，首成员必须为0，成员不应有相同的值
+        HEART_BEAT  = 1;
+        PAUSE_TASK  = 2;
+        RESTART_TASK= 3;
+    }   
+message WolverineTaskMsg{
 	required string taskId=1;
 	required string jobId=2;
-	required DataType dataType=3;
-	required bytes data=4;
-
+	required CommandType commandType=3;
+	required DataType dataType=4;
+	optional bytes data=5;
 }
