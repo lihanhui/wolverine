@@ -6,11 +6,16 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.mesos.Protos;
+import org.apache.mesos.Protos.CommandInfo;
+import org.apache.mesos.Protos.ExecutorID;
+import org.apache.mesos.Protos.ExecutorInfo;
 import org.apache.mesos.Protos.Offer;
 import org.apache.mesos.Protos.OfferID;
 import org.apache.mesos.Protos.Resource;
+import org.apache.mesos.Protos.TaskID;
 import org.apache.mesos.Protos.TaskInfo;
 import org.apache.mesos.Protos.TaskStatus;
+import org.apache.mesos.Protos.Value;
 import org.apache.mesos.SchedulerDriver;
 
 public abstract class AbstractWolverineJobManager implements WolverineJobManager{
@@ -59,10 +64,53 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 		b.setValue(taskId);
 		this.schedulerDriver.killTask(b.build());
 	}
+	private void composeResources(TaskInfo.Builder b, TaskSpec taskSpec) {
+		Resource.Builder b2 = Resource.newBuilder();
+		b2.setName("mem");
+		b2.setType(Value.Type.SCALAR);
+		Value.Scalar.Builder b21 = Value.Scalar.newBuilder();
+		b21.setValue(taskSpec.getMemory());
+		b2.setScalar(b21);
+		b.addResources(b2);
+		
+		Resource.Builder b3 = Resource.newBuilder();
+		b3.setName("cpus");
+		b3.setType(Value.Type.SCALAR);
+		Value.Scalar.Builder b32 = Value.Scalar.newBuilder();
+		b32.setValue(taskSpec.getCores());
+		b3.setScalar(b32);
+		b.addResources(b3);
+		
+		Resource.Builder b4 = Resource.newBuilder();
+		b4.setName("disk");
+		b4.setType(Value.Type.SCALAR);
+		Value.Scalar.Builder b42 = Value.Scalar.newBuilder();
+		b42.setValue(taskSpec.getDisk());
+		b4.setScalar(b42);
+		b.addResources(b4);
+	}
 	private TaskInfo composeTaskInfo(Offer o, TaskSpec taskSpec) {
 		TaskInfo.Builder b = TaskInfo.newBuilder();
-
-		return null;
+		b.setName("my job");
+		
+		TaskID.Builder b1 = TaskID.newBuilder();
+		b1.setValue("my-task-id");
+		b.setTaskId(b1);
+		
+		b.setSlaveId(o.getSlaveId());
+		
+		ExecutorInfo.Builder b2 = ExecutorInfo.newBuilder();
+		ExecutorID.Builder b22 = ExecutorID.newBuilder();
+		b22.setValue("my-executor-id");
+		b2.setExecutorId(b22);
+		b2.setType(ExecutorInfo.Type.CUSTOM);
+		CommandInfo.Builder b23 = CommandInfo.newBuilder();
+		b23.setValue("ls -lt /");
+		b2.setCommand(b23);
+		b.setExecutor(b2);
+		
+		composeResources(b, taskSpec);
+		return b.build();
 	}
 	@Override
 	public void launchTasks(String jobId, TaskSpec taskSpec) {
