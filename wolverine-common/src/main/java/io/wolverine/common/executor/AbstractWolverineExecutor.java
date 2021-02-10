@@ -17,6 +17,14 @@ public abstract class AbstractWolverineExecutor implements WolverineExecutor {
 		this.taskManager = taskManager;
 	}
 	
+	public WolverineTaskManager getTaskManager() {
+		return taskManager;
+	}
+
+	public void setTaskManager(WolverineTaskManager taskManager) {
+		this.taskManager = taskManager;
+	}
+
 	public void registered(ExecutorDriver driver, ExecutorInfo executorInfo, FrameworkInfo frameworkInfo,
 			SlaveInfo slaveInfo) {
 		this.executorEnv.setExecutorInfo(executorInfo);

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>io.wolverine.all</groupId>
+    <artifactId>wolverine-container</artifactId>
+    <version>1.0</version>
+  </parent>
+  <groupId>io.wolverine.all</groupId>
+  <artifactId>wolverine-container-docker</artifactId>
+  <version>1.0</version>
+  <name>wolverine-container-docker</name>
+  <url>http://maven.apache.org</url>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.github.docker-java/docker-java -->
+	<dependency>
+	    <groupId>com.github.docker-java</groupId>
+	    <artifactId>docker-java</artifactId>
+	    <version>3.2.6</version>
+	</dependency>
+  </dependencies>
+</project>
