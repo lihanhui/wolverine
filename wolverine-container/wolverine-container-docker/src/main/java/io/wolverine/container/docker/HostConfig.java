@@ -1,39 +1,77 @@
 package io.wolverine.container.docker;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
-import com.github.dockerjava.api.model.Ulimit;
 
 public class HostConfig {
 	private com.github.dockerjava.api.model.HostConfig hostConfig;
+	private String[] envs;
 	public static HostConfig builder() {
 		return new HostConfig();
 	}
+	public com.github.dockerjava.api.model.HostConfig getHostConfig() {
+		return hostConfig;
+	}
+	public String[] getEnvs() {
+		return envs;
+	}
 	private HostConfig() {
 		this.hostConfig = new com.github.dockerjava.api.model.HostConfig();
+		this.envs = null;
 	}
-	HostConfig withCpuCount(Long cpuCount) {
+	public HostConfig withCpuCount(Long cpuCount) {
+		this.hostConfig.withCpuCount(cpuCount);
 		return this;
 	}
-	HostConfig withDiskQuota(Long diskQuota) {
+	public HostConfig withDiskQuota(Long diskQuota) {
+		this.hostConfig.withDiskQuota(diskQuota);
 		return this;
 	}
-	HostConfig withMemory(Long memory){
+	public HostConfig withMemory(Long memory){
+		this.hostConfig.withMemory(memory);
 		return this;
 	}
-	HostConfig withMemorySwap(Long memorySwap) {
+	public HostConfig withMemorySwap(Long memorySwap) {
+		this.hostConfig.withMemorySwap(memorySwap);
 		return this;
 	}
-	HostConfig withDns(String... dns) {
+	public HostConfig withDns(String... dnses) {
+		this.hostConfig.withDns(dnses);
         return this;
     }
-    HostConfig withDns(List<String> dns) {
+	public HostConfig withDns(List<String> dnses) {
+		this.hostConfig.withDns(dnses);
     	return this;
     }
-    HostConfig withUlimits(Ulimit[] ulimits) {
+    public HostConfig withUlimits(Ulimit[] ulimits) {
+    	com.github.dockerjava.api.model.Ulimit[] us = new com.github.dockerjava.api.model.Ulimit[ulimits.length];
+    	for(int i = 0; i < ulimits.length; ++i) {
+    		us[i] = new com.github.dockerjava.api.model.Ulimit(ulimits[i].getName(), ulimits[i].getSoft(), ulimits[i].getHard());
+    	}
+    	this.hostConfig.withUlimits(us);
         return this;
     }
     public HostConfig withUlimits(List<Ulimit> ulimits) {
+    	List<com.github.dockerjava.api.model.Ulimit> us = new ArrayList<>(ulimits.size());
+    	for(Ulimit u : ulimits) {
+    		us.add(new com.github.dockerjava.api.model.Ulimit(u.getName(), u.getSoft(), u.getHard()));
+    	}
+    	this.hostConfig.withUlimits(us);
+    	return this;
+    }
+    public HostConfig withEnv(String... envs) {
+    	this.envs = envs; 
+    	return this;
+    }
+    public HostConfig withEnv(List<String> envs) {
+    	return withEnv(envs.toArray(new String[0]));
+    }
+    /*
+     * host mode: default, no port binding takes effect
+     * */
+    public HostConfig withNetworkMode(String networkMode) {
+    	this.hostConfig.withNetworkMode("host");
     	return this;
     }
     public HostConfig build() {
