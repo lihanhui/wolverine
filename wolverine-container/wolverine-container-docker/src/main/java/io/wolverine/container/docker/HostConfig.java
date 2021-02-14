@@ -1,12 +1,13 @@
 package io.wolverine.container.docker;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class HostConfig {
 	private com.github.dockerjava.api.model.HostConfig hostConfig;
 	private String[] envs;
+	private String cmd;
+	private String hostName;
 	public static HostConfig builder() {
 		return new HostConfig();
 	}
@@ -16,9 +17,23 @@ public class HostConfig {
 	public String[] getEnvs() {
 		return envs;
 	}
+	public String getCmd() {
+		return cmd;
+	}
+	public String getHostName() {
+		return hostName;
+	}
 	private HostConfig() {
 		this.hostConfig = new com.github.dockerjava.api.model.HostConfig();
 		this.envs = null;
+	}
+	public HostConfig withCmd(String cmd) {
+		this.cmd = cmd;
+		return this;
+	}
+	public HostConfig withHostName(String hostName) {
+		this.hostName = hostName; 
+		return this;
 	}
 	public HostConfig withCpuCount(Long cpuCount) {
 		this.hostConfig.withCpuCount(cpuCount);
