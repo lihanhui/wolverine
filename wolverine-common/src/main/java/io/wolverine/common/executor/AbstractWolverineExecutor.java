@@ -30,6 +30,9 @@ public abstract class AbstractWolverineExecutor implements WolverineExecutor {
 		this.executorEnv.setExecutorInfo(executorInfo);
 		this.executorEnv.setFrameworkInfo(frameworkInfo);
 		this.executorEnv.setSlaveInfo(slaveInfo);
+		System.out.println(executorInfo);
+		System.out.println(frameworkInfo);
+		System.out.println(slaveInfo);
 	}
 
 	public void reregistered(ExecutorDriver driver, SlaveInfo slaveInfo) {

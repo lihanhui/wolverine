@@ -69,7 +69,7 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 		b2.setName("mem");
 		b2.setType(Value.Type.SCALAR);
 		Value.Scalar.Builder b21 = Value.Scalar.newBuilder();
-		b21.setValue(taskSpec.getMemory());
+		b21.setValue(taskSpec.getResourceSpec().getMemory());
 		b2.setScalar(b21);
 		b.addResources(b2);
 		
@@ -77,7 +77,7 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 		b3.setName("cpus");
 		b3.setType(Value.Type.SCALAR);
 		Value.Scalar.Builder b32 = Value.Scalar.newBuilder();
-		b32.setValue(taskSpec.getCores());
+		b32.setValue(taskSpec.getResourceSpec().getCores());
 		b3.setScalar(b32);
 		b.addResources(b3);
 		
@@ -85,7 +85,7 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 		b4.setName("disk");
 		b4.setType(Value.Type.SCALAR);
 		Value.Scalar.Builder b42 = Value.Scalar.newBuilder();
-		b42.setValue(taskSpec.getDisk());
+		b42.setValue(taskSpec.getResourceSpec().getDisk());
 		b4.setScalar(b42);
 		b.addResources(b4);
 	}
@@ -105,8 +105,14 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 		b2.setExecutorId(b22);
 		b2.setType(ExecutorInfo.Type.CUSTOM);
 		CommandInfo.Builder b23 = CommandInfo.newBuilder();
-		b23.setValue("ls -lt /");
+		b23.setValue(taskSpec.getExecutorSpec().getCommand());
+		
+		CommandInfo.URI.Builder b231 = CommandInfo.URI.newBuilder();
+		b231.setOutputFile("lib");
+		b231.setValue(taskSpec.getExecutorSpec().getArchiveUri());
+		b23.addUris(b231);
 		b2.setCommand(b23);
+		
 		b.setExecutor(b2);
 		
 		composeResources(b, taskSpec);
@@ -125,15 +131,15 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 		for(Offer o:this.offerMap.values()) {
 			boolean ok = true;
 			for(Resource r: o.getResourcesList()) {
-				if("cpus".equals(r.getName()) && r.getScalar().getValue() < taskSpec.getCores()) {
+				if("cpus".equals(r.getName()) && r.getScalar().getValue() < taskSpec.getResourceSpec().getCores()) {
 					ok = false;
 					break;
 				}
-				if("mem".equals(r.getName()) && r.getScalar().getValue() < taskSpec.getMemory()) {
+				if("mem".equals(r.getName()) && r.getScalar().getValue() < taskSpec.getResourceSpec().getMemory()) {
 					ok = false;
 					break;
 				}
-				if("disk".equals(r.getName()) && r.getScalar().getValue() < taskSpec.getDisk()) {
+				if("disk".equals(r.getName()) && r.getScalar().getValue() < taskSpec.getResourceSpec().getDisk()) {
 					ok = false;
 					break;
 				}

@@ -1,10 +1,13 @@
 package io.wolverine.scheduler;
 
 import org.apache.mesos.MesosSchedulerDriver;
+import org.apache.mesos.Protos.FrameworkID;
 import org.apache.mesos.Protos.FrameworkInfo;
 import org.apache.mesos.SchedulerDriver;
 
 import io.wolverine.common.job.DefaultWolverineJobManager;
+import io.wolverine.common.job.ExecutorSpec;
+import io.wolverine.common.job.ResourceSpec;
 import io.wolverine.common.job.TaskSpec;
 import io.wolverine.common.scheduler.DefaultWolverineScheduler;
 
@@ -20,11 +23,12 @@ public class WolverineSchedulerMain
     	b.setFailoverTimeout(7 * 24 * 60 * 60);
     	b.setUser("tmp");
     	b.setName("lihanhui");
+    	b.setId(FrameworkID.newBuilder().setValue("fa59b30a-34a8-49ff-92df-b52a53b704fb-0000"));
     	FrameworkInfo framework = b.build();
     	DefaultWolverineScheduler scheduler = new DefaultWolverineScheduler(null);
     	SchedulerDriver schedulerDriver = new MesosSchedulerDriver(scheduler,
     			framework,
-    			"172.26.150.204:5050");
+    			"zk://localhost:2181/wolverine/master");
     	final DefaultWolverineJobManager jobManager = new DefaultWolverineJobManager(schedulerDriver);
     	scheduler.setJobManager(jobManager);
     	schedulerDriver.start();
@@ -37,7 +41,9 @@ public class WolverineSchedulerMain
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				TaskSpec taskSpec = new TaskSpec(1, 100, 100, 1);
+				ExecutorSpec executorSpec = new ExecutorSpec("http://127.0.0.1/wolverine-executor.tar.gz", "java -jar lib/wolverine-executor-1.0-jar-with-dependencies.jar");
+				ResourceSpec resourceSpec = new ResourceSpec(1, 100, 100);
+				TaskSpec taskSpec = new TaskSpec(executorSpec, resourceSpec, "", "", 1);
 				jobManager.launchTasks("jobId", taskSpec);
 			}
     	});
