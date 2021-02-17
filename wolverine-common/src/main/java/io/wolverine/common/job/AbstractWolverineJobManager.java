@@ -108,7 +108,7 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 		b23.setValue(taskSpec.getExecutorSpec().getCommand());
 		
 		CommandInfo.URI.Builder b231 = CommandInfo.URI.newBuilder();
-		b231.setOutputFile("lib");
+		//b231.setOutputFile("lib");
 		b231.setValue(taskSpec.getExecutorSpec().getArchiveUri());
 		b23.addUris(b231);
 		b2.setCommand(b23); //executorInfo.Command

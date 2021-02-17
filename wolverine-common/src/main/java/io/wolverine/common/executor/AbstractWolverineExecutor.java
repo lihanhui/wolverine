@@ -11,7 +11,7 @@ import io.wolverine.common.task.WolverineTaskManager;
 
 public abstract class AbstractWolverineExecutor implements WolverineExecutor {
 	private WolverineTaskManager taskManager;
-	private ExecutorEnv executorEnv;
+	private ExecutorEnv executorEnv = new ExecutorEnv();
 	
 	public AbstractWolverineExecutor(WolverineTaskManager taskManager) {
 		this.taskManager = taskManager;

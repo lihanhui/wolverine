@@ -41,7 +41,7 @@ public class WolverineSchedulerMain
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				ExecutorSpec executorSpec = new ExecutorSpec("http://127.0.0.1/wolverine-executor.tar.gz", "java -jar lib/wolverine-executor-1.0-jar-with-dependencies.jar");
+				ExecutorSpec executorSpec = new ExecutorSpec("http://172.26.150.204/wolverine-executor.tar.gz", "java -jar wolverine-executor-1.0-jar-with-dependencies.jar");
 				ResourceSpec resourceSpec = new ResourceSpec(1, 100, 100);
 				TaskSpec taskSpec = new TaskSpec(executorSpec, resourceSpec, "", "", 1);
 				jobManager.launchTasks("jobId", taskSpec);
