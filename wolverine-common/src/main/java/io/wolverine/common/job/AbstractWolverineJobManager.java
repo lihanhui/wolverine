@@ -94,7 +94,7 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 		b.setName("my job");
 		
 		TaskID.Builder b1 = TaskID.newBuilder();
-		b1.setValue("my-task-id");
+		b1.setValue("taskId-" + String.valueOf(System.currentTimeMillis()));
 		b.setTaskId(b1);
 		
 		b.setSlaveId(o.getSlaveId());
@@ -102,8 +102,8 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 		ExecutorInfo.Builder b2 = ExecutorInfo.newBuilder();
 		ExecutorID.Builder b22 = ExecutorID.newBuilder();
 		b22.setValue("my-executor-id");
-		b2.setExecutorId(b22);
-		b2.setType(ExecutorInfo.Type.CUSTOM);
+		b2.setExecutorId(b22);				  //executorInfo.executorId	
+		b2.setType(ExecutorInfo.Type.CUSTOM); //executorInfo.type
 		CommandInfo.Builder b23 = CommandInfo.newBuilder();
 		b23.setValue(taskSpec.getExecutorSpec().getCommand());
 		
@@ -111,9 +111,11 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 		b231.setOutputFile("lib");
 		b231.setValue(taskSpec.getExecutorSpec().getArchiveUri());
 		b23.addUris(b231);
-		b2.setCommand(b23);
+		b2.setCommand(b23); //executorInfo.Command
 		
-		b.setExecutor(b2);
+		b2.setFrameworkId(o.getFrameworkId());
+		
+		b.setExecutor(b2);  // executorInfo
 		
 		composeResources(b, taskSpec);
 		return b.build();
@@ -150,6 +152,7 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 		return offers;
 	}
 	private void launchTask(OfferID offerId, TaskInfo taskInfo) {
+		System.out.println(taskInfo);
 		this.schedulerDriver.launchTasks(Arrays.asList(offerId), Arrays.asList(taskInfo));
 	}
 	private TaskInfo getTaskInfo(String taskId) {

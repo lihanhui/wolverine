@@ -21,7 +21,7 @@ public class WolverineSchedulerMain
     {
     	FrameworkInfo.Builder b = FrameworkInfo.newBuilder();
     	b.setFailoverTimeout(7 * 24 * 60 * 60);
-    	b.setUser("tmp");
+    	b.setUser("");
     	b.setName("lihanhui");
     	b.setId(FrameworkID.newBuilder().setValue("fa59b30a-34a8-49ff-92df-b52a53b704fb-0000"));
     	FrameworkInfo framework = b.build();
