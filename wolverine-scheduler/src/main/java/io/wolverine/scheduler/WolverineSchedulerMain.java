@@ -7,15 +7,16 @@ import io.doraemon.daemon.AbstractDoraemonServer;
 public class WolverineSchedulerMain extends AbstractDoraemonServer{
     public static void main( String[] args ) {
     	String zks = args[0];
-    	System.out.println(args);
+    	System.out.println(args[0]);
+    	
     	CoordinatorService coordinatorService 
-    		= new SimpleCoordinatorService(zks, "/wolverine/scheduler");
+    		= new SimpleCoordinatorService(zks.replace("zk://", ""), "/wolverine/scheduler");
     	
     	WolverineSchedulerManager manager = new WolverineSchedulerManager(zks, coordinatorService);
     	
     	SchedulerLeaderStateListener listener = new SchedulerLeaderStateListener(manager, coordinatorService);
     	coordinatorService.addLeaderStateListener(listener);
-    	
+    	System.out.println("start coordinator service");
     	coordinatorService.start();
     	new WolverineSchedulerMain().start();
     }
