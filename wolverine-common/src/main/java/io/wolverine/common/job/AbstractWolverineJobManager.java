@@ -91,8 +91,6 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 	}
 	private TaskInfo composeTaskInfo(Offer o, TaskSpec taskSpec) {
 		TaskInfo.Builder b = TaskInfo.newBuilder();
-		b.setName("my job");
-		
 		TaskID.Builder b1 = TaskID.newBuilder();
 		b1.setValue("taskId-" + String.valueOf(System.currentTimeMillis()));
 		b.setTaskId(b1);
@@ -101,14 +99,13 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 		
 		ExecutorInfo.Builder b2 = ExecutorInfo.newBuilder();
 		ExecutorID.Builder b22 = ExecutorID.newBuilder();
-		b22.setValue("my-executor-id");
+		b22.setValue("wolverine-executor-" + o.getSlaveId().getValue());
 		b2.setExecutorId(b22);				  //executorInfo.executorId	
 		b2.setType(ExecutorInfo.Type.CUSTOM); //executorInfo.type
 		CommandInfo.Builder b23 = CommandInfo.newBuilder();
 		b23.setValue(taskSpec.getExecutorSpec().getCommand());
 		
 		CommandInfo.URI.Builder b231 = CommandInfo.URI.newBuilder();
-		//b231.setOutputFile("lib");
 		b231.setValue(taskSpec.getExecutorSpec().getArchiveUri());
 		b23.addUris(b231);
 		b2.setCommand(b23); //executorInfo.Command

@@ -37,7 +37,7 @@ public abstract class AbstractWolverineTaskContext implements WolverineTaskConte
 	@Override
 	public void sendStartedStatus(byte[] data) {
 		TaskID taskId = task.getTaskInfo().getTaskId();
-		taskManager.sendStatusUpdate(taskId, TaskState.TASK_KILLED, data);
+		taskManager.sendStatusUpdate(taskId, TaskState.TASK_RUNNING, data);
 	}
 
 	@Override
