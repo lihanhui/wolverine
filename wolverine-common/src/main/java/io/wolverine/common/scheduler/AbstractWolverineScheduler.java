@@ -14,13 +14,12 @@ import org.apache.mesos.SchedulerDriver;
 
 import io.wolverine.common.job.WolverineJobManager;
 
-public class AbstractWolverineScheduler implements WolverineScheduler{
+public abstract class AbstractWolverineScheduler implements WolverineScheduler{
 	private WolverineJobManager jobManager;
 	private SchedulerEnv schedulerEnv;
 	
-	public AbstractWolverineScheduler(WolverineJobManager jobManager) {
-		super();
-		this.jobManager = jobManager;
+	public AbstractWolverineScheduler() {
+		this.jobManager = null;
 		this.schedulerEnv = new SchedulerEnv();
 	}
 	

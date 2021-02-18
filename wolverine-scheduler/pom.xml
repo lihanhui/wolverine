@@ -30,6 +30,16 @@
       <artifactId>wolverine-common</artifactId>
       <version>1.0</version>
     </dependency>
+    <dependency>
+        <groupId>io.distributed.unicorn</groupId>
+        <artifactId>distributed-unicorn-coordinator-zookeeper</artifactId>
+        <version>1.0</version>
+    </dependency>
+    <dependency>
+        <groupId>io.doraemon</groupId>
+        <artifactId>doraemon-all</artifactId>
+        <version>1.1</version>
+    </dependency>
   </dependencies>
   <build>
         <plugins>
