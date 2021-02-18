@@ -17,7 +17,9 @@ public class WolverineSchedulerManager extends DefaultWolverineScheduler{
 	private DefaultWolverineJobManager jobManager = null;
 	private String zks = null;
 	private CoordinatorService coordinatorService;
-	private static String zkSchedulerPath = "/wolverine/scheduler";
+	private static String ZK_MESOS_MASTER = "/wolverine/master";
+	public static String ZK_SCHEDULER_LEADER = "/wolverine/scheduler";
+	public static String ZK_SCHEDULER_FRAMEWORK_ID = "/wolverine/scheduler/frameworkId";
 	public WolverineSchedulerManager(String zks, CoordinatorService coordinatorService) {
 		this.zks = zks;
 		this.coordinatorService = coordinatorService;
@@ -34,7 +36,7 @@ public class WolverineSchedulerManager extends DefaultWolverineScheduler{
     	//DefaultWolverineScheduler scheduler = new DefaultWolverineScheduler(null);
     	this.schedulerDriver = new MesosSchedulerDriver(this,
     			framework,
-    			zks+zkSchedulerPath);
+    			zks + ZK_MESOS_MASTER);
     	this.jobManager = new DefaultWolverineJobManager(schedulerDriver);
     	this.setJobManager(jobManager);
     	schedulerDriver.start();
@@ -55,6 +57,6 @@ public class WolverineSchedulerManager extends DefaultWolverineScheduler{
 	@Override
 	public void registered(SchedulerDriver driver, FrameworkID frameworkId, MasterInfo masterInfo) {
 		super.registered(driver, frameworkId, masterInfo);
-		this.coordinatorService.write(zkSchedulerPath+"/frameworkId", frameworkId.getValue().getBytes());
+		this.coordinatorService.write(ZK_SCHEDULER_FRAMEWORK_ID, frameworkId.getValue().getBytes());
 	}
 }

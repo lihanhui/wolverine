@@ -10,7 +10,7 @@ public class WolverineSchedulerMain extends AbstractDoraemonServer{
     	System.out.println(args[0]);
     	
     	CoordinatorService coordinatorService 
-    		= new SimpleCoordinatorService(zks.replace("zk://", ""), "/wolverine/scheduler");
+    		= new SimpleCoordinatorService(zks.replace("zk://", ""), WolverineSchedulerManager.ZK_SCHEDULER_LEADER);
     	
     	WolverineSchedulerManager manager = new WolverineSchedulerManager(zks, coordinatorService);
     	

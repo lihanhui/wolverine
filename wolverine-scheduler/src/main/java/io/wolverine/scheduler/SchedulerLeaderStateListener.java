@@ -13,7 +13,7 @@ public class SchedulerLeaderStateListener implements LeaderStateListener{
 	}
 	public void onLeaderTaken() {
 		System.out.println("leadership gotten");
-		byte[] id = coordinatorService.read("/wolverine/scheduler/frameworkId");
+		byte[] id = coordinatorService.read(WolverineSchedulerManager.ZK_SCHEDULER_FRAMEWORK_ID);
 		String frameworkId = id != null ? new String(id): null;
 		this.manager.initOrJoin(frameworkId);
 	}
