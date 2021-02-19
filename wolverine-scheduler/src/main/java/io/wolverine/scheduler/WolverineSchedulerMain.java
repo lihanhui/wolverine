@@ -1,11 +1,14 @@
 package io.wolverine.scheduler;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 import io.distributed.unicorn.common.coordinator.CoordinatorService;
+import io.distributed.unicorn.common.discovery.ServiceDiscoveryClient;
 import io.distributed.unicorn.coordinator.zookeeper.SimpleCoordinatorService;
 import io.distributed.unicorn.discovery.spring.context.annotation.EnableUnicornDiscovery;
 import io.doraemon.daemon.AbstractDoraemonServer;
@@ -13,11 +16,12 @@ import io.doraemon.daemon.AbstractDoraemonServer;
 @EnableUnicornDiscovery
 @Configuration
 @SpringBootApplication(scanBasePackages={"io.wolverine.scheduler","io.distributed.unicorn.discovery"})
-public class WolverineSchedulerMain extends AbstractDoraemonServer{ 
+public class WolverineSchedulerMain extends AbstractDoraemonServer{
+	private @Autowired ServiceDiscoveryClient client;
+	@Autowired
+	private Environment env;
 	public static void main( String[] args ) {
     	String zks = args[0];
-    	System.out.println(args[0]);
-    	
     	CoordinatorService coordinatorService 
     		= new SimpleCoordinatorService(zks.replace("zk://", ""), WolverineSchedulerManager.ZK_SCHEDULER_LEADER);
     	
@@ -25,11 +29,11 @@ public class WolverineSchedulerMain extends AbstractDoraemonServer{
     	
     	SchedulerLeaderStateListener listener = new SchedulerLeaderStateListener(manager, coordinatorService);
     	coordinatorService.addLeaderStateListener(listener);
-    	System.out.println("start coordinator service");
     	coordinatorService.start();
     	
     	//AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("io.wolverine.scheduler","io.distributed.unicorn.discovery");
     	ConfigurableApplicationContext ctx = SpringApplication.run(WolverineSchedulerMain.class, args);
+    	System.out.println("the sd configuration: " + ctx.getBean("ServiceDiscoveryConfiguration"));
     	new WolverineSchedulerMain().start();
     }
     private void startTask() {
