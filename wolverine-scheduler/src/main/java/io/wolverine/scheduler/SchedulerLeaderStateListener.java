@@ -15,7 +15,7 @@ public class SchedulerLeaderStateListener implements LeaderStateListener{
 		System.out.println("leadership gotten");
 		byte[] id = coordinatorService.read(WolverineSchedulerManager.ZK_SCHEDULER_FRAMEWORK_ID);
 		String frameworkId = id != null ? new String(id): null;
-		this.manager.initOrJoin(frameworkId);
+		this.manager.reInitAndStart(frameworkId);
 	}
 	public void onLeaderLost() {
 		this.manager.stop();

@@ -1,42 +1,51 @@
 package io.wolverine.scheduler;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import io.distributed.unicorn.common.coordinator.CoordinatorService;
-import io.distributed.unicorn.common.discovery.ServiceDiscoveryClient;
 import io.distributed.unicorn.coordinator.zookeeper.SimpleCoordinatorService;
 import io.distributed.unicorn.discovery.spring.context.annotation.EnableUnicornDiscovery;
+import io.distributed.unicorn.discovery.spring.zookeeper.annotation.EnableZookeeperDiscovery;
 import io.doraemon.daemon.AbstractDoraemonServer;
 
 @EnableUnicornDiscovery
-@Configuration
-@SpringBootApplication(scanBasePackages={"io.wolverine.scheduler","io.distributed.unicorn.discovery"})
+@EnableZookeeperDiscovery
+@SpringBootApplication(scanBasePackages={"io.wolverine.scheduler"})
 public class WolverineSchedulerMain extends AbstractDoraemonServer{
-	private @Autowired ServiceDiscoveryClient client;
-	@Autowired
-	private Environment env;
 	public static void main( String[] args ) {
+		System.setProperty("spring.application.name", "wolverine-scheduler");
+		
     	String zks = args[0];
     	CoordinatorService coordinatorService 
     		= new SimpleCoordinatorService(zks.replace("zk://", ""), WolverineSchedulerManager.ZK_SCHEDULER_LEADER);
     	
-    	WolverineSchedulerManager manager = new WolverineSchedulerManager(zks, coordinatorService);
+    	WolverineSchedulerManager manager = new WolverineSchedulerManager(zks, args, coordinatorService);
     	
     	SchedulerLeaderStateListener listener = new SchedulerLeaderStateListener(manager, coordinatorService);
     	coordinatorService.addLeaderStateListener(listener);
     	coordinatorService.start();
     	
-    	//AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("io.wolverine.scheduler","io.distributed.unicorn.discovery");
-    	ConfigurableApplicationContext ctx = SpringApplication.run(WolverineSchedulerMain.class, args);
-    	System.out.println("the sd configuration: " + ctx.getBean("ServiceDiscoveryConfiguration"));
-    	new WolverineSchedulerMain().start();
+    	WolverineSchedulerMain main = new WolverineSchedulerMain();
+    	main.start();
     }
-    private void startTask() {
+    public void toPollService() {
+    	Thread thread = new Thread(new Runnable() {
+			public void run() {
+				// component = 
+				while(true) {
+					try {
+						Thread.sleep(10000L);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+    	}); 
+    	thread.start();
     	/*Thread thread = new Thread(new Runnable() {
 			public void run() {
 				// TODO Auto-generated method stub
