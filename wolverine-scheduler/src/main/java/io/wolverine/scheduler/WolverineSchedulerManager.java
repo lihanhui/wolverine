@@ -26,6 +26,7 @@ public class WolverineSchedulerManager extends DefaultWolverineScheduler{
 	public static String ZK_SCHEDULER_FRAMEWORK_ID = "/wolverine/scheduler/frameworkId";
 	public WolverineSchedulerManager(String zks, String[] args, CoordinatorService coordinatorService) {
 		this.zks = zks;
+		this.args = args;
 		this.coordinatorService = coordinatorService;
 	}
 	private void init(String frameworkId) {
