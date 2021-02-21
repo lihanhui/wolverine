@@ -52,11 +52,10 @@ public class WolverineSchedulerManager extends DefaultWolverineScheduler{
 	private void start() {
 		//AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("io.wolverine.scheduler","io.distributed.unicorn.discovery");
     	//context.stop();
+		schedulerDriver.start();
 		ctx = SpringApplication.run(WolverineSchedulerMain.class, args);
     	System.out.println("the sd configuration: " + ((SomeComponent)ctx.getBean("someComponent")).getClient());
     	System.out.println("serviceDiscoveryClient: " + ((SomeComponent)ctx.getBean("someComponent")).getEnv());
-    	
-		schedulerDriver.start();
 	}
 	public void reInitAndStart(String frameworkId) {
 		if(schedulerDriver == null) {
@@ -66,8 +65,8 @@ public class WolverineSchedulerManager extends DefaultWolverineScheduler{
 		join();
 	}
 	public void stop() {
-		schedulerDriver.stop();
 		ctx.close();
+		schedulerDriver.stop();
 	}
 	
 	@Override
