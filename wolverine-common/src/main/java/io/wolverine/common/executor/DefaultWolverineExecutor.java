@@ -1,11 +1,9 @@
 package io.wolverine.common.executor;
 
-import io.wolverine.common.task.WolverineTaskManager;
-
 public class DefaultWolverineExecutor extends AbstractWolverineExecutor{
 
-	public DefaultWolverineExecutor(WolverineTaskManager taskManager) {
-		super(taskManager);
+	public DefaultWolverineExecutor(WolverineExecutorListener executorListener) {
+		super(executorListener);
 		// TODO Auto-generated constructor stub
 	}
 

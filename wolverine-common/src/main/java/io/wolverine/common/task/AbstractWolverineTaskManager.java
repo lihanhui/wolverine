@@ -11,7 +11,9 @@ import org.apache.mesos.Protos.TaskStatus;
 
 import com.google.protobuf.ByteString;
 
-public abstract class AbstractWolverineTaskManager implements WolverineTaskManager{
+import io.wolverine.common.executor.WolverineExecutorListener;
+
+public abstract class AbstractWolverineTaskManager implements WolverineTaskManager, WolverineExecutorListener{
 	private ExecutorDriver executorDriver;
 	private ExecutorInfo executorInfo;
 	private ConcurrentHashMap<String, WolverineTask> taskMap = new ConcurrentHashMap<>();

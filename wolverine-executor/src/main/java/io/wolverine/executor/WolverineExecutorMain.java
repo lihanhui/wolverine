@@ -10,10 +10,6 @@ import io.wolverine.common.job.DefaultWolverineJobManager;
 import io.wolverine.common.job.TaskSpec;
 import io.wolverine.common.task.DefaultWolverineTaskManager;
 
-/**
- * Hello world!
- *
- */
 public class WolverineExecutorMain 
 {
     public static void main( String[] args )
@@ -21,7 +17,7 @@ public class WolverineExecutorMain
     	DefaultWolverineExecutor executor = new DefaultWolverineExecutor(null);
     	ExecutorDriver executorDriver = new MesosExecutorDriver(executor);
     	final DefaultWolverineTaskManager taskManager = new DefaultWolverineTaskManager(executorDriver);
-    	executor.setTaskManager(taskManager);
+    	executor.setExecutorListener(taskManager);
     	executorDriver.run();
     }
 }

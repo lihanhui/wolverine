@@ -10,19 +10,19 @@ import org.apache.mesos.Protos.TaskInfo;
 import io.wolverine.common.task.WolverineTaskManager;
 
 public abstract class AbstractWolverineExecutor implements WolverineExecutor {
-	private WolverineTaskManager taskManager;
+	private WolverineExecutorListener executorListener;
 	private ExecutorEnv executorEnv = new ExecutorEnv();
 	
-	public AbstractWolverineExecutor(WolverineTaskManager taskManager) {
-		this.taskManager = taskManager;
+	public AbstractWolverineExecutor(WolverineExecutorListener executorListener) {
+		this.executorListener = executorListener;
 	}
 	
-	public WolverineTaskManager getTaskManager() {
-		return taskManager;
+	public WolverineExecutorListener getExecutorListener() {
+		return executorListener;
 	}
 
-	public void setTaskManager(WolverineTaskManager taskManager) {
-		this.taskManager = taskManager;
+	public void setExecutorListener(WolverineExecutorListener executorListener) {
+		this.executorListener = executorListener;
 	}
 
 	public void registered(ExecutorDriver driver, ExecutorInfo executorInfo, FrameworkInfo frameworkInfo,
@@ -45,19 +45,19 @@ public abstract class AbstractWolverineExecutor implements WolverineExecutor {
 	}
 
 	public void launchTask(ExecutorDriver driver, TaskInfo task) {
-		this.taskManager.launchTask(task);
+		this.executorListener.launchTask(task);
 	}
 
 	public void killTask(ExecutorDriver driver, TaskID taskId) {
-		this.taskManager.killTask(taskId.getValue());
+		this.executorListener.killTask(taskId.getValue());
 	}
 
 	public void frameworkMessage(ExecutorDriver driver, byte[] data) {
-		this.taskManager.onFrameworkMsg(data);
+		this.executorListener.onFrameworkMsg(data);
 	}
 
 	public void shutdown(ExecutorDriver driver) {
-		this.taskManager.killAllTasks();
+		this.executorListener.killAllTasks();
 	}
 
 	public void error(ExecutorDriver driver, String message) {
