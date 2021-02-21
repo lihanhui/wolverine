@@ -43,7 +43,7 @@ public class WolverineSchedulerManager extends DefaultWolverineScheduler{
     			framework,
     			zks + ZK_MESOS_MASTER);
     	this.jobManager = new DefaultWolverineJobManager(schedulerDriver);
-    	this.setJobManager(jobManager);
+    	this.setSchedulerListener(jobManager);
     	
 	}
 	private void join() {

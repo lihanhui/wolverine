@@ -18,7 +18,9 @@ import org.apache.mesos.Protos.TaskStatus;
 import org.apache.mesos.Protos.Value;
 import org.apache.mesos.SchedulerDriver;
 
-public abstract class AbstractWolverineJobManager implements WolverineJobManager{
+import io.wolverine.common.scheduler.WolverineSchedulerListener;
+
+public abstract class AbstractWolverineJobManager implements WolverineJobManager, WolverineSchedulerListener{
 	private SchedulerDriver schedulerDriver;
 	private ConcurrentHashMap<String, Offer> offerMap = new ConcurrentHashMap<>();
 	private ConcurrentHashMap<String, TaskInfo> taskMap = new ConcurrentHashMap<>();

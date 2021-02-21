@@ -15,19 +15,19 @@ import org.apache.mesos.SchedulerDriver;
 import io.wolverine.common.job.WolverineJobManager;
 
 public abstract class AbstractWolverineScheduler implements WolverineScheduler{
-	private WolverineJobManager jobManager;
+	private WolverineSchedulerListener schedulerListener;
 	private SchedulerEnv schedulerEnv;
 	
 	public AbstractWolverineScheduler() {
-		this.jobManager = null;
+		this.schedulerListener = null;
 		this.schedulerEnv = new SchedulerEnv();
 	}
 	
-	public WolverineJobManager getJobManager() {
-		return jobManager;
+	public WolverineSchedulerListener getSchedulerListener() {
+		return schedulerListener;
 	}
-	public void setJobManager(WolverineJobManager jobManager) {
-		this.jobManager = jobManager;
+	public void setSchedulerListener(WolverineSchedulerListener schedulerListener) {
+		this.schedulerListener = schedulerListener;
 	}
 
 	public void registered(SchedulerDriver driver, FrameworkID frameworkId, MasterInfo masterInfo) {
@@ -47,19 +47,19 @@ public abstract class AbstractWolverineScheduler implements WolverineScheduler{
 			System.out.println("offer:" + o);
 			list.add(o);
 		});
-		this.jobManager.resourceOffers(list);
+		this.schedulerListener.resourceOffers(list);
 	}
 
 	public void offerRescinded(SchedulerDriver driver, OfferID offerId) {
-		this.jobManager.offerRescinded(offerId.getValue());
+		this.schedulerListener.offerRescinded(offerId.getValue());
 	}
 
 	public void statusUpdate(SchedulerDriver driver, TaskStatus status) {
-		this.jobManager.statusUpdate(status);
+		this.schedulerListener.statusUpdate(status);
 	}
 
 	public void frameworkMessage(SchedulerDriver driver, ExecutorID executorId, SlaveID slaveId, byte[] data) {
-		this.jobManager.frameworkMessage(data);
+		this.schedulerListener.frameworkMessage(data);
 	}
 
 	public void disconnected(SchedulerDriver driver) {
