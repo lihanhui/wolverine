@@ -1,23 +1,69 @@
 syntax = "proto2";
 option java_package = "io.wolverine.proto";     //转换后的java源文件包名
 option java_outer_classname = "WolverineProto"; //转换后的java源文件文件名、类名
-enum DataType //枚举消息类型
-    {
-        JSON = 0; //proto3版本中，首成员必须为0，成员不应有相同的值
-        PROTOBUF = 1;
-        
-    }
-enum CommandType //枚举消息类型
-    {
-        CREATE_TASK = 0; //proto3版本中，首成员必须为0，成员不应有相同的值
-        HEART_BEAT  = 1;
-        PAUSE_TASK  = 2;
-        RESTART_TASK= 3;
-    }   
+enum DataType {//枚举消息类型
+    JSON = 0; //proto3版本中，首成员必须为0，成员不应有相同的值
+    PROTOBUF = 1;
+}
+enum CommandType {//枚举消息类型
+    CREATE_TASK = 0; //proto3版本中，首成员必须为0，成员不应有相同的值
+    HEART_BEAT  = 1;
+    PAUSE_TASK  = 2;
+    RESTART_TASK= 3;
+    KILL_TASK   = 4;
+    
+} 
+enum TaskType {
+    DYNAMIC_LIB = 0;
+    SPRING_BOOT = 1;
+    SHELL       = 2;
+    DOCKER      = 3;
+}  
+
+message Option { // key, value pair
+  required string key = 1;
+  optional string value = 2;
+}
+message Limit { // ulimit
+  required string name  = 1;
+  required int32 soft   = 2;
+  required int32 hard   = 3;
+}
+
 message WolverineTaskMsg{
-	required string taskId=1;
-	required string jobId=2;
-	required CommandType commandType=3;
-	required DataType dataType=4;
-	optional bytes data=5;
+	required string taskId     = 1;
+	required string jobId      = 2;
+	required TaskType taskType = 3;
+	required CommandType commandType = 4;
+	required DataType dataType = 5;
+	optional bytes data        = 6;
+}
+message CreateTaskMsg{
+    required string taskId     = 1;
+    optional string jobId      = 2;
+    optional string imageAndTag= 3; // target name and tag(version), for docker
+    optional string imageUri   = 4; // to download if it is a archive of jars or shell scripts
+    optional string command    = 5; 
+    optional string entryPoint = 6;
+    repeated Option options    = 7;
+    repeated Limit limits      = 8; 
+}
+message HeartBeatMsg{
+    required string taskId     = 1;
+    optional string jobId      = 2;
+}
+message PauseTaskMsg{
+    required string taskId     = 1;
+    optional string jobId      = 2;
+    optional string reason     = 3;
+}
+message RestartTaskMsg{
+    required string taskId     = 1;
+    optional string jobId      = 2;
+    optional string reason     = 3;
+}
+message KillTaskMsg{
+    required string taskId     = 1;
+    optional string jobId      = 2;
+    optional string reason     = 3;
 }
