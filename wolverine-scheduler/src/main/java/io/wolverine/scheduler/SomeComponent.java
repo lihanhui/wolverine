@@ -5,6 +5,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import io.distributed.unicorn.common.discovery.ServiceDiscoveryClient;
+import io.wolverine.scheduler.controller.WolverineJobController;
 
 @Component
 public class SomeComponent {
@@ -12,6 +13,8 @@ public class SomeComponent {
 	private ServiceDiscoveryClient client;
 	@Autowired
 	private Environment env;
+	@Autowired
+	private WolverineJobController controller;
 	public ServiceDiscoveryClient getClient() {
 		return client;
 	}
@@ -23,6 +26,12 @@ public class SomeComponent {
 	}
 	public void setEnv(Environment env) {
 		this.env = env;
+	}
+	public WolverineJobController getController() {
+		return controller;
+	}
+	public void setController(WolverineJobController controller) {
+		this.controller = controller;
 	}
 	public SomeComponent() {
 		super();

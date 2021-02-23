@@ -33,7 +33,7 @@ public class WolverineSchedulerManager extends DefaultWolverineScheduler{
 		FrameworkInfo.Builder b = FrameworkInfo.newBuilder();
     	b.setFailoverTimeout(7 * 24 * 60 * 60);
     	b.setUser("");
-    	b.setName("lihanhui@gmail.com");
+    	b.setName("wolverine");
     	if(frameworkId != null) {
     		b.setId(FrameworkID.newBuilder().setValue(frameworkId));
     	}
@@ -54,7 +54,8 @@ public class WolverineSchedulerManager extends DefaultWolverineScheduler{
     	//context.stop();
 		schedulerDriver.start();
 		ctx = SpringApplication.run(WolverineSchedulerMain.class, args);
-    	System.out.println("the sd configuration: " + ((SomeComponent)ctx.getBean("someComponent")).getClient());
+		System.out.println("the controller: " + ((SomeComponent)ctx.getBean("someComponent")).getController());
+		System.out.println("the sd configuration: " + ((SomeComponent)ctx.getBean("someComponent")).getClient());
     	System.out.println("serviceDiscoveryClient: " + ((SomeComponent)ctx.getBean("someComponent")).getEnv());
 	}
 	public void reInitAndStart(String frameworkId) {
