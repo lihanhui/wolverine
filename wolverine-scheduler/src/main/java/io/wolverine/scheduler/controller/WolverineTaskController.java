@@ -32,6 +32,13 @@ public class WolverineTaskController {
 		dr.setResult(ResultMsg.ok());
 		return dr;
 	}
+	@RequestMapping(value="/wolverine/scheduler/task/submitTask", method=RequestMethod.POST)
+    public DeferredResult<ResultMsg> submitTask(/*@RequestBody SubmitUpdateMsg submitUpdateMsg,*/
+    		HttpServletRequest request) {
+		DeferredResult<ResultMsg> dr = new DeferredResult<ResultMsg>();
+		dr.setResult(ResultMsg.ok());
+		return dr;
+	}
 	@RequestMapping(value="/wolverine/scheduler/task/queryTask", method=RequestMethod.POST)
     public DeferredResult<ResultMsg> queryTask(/*@RequestBody SubmitUpdateMsg submitUpdateMsg,*/
     		HttpServletRequest request) {

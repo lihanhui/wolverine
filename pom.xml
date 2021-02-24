@@ -11,5 +11,7 @@
     <module>wolverine-scheduler</module>
     <module>wolverine-proto</module>
     <module>wolverine-container</module>
+    <module>wolverine-message</module>
+    <module>wolverine-data-entity</module>
   </modules>
 </project>
