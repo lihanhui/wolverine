@@ -43,6 +43,11 @@
       <version>1.0</version>
     </dependency>
     <dependency>
+        <groupId>io.wolverine.all</groupId>
+        <artifactId>wolverine-message</artifactId>
+        <version>1.0</version>
+    </dependency>
+    <dependency>
         <groupId>io.distributed.unicorn</groupId>
         <artifactId>distributed-unicorn-coordinator-zookeeper</artifactId>
         <version>1.0</version>
