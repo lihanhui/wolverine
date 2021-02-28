@@ -2,6 +2,7 @@ package io.wolverine.scheduler.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import io.doraemon.restful.ResultMsg;
+import io.wolverine.common.job.WolverineJobManager;
 import io.wolverine.message.task.QueryTaskMsg;
 import io.wolverine.message.task.SetTaskModeMsg;
 import io.wolverine.message.task.SubmitTaskMsg;
@@ -16,6 +18,7 @@ import io.wolverine.message.task.TaskIdMsg;
 
 @RestController
 public class WolverineTaskController {
+	private @Autowired WolverineJobManager jobManager;
 	@RequestMapping(value="/wolverine/scheduler/task/restartTask", method=RequestMethod.POST)
     public DeferredResult<ResultMsg> restartTask(@RequestBody TaskIdMsg msg,
     		HttpServletRequest request) {

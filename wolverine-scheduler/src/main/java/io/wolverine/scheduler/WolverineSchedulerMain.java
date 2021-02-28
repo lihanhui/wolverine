@@ -1,20 +1,19 @@
 package io.wolverine.scheduler;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import io.distributed.unicorn.common.coordinator.CoordinatorService;
 import io.distributed.unicorn.coordinator.zookeeper.SimpleCoordinatorService;
 import io.distributed.unicorn.discovery.spring.context.annotation.EnableUnicornDiscovery;
 import io.distributed.unicorn.discovery.spring.zookeeper.annotation.EnableZookeeperDiscovery;
 import io.doraemon.daemon.AbstractDoraemonServer;
+import io.wolverine.common.job.WolverineJobManager;
 
 @EnableUnicornDiscovery
 @EnableZookeeperDiscovery
 @SpringBootApplication(scanBasePackages={"io.wolverine.scheduler"})
 public class WolverineSchedulerMain extends AbstractDoraemonServer{
+	private static WolverineJobManager jobManager;
 	public static void main( String[] args ) {
 		System.setProperty("spring.application.name", "wolverine-scheduler");
 		
@@ -63,4 +62,5 @@ public class WolverineSchedulerMain extends AbstractDoraemonServer{
     	}); 
     	thread.start();//*/
     }
+    
 }

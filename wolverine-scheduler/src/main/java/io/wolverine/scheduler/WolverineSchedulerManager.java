@@ -4,17 +4,15 @@ import org.apache.mesos.MesosSchedulerDriver;
 import org.apache.mesos.Protos.FrameworkID;
 import org.apache.mesos.Protos.FrameworkInfo;
 import org.apache.mesos.Protos.MasterInfo;
+import org.apache.mesos.SchedulerDriver;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.apache.mesos.SchedulerDriver;
 
 import io.distributed.unicorn.common.coordinator.CoordinatorService;
 import io.wolverine.common.job.DefaultWolverineJobManager;
-import io.wolverine.common.job.WolverineJobManager;
-import io.wolverine.common.scheduler.DefaultWolverineScheduler;
-import io.wolverine.common.scheduler.WolverineScheduler;
+import io.wolverine.common.scheduler.AbstractWolverineScheduler;
 
-public class WolverineSchedulerManager extends DefaultWolverineScheduler{
+public class WolverineSchedulerManager extends AbstractWolverineScheduler{
 	private SchedulerDriver schedulerDriver = null;
 	private DefaultWolverineJobManager jobManager = null;
 	private String zks = null;
