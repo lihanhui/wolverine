@@ -2,7 +2,12 @@ package io.wolverine.data.entity;
 
 import java.util.Map;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection="wolverine_job")
 public class Job {
+	@Id
 	private String  jobId;
 	private Integer tasks;
 	private Integer runningTasks;
