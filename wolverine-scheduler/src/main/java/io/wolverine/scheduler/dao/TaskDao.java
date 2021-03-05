@@ -1,5 +1,8 @@
 package io.wolverine.scheduler.dao;
 
-public interface TaskDao {
+import io.wolverine.data.entity.Task;
 
+public interface TaskDao {
+	Task get(String id);
+	Task save(Task entity);
 }
