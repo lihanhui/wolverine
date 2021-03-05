@@ -27,6 +27,9 @@ public class WolverineSchedulerManager extends AbstractWolverineScheduler{
 		this.args = args;
 		this.coordinatorService = coordinatorService;
 	}
+	public DefaultWolverineJobManager getJobManager() {
+		return jobManager;
+	}
 	private void init(String frameworkId) {
 		FrameworkInfo.Builder b = FrameworkInfo.newBuilder();
     	b.setFailoverTimeout(7 * 24 * 60 * 60);
@@ -51,6 +54,7 @@ public class WolverineSchedulerManager extends AbstractWolverineScheduler{
 		//AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("io.wolverine.scheduler","io.distributed.unicorn.discovery");
     	//context.stop();
 		schedulerDriver.start();
+		
 		ctx = SpringApplication.run(WolverineSchedulerMain.class, args);
 		System.out.println("the controller: " + ((SomeComponent)ctx.getBean("someComponent")).getController());
 		System.out.println("the sd configuration: " + ((SomeComponent)ctx.getBean("someComponent")).getClient());

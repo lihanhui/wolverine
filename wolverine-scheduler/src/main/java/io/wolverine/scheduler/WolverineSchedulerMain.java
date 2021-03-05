@@ -1,6 +1,7 @@
 package io.wolverine.scheduler;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 import io.distributed.unicorn.common.coordinator.CoordinatorService;
 import io.distributed.unicorn.coordinator.zookeeper.SimpleCoordinatorService;
@@ -13,7 +14,7 @@ import io.wolverine.common.job.WolverineJobManager;
 @EnableZookeeperDiscovery
 @SpringBootApplication(scanBasePackages={"io.wolverine.scheduler"})
 public class WolverineSchedulerMain extends AbstractDoraemonServer{
-	private static WolverineJobManager jobManager;
+	public static WolverineSchedulerManager manager;
 	public static void main( String[] args ) {
 		System.setProperty("spring.application.name", "wolverine-scheduler");
 		
@@ -22,7 +23,7 @@ public class WolverineSchedulerMain extends AbstractDoraemonServer{
     		= new SimpleCoordinatorService(zks.replace("zk://", ""), WolverineSchedulerManager.ZK_SCHEDULER_LEADER);
     	
     	WolverineSchedulerManager manager = new WolverineSchedulerManager(zks, args, coordinatorService);
-    	
+    	WolverineSchedulerMain.manager = manager;
     	SchedulerLeaderStateListener listener = new SchedulerLeaderStateListener(manager, coordinatorService);
     	coordinatorService.addLeaderStateListener(listener);
     	coordinatorService.start();
@@ -30,6 +31,10 @@ public class WolverineSchedulerMain extends AbstractDoraemonServer{
     	WolverineSchedulerMain main = new WolverineSchedulerMain();
     	main.start();
     }
+	@Bean
+	public WolverineJobManager wolverineJobManager() {
+		return WolverineSchedulerMain.manager.getJobManager();
+	}
     public void toPollService() {
     	Thread thread = new Thread(new Runnable() {
 			public void run() {
