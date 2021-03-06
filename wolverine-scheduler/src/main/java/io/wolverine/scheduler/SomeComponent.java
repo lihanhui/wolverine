@@ -1,7 +1,9 @@
 package io.wolverine.scheduler;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
 import io.distributed.unicorn.common.discovery.ServiceDiscoveryClient;
@@ -35,5 +37,9 @@ public class SomeComponent {
 	}
 	public SomeComponent() {
 		super();
+	}
+	@Bean
+	public MongoTemplate mongoTemplate() {
+		return new MongoTemplate(new com.mongodb.MongoClient("127.0.0.1:27017"), "wolverine");
 	}
 }

@@ -8,6 +8,7 @@ import io.distributed.unicorn.coordinator.zookeeper.SimpleCoordinatorService;
 import io.distributed.unicorn.discovery.spring.context.annotation.EnableUnicornDiscovery;
 import io.distributed.unicorn.discovery.spring.zookeeper.annotation.EnableZookeeperDiscovery;
 import io.doraemon.daemon.AbstractDoraemonServer;
+import io.nezha.schedule.SchedulerGroup;
 import io.wolverine.common.job.WolverineJobManager;
 
 @EnableUnicornDiscovery
@@ -16,6 +17,7 @@ import io.wolverine.common.job.WolverineJobManager;
 public class WolverineSchedulerMain extends AbstractDoraemonServer{
 	public static WolverineSchedulerManager manager;
 	public static void main( String[] args ) {
+		SchedulerGroup.init(); // multi-thread scheduler
 		System.setProperty("spring.application.name", "wolverine-scheduler");
 		
     	String zks = args[0];
