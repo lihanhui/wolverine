@@ -97,6 +97,7 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 		b1.setValue("taskId-" + String.valueOf(System.currentTimeMillis()));
 		b.setTaskId(b1);
 		
+		b.setName(taskSpec.getJobName());
 		b.setSlaveId(o.getSlaveId());
 		
 		ExecutorInfo.Builder b2 = ExecutorInfo.newBuilder();

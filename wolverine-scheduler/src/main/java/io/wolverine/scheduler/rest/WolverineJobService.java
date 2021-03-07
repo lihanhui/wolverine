@@ -18,6 +18,7 @@ import io.wolverine.message.task.QueryTaskMsg;
 import io.wolverine.message.task.SetTaskModeMsg;
 import io.wolverine.message.task.SubmitTaskMsg;
 import io.wolverine.message.task.TaskIdMsg;
+import io.wolverine.scheduler.schedule.JobSchedule;
 
 @Component("restJobManager")
 public class WolverineJobService 
@@ -25,6 +26,7 @@ public class WolverineJobService
 	private @Autowired JobDao jobDao;
 	private @Autowired TaskDao taskDao;
 	private @Autowired WolverineJobManager wolverineJobManager;
+	private @Autowired JobSchedule jobSchedule;
 	private static WolverineJobService service;
 	public static WolverineJobService getService() {
 		return service;
@@ -36,6 +38,7 @@ public class WolverineJobService
 	private Job transferSubmitJobMsg2Entity(SubmitJobMsg msg) {
 		long now = System.currentTimeMillis();
 		Job job = new Job();
+		job.setJobName(msg.getJobName());
 		job.setCores(msg.getCores());
 		job.setDisk(msg.getDisk());
 		job.setEntryPoint(msg.getEntryPoint());
@@ -55,6 +58,7 @@ public class WolverineJobService
 		Job job = transferSubmitJobMsg2Entity(msg);
 		job.setJobId(UUID.uuid());
 		this.jobDao.save(job);
+		this.jobSchedule.putJob(job);
 		return new Result<>(ResultMsg.ok());
 	}
 

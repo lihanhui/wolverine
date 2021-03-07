@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Job {
 	@Id
 	private String  jobId;
+	private String  jobName;
 	private Integer tasks;
 	private Integer runningTasks;
 	private Integer mem;
@@ -28,6 +29,12 @@ public class Job {
 	}
 	public void setJobId(String jobId) {
 		this.jobId = jobId;
+	}
+	public String getJobName() {
+		return jobName;
+	}
+	public void setJobName(String jobName) {
+		this.jobName = jobName;
 	}
 	public Integer getTasks() {
 		return tasks;

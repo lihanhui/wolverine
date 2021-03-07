@@ -51,7 +51,7 @@ public class JobSchedule extends Thread{
 		}
 		ExecutorSpec executorSpec = new ExecutorSpec(executorConfig.getArchiveUri(), executorConfig.getCommand());
 		ResourceSpec resourceSpec = new ResourceSpec(job.getCores(), job.getMem(), job.getDisk());
-		TaskSpec spec = new TaskSpec(executorSpec, resourceSpec, job.getImageUri(), job.getEntryPoint(), 1);
+		TaskSpec spec = new TaskSpec(job.getJobName(), executorSpec, resourceSpec, job.getImageUri(), job.getEntryPoint(), 1);
 		return spec;
 	}
 	private void run0() throws InterruptedException {

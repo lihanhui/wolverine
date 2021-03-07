@@ -4,6 +4,7 @@ import java.util.Map;
 
 public class JobMsg {
 	private String  jobId;
+	private String  jobName;
 	private Integer tasks;
 	private Integer runningTasks;
 	private Integer mem;
@@ -110,10 +111,10 @@ public class JobMsg {
 	}
 	@Override
 	public String toString() {
-		return "JobMsg [jobId=" + jobId + ", tasks=" + tasks + ", runningTasks=" + runningTasks + ", mem=" + mem
-				+ ", cores=" + cores + ", disk=" + disk + ", mode=" + mode + ", status=" + status + ", taskType="
-				+ taskType + ", imageUri=" + imageUri + ", entryPoint=" + entryPoint + ", target=" + target
-				+ ", options=" + options + ", createDate=" + createDate + ", updateDate=" + updateDate + "]";
+		return "JobMsg [jobId=" + jobId + ", jobName=" + jobName + ", tasks=" + tasks + ", runningTasks=" + runningTasks
+				+ ", mem=" + mem + ", cores=" + cores + ", disk=" + disk + ", mode=" + mode + ", status=" + status
+				+ ", taskType=" + taskType + ", imageUri=" + imageUri + ", entryPoint=" + entryPoint + ", target="
+				+ target + ", options=" + options + ", createDate=" + createDate + ", updateDate=" + updateDate + "]";
 	}
 	public JobMsg() {
 		super();

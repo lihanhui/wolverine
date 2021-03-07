@@ -3,6 +3,7 @@ package io.wolverine.message.job;
 import java.util.Map;
 
 public class SubmitJobMsg {
+	private String  jobName;
 	private Integer tasks;
 	private Integer runningTasks;
 	private Integer mem;
@@ -14,6 +15,12 @@ public class SubmitJobMsg {
 	private String entryPoint; // for docker or simple command
 	private String target;
 	private Map<String, String> options;
+	public String getJobName() {
+		return jobName;
+	}
+	public void setJobName(String jobName) {
+		this.jobName = jobName;
+	}
 	public Integer getTasks() {
 		return tasks;
 	}
@@ -82,9 +89,10 @@ public class SubmitJobMsg {
 	}
 	@Override
 	public String toString() {
-		return "SubmitJobMsg [tasks=" + tasks + ", runningTasks=" + runningTasks + ", mem=" + mem + ", cores=" + cores
-				+ ", disk=" + disk + ", mode=" + mode + ", taskType=" + taskType + ", imageUri=" + imageUri
-				+ ", entryPoint=" + entryPoint + ", target=" + target + ", options=" + options + "]";
+		return "SubmitJobMsg [jobName=" + jobName + ", tasks=" + tasks + ", runningTasks=" + runningTasks + ", mem="
+				+ mem + ", cores=" + cores + ", disk=" + disk + ", mode=" + mode + ", taskType=" + taskType
+				+ ", imageUri=" + imageUri + ", entryPoint=" + entryPoint + ", target=" + target + ", options="
+				+ options + "]";
 	}
 	public SubmitJobMsg() {
 		super();
