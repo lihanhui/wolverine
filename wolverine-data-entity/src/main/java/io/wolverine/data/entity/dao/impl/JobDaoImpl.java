@@ -1,5 +1,7 @@
 package io.wolverine.data.entity.dao.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -11,8 +13,8 @@ public class JobDaoImpl implements JobDao {
 	private @Autowired JobRepository repository;
 	@Override
 	public Job get(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<Job> optional = repository.findById(id);
+		return optional.isPresent()? optional.get(): null;
 	}
 
 	@Override

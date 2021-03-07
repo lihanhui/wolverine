@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import io.doraemon.restful.ResultMsg;
+import io.doraemon.uuid.UUID;
 import io.nezha.event.Result;
+import io.wolverine.common.job.WolverineJobManager;
 import io.wolverine.data.entity.Job;
 import io.wolverine.data.entity.dao.JobDao;
 import io.wolverine.data.entity.dao.TaskDao;
@@ -22,6 +24,7 @@ public class WolverineJobService
 	implements RestJobManager{
 	private @Autowired JobDao jobDao;
 	private @Autowired TaskDao taskDao;
+	private @Autowired WolverineJobManager wolverineJobManager;
 	private static WolverineJobService service;
 	public static WolverineJobService getService() {
 		return service;
@@ -30,12 +33,27 @@ public class WolverineJobService
 	public  WolverineJobService() {
 		WolverineJobService.service = this;
 	}
-	
+	private Job transferSubmitJobMsg2Entity(SubmitJobMsg msg) {
+		long now = System.currentTimeMillis();
+		Job job = new Job();
+		job.setCores(msg.getCores());
+		job.setDisk(msg.getDisk());
+		job.setEntryPoint(msg.getEntryPoint());
+		job.setImageUri(msg.getImageUri());
+		job.setMem(msg.getMem());
+		job.setMode(msg.getMode());
+		job.setOptions(msg.getOptions());
+		job.setTarget(msg.getTarget());
+		job.setTasks(msg.getTasks());
+		job.setTaskType(msg.getTaskType());
+		job.setCreateDate(now);
+		job.setUpdateDate(now);
+		return job;
+	}
 	@Override
 	public Result<ResultMsg> submitJob(SubmitJobMsg msg) {
-		// TODO Auto-generated method stub
-		Job job = new Job();
-		job.setJobId("xxxxxxx");
+		Job job = transferSubmitJobMsg2Entity(msg);
+		job.setJobId(UUID.uuid());
 		this.jobDao.save(job);
 		return new Result<>(ResultMsg.ok());
 	}
