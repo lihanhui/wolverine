@@ -1,4 +1,4 @@
-package io.wolverine.scheduler.repository;
+package io.wolverine.data.entity.repository;
 
 import org.springframework.data.repository.CrudRepository;
 

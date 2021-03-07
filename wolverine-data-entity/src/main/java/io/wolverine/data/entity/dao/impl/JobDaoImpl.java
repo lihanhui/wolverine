@@ -1,12 +1,14 @@
-package io.wolverine.scheduler.dao.impl;
+package io.wolverine.data.entity.dao.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import io.wolverine.data.entity.Job;
-import io.wolverine.scheduler.dao.JobDao;
+import io.wolverine.data.entity.dao.JobDao;
+import io.wolverine.data.entity.repository.JobRepository;
 @Repository
 public class JobDaoImpl implements JobDao {
-
+	private @Autowired JobRepository repository;
 	@Override
 	public Job get(String id) {
 		// TODO Auto-generated method stub
@@ -15,8 +17,7 @@ public class JobDaoImpl implements JobDao {
 
 	@Override
 	public Job save(Job entity) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.save(entity);
 	}
 
 }

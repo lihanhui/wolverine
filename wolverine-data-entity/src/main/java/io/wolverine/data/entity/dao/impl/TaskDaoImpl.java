@@ -1,9 +1,9 @@
-package io.wolverine.scheduler.dao.impl;
+package io.wolverine.data.entity.dao.impl;
 
 import org.springframework.stereotype.Repository;
 
 import io.wolverine.data.entity.Task;
-import io.wolverine.scheduler.dao.TaskDao;
+import io.wolverine.data.entity.dao.TaskDao;
 
 @Repository
 public class TaskDaoImpl implements TaskDao{

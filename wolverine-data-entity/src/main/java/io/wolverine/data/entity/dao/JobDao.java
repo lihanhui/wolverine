@@ -1,4 +1,4 @@
-package io.wolverine.scheduler.dao;
+package io.wolverine.data.entity.dao;
 
 import io.wolverine.data.entity.Job;
 

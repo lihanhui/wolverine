@@ -2,6 +2,7 @@ package io.wolverine.scheduler;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import io.distributed.unicorn.common.coordinator.CoordinatorService;
 import io.distributed.unicorn.coordinator.zookeeper.SimpleCoordinatorService;
@@ -13,7 +14,8 @@ import io.wolverine.common.job.WolverineJobManager;
 
 @EnableUnicornDiscovery
 @EnableZookeeperDiscovery
-@SpringBootApplication(scanBasePackages={"io.wolverine.scheduler"})
+@EnableMongoRepositories("io.wolverine.data")
+@SpringBootApplication(scanBasePackages={"io.wolverine.scheduler","io.wolverine.data"})
 public class WolverineSchedulerMain extends AbstractDoraemonServer{
 	public static WolverineSchedulerManager manager;
 	public static void main( String[] args ) {
