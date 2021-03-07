@@ -22,9 +22,12 @@ public abstract class AbstractWolverineTaskManager implements WolverineTaskManag
 		this.executorDriver = executorDriver;
 	}
 	public void launchTask(TaskInfo task) {
-		// TODO Auto-generated method stub
-		
+		WolverineTask task2 = buildTask(task);
+		WolverineTaskContext ctx = new DefaultWolverineTaskContext(this, task2);
+		task2.start(ctx);
+		this.taskMap.put(task2.getTaskInfo().getTaskId().getValue(), task2);
 	}
+	protected abstract WolverineTask buildTask(TaskInfo task);
 	public ExecutorInfo getExecutorInfo() {
 		return executorInfo;
 	}
@@ -33,13 +36,13 @@ public abstract class AbstractWolverineTaskManager implements WolverineTaskManag
 	}
 	public void killTask(String taskId) {
 		WolverineTask task = this.taskMap.get(taskId);
-		WolverineTaskContext ctx = new DefaultWolverineTaskContext(null, task);
+		WolverineTaskContext ctx = new DefaultWolverineTaskContext(this, task);
 		task.stop(ctx);
 	}
 
 	public void killAllTasks() {
 		for(WolverineTask task: this.taskMap.values()){
-			WolverineTaskContext ctx = new DefaultWolverineTaskContext(null, task);
+			WolverineTaskContext ctx = new DefaultWolverineTaskContext(this, task);
 			task.stop(ctx);
 		}
 	}

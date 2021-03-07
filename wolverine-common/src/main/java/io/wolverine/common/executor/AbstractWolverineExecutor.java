@@ -45,6 +45,7 @@ public abstract class AbstractWolverineExecutor implements WolverineExecutor {
 	}
 
 	public void launchTask(ExecutorDriver driver, TaskInfo task) {
+		System.out.println(task);
 		this.executorListener.launchTask(task);
 	}
 

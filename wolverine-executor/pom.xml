@@ -30,6 +30,11 @@
       <artifactId>wolverine-common</artifactId>
       <version>1.0</version>
     </dependency>
+    <dependency>
+      <groupId>io.wolverine.all</groupId>
+      <artifactId>wolverine-container-docker</artifactId>
+      <version>1.0</version>
+    </dependency>
   </dependencies>
   <build>
         <plugins>
