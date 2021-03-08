@@ -8,20 +8,19 @@ import io.wolverine.container.docker.DockerContainer;
 import io.wolverine.proto.WolverineProto.WolverineTaskMsg;
 
 public class DockerTask implements WolverineTask{
-	private DockerContainer container ;
-	public DockerTask(DockerContainer container) {
-		this.container = container;
+	private String containerId;
+	private DockerTaskSpec taskSpec;
+	public DockerTask(DockerTaskSpec taskSpec) {
+		this.taskSpec = taskSpec;
 	}
 	@Override
 	public void start(WolverineTaskContext ctx) {
-		// TODO Auto-generated method stub
-		//container.create(ctx.g, hostConfig)
+		containerId = taskSpec.getContainer().create(taskSpec.getImageAndTag(), taskSpec.getHostConfig());
 	}
 
 	@Override
 	public void stop(WolverineTaskContext ctx) {
-		// TODO Auto-generated method stub
-		
+		taskSpec.getContainer().start(containerId);
 	}
 
 	@Override
@@ -32,8 +31,7 @@ public class DockerTask implements WolverineTask{
 
 	@Override
 	public TaskInfo getTaskInfo() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.taskSpec.getTaskInfo();
 	}
 
 }

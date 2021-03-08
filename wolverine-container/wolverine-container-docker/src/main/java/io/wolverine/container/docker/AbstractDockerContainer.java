@@ -4,12 +4,15 @@ import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientBuilder;
+import com.github.dockerjava.core.DockerClientConfig;
 
 public abstract class AbstractDockerContainer implements DockerContainer {
 	private DockerClient dockerClient ;
 	public AbstractDockerContainer() {
-		DefaultDockerClientConfig.Builder config 
-	  		= DefaultDockerClientConfig.createDefaultConfigBuilder();
+		DockerClientConfig config 
+	  		= DefaultDockerClientConfig.createDefaultConfigBuilder()
+	  		.withDockerHost("unix:///var/run/docker.sock")
+	  		.build();
 		dockerClient = DockerClientBuilder
 			.getInstance(config)
 			.build();
