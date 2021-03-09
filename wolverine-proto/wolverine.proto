@@ -48,6 +48,12 @@ message CreateTaskMsg{
     repeated Option options    = 7;
     repeated Limit limits      = 8; 
 }
+message TaskIdMsg {
+    required string taskId      = 1;
+    required string jobId       = 2;
+    optional string containerId = 3;
+    optional string processId   = 4;
+ }
 message HeartBeatMsg{
     required string taskId     = 1;
     optional string jobId      = 2;

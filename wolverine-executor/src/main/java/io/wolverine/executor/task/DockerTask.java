@@ -4,14 +4,17 @@ import org.apache.mesos.Protos.TaskInfo;
 
 import io.wolverine.common.task.WolverineTask;
 import io.wolverine.common.task.WolverineTaskContext;
-import io.wolverine.container.docker.DockerContainer;
 import io.wolverine.proto.WolverineProto.WolverineTaskMsg;
 
 public class DockerTask implements WolverineTask{
 	private String containerId;
 	private DockerTaskSpec taskSpec;
 	public DockerTask(DockerTaskSpec taskSpec) {
+		this(taskSpec, null);
+	}
+	public DockerTask(DockerTaskSpec taskSpec, String containerId) {
 		this.taskSpec = taskSpec;
+		this.containerId = containerId;
 	}
 	@Override
 	public void start(WolverineTaskContext ctx) {
