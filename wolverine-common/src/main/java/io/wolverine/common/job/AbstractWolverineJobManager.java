@@ -100,13 +100,16 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 		b.addResources(b4);
 	}
 	private CreateTaskMsg composeCreateTaskMsg(String taskId, TaskSpec taskSpec) {
-		WolverineTaskMsg.Builder b = WolverineTaskMsg.newBuilder();
-		b.setCommandType(CommandType.CREATE_TASK);
-		b.setDataType(DataType.PROTOBUF);
+		CreateTaskMsg.Builder b = CreateTaskMsg.newBuilder();
 		b.setJobId(taskSpec.getJobId());
+		b.setCores(taskSpec.getResourceSpec().getCores());
+		b.setDisk(taskSpec.getResourceSpec().getDisk());
+		b.setMem(taskSpec.getResourceSpec().getMemory());
+		b.setImageAndTag(taskSpec.getArchiveUri());
+		b.setImageUri(taskSpec.getArchiveUri());
+		
 		b.setTaskId(taskId);
-		b.setTaskType(TaskType.forNumber(taskSpec.getTaskType()));
-		return null;
+		return b.build();
 	}
 	private WolverineTaskMsg composeWolverineTaskMsg(String taskId, TaskSpec taskSpec) {
 		WolverineTaskMsg.Builder b = WolverineTaskMsg.newBuilder();
