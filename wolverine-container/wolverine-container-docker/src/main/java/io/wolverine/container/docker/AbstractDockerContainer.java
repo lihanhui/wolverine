@@ -1,6 +1,7 @@
 package io.wolverine.container.docker;
 
 import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.command.CreateContainerCmd;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientBuilder;
@@ -34,12 +35,11 @@ public abstract class AbstractDockerContainer implements DockerContainer {
 
 	@Override
 	public String create(String imageAndTag, HostConfig hostConfig) {
-		CreateContainerResponse response = dockerClient.createContainerCmd(imageAndTag)
-			.withHostConfig(hostConfig.getHostConfig())
-			.withCmd(hostConfig.getCmd())
-			.withHostName(hostConfig.getHostName())
-			.withEnv(hostConfig.getEnvs())
-			.exec();
+		CreateContainerCmd cmd = dockerClient.createContainerCmd(imageAndTag);
+		if(hostConfig.getCmd() != null) { cmd.withCmd(hostConfig.getCmd() );}
+		if(hostConfig.getHostName() != null) { cmd.withHostName(hostConfig.getHostName() );}
+		if(hostConfig.getEnvs() != null) { cmd.withEnv(hostConfig.getEnvs() );}
+		CreateContainerResponse response = cmd.exec();
 		return response.getId();
 	}
 

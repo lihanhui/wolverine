@@ -40,7 +40,9 @@ public class DockerTaskSpec {
 		private DockerTaskSpec taskSpec;
 		private WolverineTaskMsg taskMsg;
 		
-		private Builder(){}
+		private Builder(){
+			this.taskSpec = new DockerTaskSpec();
+		}
 		private void build(CreateTaskMsg msg) {
 			HostConfig.Builder b = HostConfig.builder();
 			b.withCmd(msg.getCommand())
