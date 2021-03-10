@@ -100,8 +100,6 @@ public class HostConfig {
         	return this;
         }
     }
-    public static void main(String [] args) {
-    	HostConfig.Builder b = HostConfig.builder();
-    }
+    
     
 }

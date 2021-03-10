@@ -10,6 +10,9 @@ import io.wolverine.container.docker.DockerContainer;
 import io.wolverine.container.docker.HostConfig;
 import io.wolverine.container.docker.SimpleDockerContainer;
 import io.wolverine.proto.WolverineProto;
+import io.wolverine.proto.WolverineProto.CommandType;
+import io.wolverine.proto.WolverineProto.CreateTaskMsg;
+import io.wolverine.proto.WolverineProto.TaskIdMsg;
 import io.wolverine.proto.WolverineProto.WolverineTaskMsg;
 
 public class DockerTaskSpec {
@@ -41,13 +44,21 @@ public class DockerTaskSpec {
 	public static class Builder{
 		private DockerTaskSpec taskSpec;
 		private TaskInfo taskInfo;
-		Builder(){
-			
+		
+		private Builder(){}
+		private void build(CreateTaskMsg msg) {
+			HostConfig.Builder b = HostConfig.builder();
+			if(msg.hasCommand()) b.withCmd(msg.getCommand());
+			if(msg.hasCores()) b.withCpuCount(Long.valueOf(msg.getCores()));
+			if(msg.hasMem()) b.withMemory(Long.valueOf(msg.getMem()));
+			// TODO: entry point ...
+			this.taskSpec.hostConfig = b.build();
+			this.taskSpec.imageAndTag = msg.getImageAndTag();
 		}
-		private String imageAndTag(TaskInfo taskInfo) {
-			return null;
+		private void build(TaskIdMsg msg) {
+			taskSpec.containerId = msg.getContainerId();
 		}
-		private HostConfig buildHostConfig(TaskInfo taskInfo) {
+		private void build(TaskInfo taskInfo) {
 			ByteString byteStr = taskInfo.getData();
 			try {
 				WolverineTaskMsg taskMsg = WolverineTaskMsg.parseFrom(taskInfo.getData());
@@ -55,15 +66,20 @@ public class DockerTaskSpec {
 				byteStr = taskMsg.getData();
 				byte[] data = byteStr.asReadOnlyByteBuffer().array();
 				String dataStr = data.toString();
-				WolverineProto.CommandType cmdType = taskMsg.getCommandType();
-				JsonUtil.fromJson(dataStr, WolverineTaskMsg.class);
+				CommandType cmdType = taskMsg.getCommandType();
+				switch(cmdType.getNumber()) {
+					case CommandType.CREATE_TASK_VALUE:
+						build(JsonUtil.fromJson(dataStr, CreateTaskMsg.class)); 
+						break;
+					default:
+						build(JsonUtil.fromJson(dataStr, TaskIdMsg.class));
+						break;
+				}
 			} catch (InvalidProtocolBufferException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
-			 
-			return null;
 		}
 		public Builder withTaskInfo(TaskInfo taskInfo) {
 			this.taskInfo = taskInfo;
@@ -72,9 +88,7 @@ public class DockerTaskSpec {
 		
 		public DockerTaskSpec build() {
 			this.taskSpec.taskInfo = taskInfo;
-			HostConfig hostConfig = this.buildHostConfig(taskInfo);
-			this.taskSpec.hostConfig = hostConfig;
-			this.taskSpec.imageAndTag = imageAndTag(taskInfo);
+			this.build(taskInfo);
 			return taskSpec;
 		}
 	}

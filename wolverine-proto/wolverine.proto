@@ -45,8 +45,11 @@ message CreateTaskMsg{
     optional string imageUri   = 4; // to download if it is a archive of jars or shell scripts
     optional string command    = 5; 
     optional string entryPoint = 6;
-    repeated Option options    = 7;
-    repeated Limit limits      = 8; 
+    optional int32 mem = 7;
+    optional int32 cores = 8;
+    optional int32 disk = 9;
+    repeated Option options    = 10;
+    repeated Limit limits      = 11; 
 }
 message TaskIdMsg {
     required string taskId      = 1;

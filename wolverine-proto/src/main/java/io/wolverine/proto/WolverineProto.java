@@ -3104,49 +3104,76 @@ public final class WolverineProto {
         getEntryPointBytes();
 
     /**
-     * <code>repeated .Option options = 7;</code>
+     * <code>optional int32 mem = 7;</code>
+     */
+    boolean hasMem();
+    /**
+     * <code>optional int32 mem = 7;</code>
+     */
+    int getMem();
+
+    /**
+     * <code>optional int32 cores = 8;</code>
+     */
+    boolean hasCores();
+    /**
+     * <code>optional int32 cores = 8;</code>
+     */
+    int getCores();
+
+    /**
+     * <code>optional int32 disk = 9;</code>
+     */
+    boolean hasDisk();
+    /**
+     * <code>optional int32 disk = 9;</code>
+     */
+    int getDisk();
+
+    /**
+     * <code>repeated .Option options = 10;</code>
      */
     java.util.List<io.wolverine.proto.WolverineProto.Option> 
         getOptionsList();
     /**
-     * <code>repeated .Option options = 7;</code>
+     * <code>repeated .Option options = 10;</code>
      */
     io.wolverine.proto.WolverineProto.Option getOptions(int index);
     /**
-     * <code>repeated .Option options = 7;</code>
+     * <code>repeated .Option options = 10;</code>
      */
     int getOptionsCount();
     /**
-     * <code>repeated .Option options = 7;</code>
+     * <code>repeated .Option options = 10;</code>
      */
     java.util.List<? extends io.wolverine.proto.WolverineProto.OptionOrBuilder> 
         getOptionsOrBuilderList();
     /**
-     * <code>repeated .Option options = 7;</code>
+     * <code>repeated .Option options = 10;</code>
      */
     io.wolverine.proto.WolverineProto.OptionOrBuilder getOptionsOrBuilder(
         int index);
 
     /**
-     * <code>repeated .Limit limits = 8;</code>
+     * <code>repeated .Limit limits = 11;</code>
      */
     java.util.List<io.wolverine.proto.WolverineProto.Limit> 
         getLimitsList();
     /**
-     * <code>repeated .Limit limits = 8;</code>
+     * <code>repeated .Limit limits = 11;</code>
      */
     io.wolverine.proto.WolverineProto.Limit getLimits(int index);
     /**
-     * <code>repeated .Limit limits = 8;</code>
+     * <code>repeated .Limit limits = 11;</code>
      */
     int getLimitsCount();
     /**
-     * <code>repeated .Limit limits = 8;</code>
+     * <code>repeated .Limit limits = 11;</code>
      */
     java.util.List<? extends io.wolverine.proto.WolverineProto.LimitOrBuilder> 
         getLimitsOrBuilderList();
     /**
-     * <code>repeated .Limit limits = 8;</code>
+     * <code>repeated .Limit limits = 11;</code>
      */
     io.wolverine.proto.WolverineProto.LimitOrBuilder getLimitsOrBuilder(
         int index);
@@ -3170,6 +3197,9 @@ public final class WolverineProto {
       imageUri_ = "";
       command_ = "";
       entryPoint_ = "";
+      mem_ = 0;
+      cores_ = 0;
+      disk_ = 0;
       options_ = java.util.Collections.emptyList();
       limits_ = java.util.Collections.emptyList();
     }
@@ -3241,19 +3271,34 @@ public final class WolverineProto {
               entryPoint_ = bs;
               break;
             }
-            case 58: {
-              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+            case 56: {
+              bitField0_ |= 0x00000040;
+              mem_ = input.readInt32();
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000080;
+              cores_ = input.readInt32();
+              break;
+            }
+            case 72: {
+              bitField0_ |= 0x00000100;
+              disk_ = input.readInt32();
+              break;
+            }
+            case 82: {
+              if (!((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
                 options_ = new java.util.ArrayList<io.wolverine.proto.WolverineProto.Option>();
-                mutable_bitField0_ |= 0x00000040;
+                mutable_bitField0_ |= 0x00000200;
               }
               options_.add(
                   input.readMessage(io.wolverine.proto.WolverineProto.Option.PARSER, extensionRegistry));
               break;
             }
-            case 66: {
-              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+            case 90: {
+              if (!((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
                 limits_ = new java.util.ArrayList<io.wolverine.proto.WolverineProto.Limit>();
-                mutable_bitField0_ |= 0x00000080;
+                mutable_bitField0_ |= 0x00000400;
               }
               limits_.add(
                   input.readMessage(io.wolverine.proto.WolverineProto.Limit.PARSER, extensionRegistry));
@@ -3267,10 +3312,10 @@ public final class WolverineProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
           options_ = java.util.Collections.unmodifiableList(options_);
         }
-        if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+        if (((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
           limits_ = java.util.Collections.unmodifiableList(limits_);
         }
         this.unknownFields = unknownFields.build();
@@ -3566,70 +3611,115 @@ public final class WolverineProto {
       }
     }
 
-    public static final int OPTIONS_FIELD_NUMBER = 7;
+    public static final int MEM_FIELD_NUMBER = 7;
+    private int mem_;
+    /**
+     * <code>optional int32 mem = 7;</code>
+     */
+    public boolean hasMem() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional int32 mem = 7;</code>
+     */
+    public int getMem() {
+      return mem_;
+    }
+
+    public static final int CORES_FIELD_NUMBER = 8;
+    private int cores_;
+    /**
+     * <code>optional int32 cores = 8;</code>
+     */
+    public boolean hasCores() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional int32 cores = 8;</code>
+     */
+    public int getCores() {
+      return cores_;
+    }
+
+    public static final int DISK_FIELD_NUMBER = 9;
+    private int disk_;
+    /**
+     * <code>optional int32 disk = 9;</code>
+     */
+    public boolean hasDisk() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional int32 disk = 9;</code>
+     */
+    public int getDisk() {
+      return disk_;
+    }
+
+    public static final int OPTIONS_FIELD_NUMBER = 10;
     private java.util.List<io.wolverine.proto.WolverineProto.Option> options_;
     /**
-     * <code>repeated .Option options = 7;</code>
+     * <code>repeated .Option options = 10;</code>
      */
     public java.util.List<io.wolverine.proto.WolverineProto.Option> getOptionsList() {
       return options_;
     }
     /**
-     * <code>repeated .Option options = 7;</code>
+     * <code>repeated .Option options = 10;</code>
      */
     public java.util.List<? extends io.wolverine.proto.WolverineProto.OptionOrBuilder> 
         getOptionsOrBuilderList() {
       return options_;
     }
     /**
-     * <code>repeated .Option options = 7;</code>
+     * <code>repeated .Option options = 10;</code>
      */
     public int getOptionsCount() {
       return options_.size();
     }
     /**
-     * <code>repeated .Option options = 7;</code>
+     * <code>repeated .Option options = 10;</code>
      */
     public io.wolverine.proto.WolverineProto.Option getOptions(int index) {
       return options_.get(index);
     }
     /**
-     * <code>repeated .Option options = 7;</code>
+     * <code>repeated .Option options = 10;</code>
      */
     public io.wolverine.proto.WolverineProto.OptionOrBuilder getOptionsOrBuilder(
         int index) {
       return options_.get(index);
     }
 
-    public static final int LIMITS_FIELD_NUMBER = 8;
+    public static final int LIMITS_FIELD_NUMBER = 11;
     private java.util.List<io.wolverine.proto.WolverineProto.Limit> limits_;
     /**
-     * <code>repeated .Limit limits = 8;</code>
+     * <code>repeated .Limit limits = 11;</code>
      */
     public java.util.List<io.wolverine.proto.WolverineProto.Limit> getLimitsList() {
       return limits_;
     }
     /**
-     * <code>repeated .Limit limits = 8;</code>
+     * <code>repeated .Limit limits = 11;</code>
      */
     public java.util.List<? extends io.wolverine.proto.WolverineProto.LimitOrBuilder> 
         getLimitsOrBuilderList() {
       return limits_;
     }
     /**
-     * <code>repeated .Limit limits = 8;</code>
+     * <code>repeated .Limit limits = 11;</code>
      */
     public int getLimitsCount() {
       return limits_.size();
     }
     /**
-     * <code>repeated .Limit limits = 8;</code>
+     * <code>repeated .Limit limits = 11;</code>
      */
     public io.wolverine.proto.WolverineProto.Limit getLimits(int index) {
       return limits_.get(index);
     }
     /**
-     * <code>repeated .Limit limits = 8;</code>
+     * <code>repeated .Limit limits = 11;</code>
      */
     public io.wolverine.proto.WolverineProto.LimitOrBuilder getLimitsOrBuilder(
         int index) {
@@ -3682,11 +3772,20 @@ public final class WolverineProto {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 6, entryPoint_);
       }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeInt32(7, mem_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeInt32(8, cores_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeInt32(9, disk_);
+      }
       for (int i = 0; i < options_.size(); i++) {
-        output.writeMessage(7, options_.get(i));
+        output.writeMessage(10, options_.get(i));
       }
       for (int i = 0; i < limits_.size(); i++) {
-        output.writeMessage(8, limits_.get(i));
+        output.writeMessage(11, limits_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -3714,13 +3813,25 @@ public final class WolverineProto {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, entryPoint_);
       }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(7, mem_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, cores_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(9, disk_);
+      }
       for (int i = 0; i < options_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(7, options_.get(i));
+          .computeMessageSize(10, options_.get(i));
       }
       for (int i = 0; i < limits_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(8, limits_.get(i));
+          .computeMessageSize(11, limits_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -3768,6 +3879,21 @@ public final class WolverineProto {
         result = result && getEntryPoint()
             .equals(other.getEntryPoint());
       }
+      result = result && (hasMem() == other.hasMem());
+      if (hasMem()) {
+        result = result && (getMem()
+            == other.getMem());
+      }
+      result = result && (hasCores() == other.hasCores());
+      if (hasCores()) {
+        result = result && (getCores()
+            == other.getCores());
+      }
+      result = result && (hasDisk() == other.hasDisk());
+      if (hasDisk()) {
+        result = result && (getDisk()
+            == other.getDisk());
+      }
       result = result && getOptionsList()
           .equals(other.getOptionsList());
       result = result && getLimitsList()
@@ -3806,6 +3932,18 @@ public final class WolverineProto {
       if (hasEntryPoint()) {
         hash = (37 * hash) + ENTRYPOINT_FIELD_NUMBER;
         hash = (53 * hash) + getEntryPoint().hashCode();
+      }
+      if (hasMem()) {
+        hash = (37 * hash) + MEM_FIELD_NUMBER;
+        hash = (53 * hash) + getMem();
+      }
+      if (hasCores()) {
+        hash = (37 * hash) + CORES_FIELD_NUMBER;
+        hash = (53 * hash) + getCores();
+      }
+      if (hasDisk()) {
+        hash = (37 * hash) + DISK_FIELD_NUMBER;
+        hash = (53 * hash) + getDisk();
       }
       if (getOptionsCount() > 0) {
         hash = (37 * hash) + OPTIONS_FIELD_NUMBER;
@@ -3958,15 +4096,21 @@ public final class WolverineProto {
         bitField0_ = (bitField0_ & ~0x00000010);
         entryPoint_ = "";
         bitField0_ = (bitField0_ & ~0x00000020);
+        mem_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000040);
+        cores_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
+        disk_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000100);
         if (optionsBuilder_ == null) {
           options_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000040);
+          bitField0_ = (bitField0_ & ~0x00000200);
         } else {
           optionsBuilder_.clear();
         }
         if (limitsBuilder_ == null) {
           limits_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000080);
+          bitField0_ = (bitField0_ & ~0x00000400);
         } else {
           limitsBuilder_.clear();
         }
@@ -4018,19 +4162,31 @@ public final class WolverineProto {
           to_bitField0_ |= 0x00000020;
         }
         result.entryPoint_ = entryPoint_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.mem_ = mem_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.cores_ = cores_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.disk_ = disk_;
         if (optionsBuilder_ == null) {
-          if (((bitField0_ & 0x00000040) == 0x00000040)) {
+          if (((bitField0_ & 0x00000200) == 0x00000200)) {
             options_ = java.util.Collections.unmodifiableList(options_);
-            bitField0_ = (bitField0_ & ~0x00000040);
+            bitField0_ = (bitField0_ & ~0x00000200);
           }
           result.options_ = options_;
         } else {
           result.options_ = optionsBuilder_.build();
         }
         if (limitsBuilder_ == null) {
-          if (((bitField0_ & 0x00000080) == 0x00000080)) {
+          if (((bitField0_ & 0x00000400) == 0x00000400)) {
             limits_ = java.util.Collections.unmodifiableList(limits_);
-            bitField0_ = (bitField0_ & ~0x00000080);
+            bitField0_ = (bitField0_ & ~0x00000400);
           }
           result.limits_ = limits_;
         } else {
@@ -4108,11 +4264,20 @@ public final class WolverineProto {
           entryPoint_ = other.entryPoint_;
           onChanged();
         }
+        if (other.hasMem()) {
+          setMem(other.getMem());
+        }
+        if (other.hasCores()) {
+          setCores(other.getCores());
+        }
+        if (other.hasDisk()) {
+          setDisk(other.getDisk());
+        }
         if (optionsBuilder_ == null) {
           if (!other.options_.isEmpty()) {
             if (options_.isEmpty()) {
               options_ = other.options_;
-              bitField0_ = (bitField0_ & ~0x00000040);
+              bitField0_ = (bitField0_ & ~0x00000200);
             } else {
               ensureOptionsIsMutable();
               options_.addAll(other.options_);
@@ -4125,7 +4290,7 @@ public final class WolverineProto {
               optionsBuilder_.dispose();
               optionsBuilder_ = null;
               options_ = other.options_;
-              bitField0_ = (bitField0_ & ~0x00000040);
+              bitField0_ = (bitField0_ & ~0x00000200);
               optionsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getOptionsFieldBuilder() : null;
@@ -4138,7 +4303,7 @@ public final class WolverineProto {
           if (!other.limits_.isEmpty()) {
             if (limits_.isEmpty()) {
               limits_ = other.limits_;
-              bitField0_ = (bitField0_ & ~0x00000080);
+              bitField0_ = (bitField0_ & ~0x00000400);
             } else {
               ensureLimitsIsMutable();
               limits_.addAll(other.limits_);
@@ -4151,7 +4316,7 @@ public final class WolverineProto {
               limitsBuilder_.dispose();
               limitsBuilder_ = null;
               limits_ = other.limits_;
-              bitField0_ = (bitField0_ & ~0x00000080);
+              bitField0_ = (bitField0_ & ~0x00000400);
               limitsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getLimitsFieldBuilder() : null;
@@ -4705,12 +4870,108 @@ public final class WolverineProto {
         return this;
       }
 
+      private int mem_ ;
+      /**
+       * <code>optional int32 mem = 7;</code>
+       */
+      public boolean hasMem() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional int32 mem = 7;</code>
+       */
+      public int getMem() {
+        return mem_;
+      }
+      /**
+       * <code>optional int32 mem = 7;</code>
+       */
+      public Builder setMem(int value) {
+        bitField0_ |= 0x00000040;
+        mem_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 mem = 7;</code>
+       */
+      public Builder clearMem() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        mem_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int cores_ ;
+      /**
+       * <code>optional int32 cores = 8;</code>
+       */
+      public boolean hasCores() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional int32 cores = 8;</code>
+       */
+      public int getCores() {
+        return cores_;
+      }
+      /**
+       * <code>optional int32 cores = 8;</code>
+       */
+      public Builder setCores(int value) {
+        bitField0_ |= 0x00000080;
+        cores_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 cores = 8;</code>
+       */
+      public Builder clearCores() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        cores_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int disk_ ;
+      /**
+       * <code>optional int32 disk = 9;</code>
+       */
+      public boolean hasDisk() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional int32 disk = 9;</code>
+       */
+      public int getDisk() {
+        return disk_;
+      }
+      /**
+       * <code>optional int32 disk = 9;</code>
+       */
+      public Builder setDisk(int value) {
+        bitField0_ |= 0x00000100;
+        disk_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 disk = 9;</code>
+       */
+      public Builder clearDisk() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        disk_ = 0;
+        onChanged();
+        return this;
+      }
+
       private java.util.List<io.wolverine.proto.WolverineProto.Option> options_ =
         java.util.Collections.emptyList();
       private void ensureOptionsIsMutable() {
-        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+        if (!((bitField0_ & 0x00000200) == 0x00000200)) {
           options_ = new java.util.ArrayList<io.wolverine.proto.WolverineProto.Option>(options_);
-          bitField0_ |= 0x00000040;
+          bitField0_ |= 0x00000200;
          }
       }
 
@@ -4718,7 +4979,7 @@ public final class WolverineProto {
           io.wolverine.proto.WolverineProto.Option, io.wolverine.proto.WolverineProto.Option.Builder, io.wolverine.proto.WolverineProto.OptionOrBuilder> optionsBuilder_;
 
       /**
-       * <code>repeated .Option options = 7;</code>
+       * <code>repeated .Option options = 10;</code>
        */
       public java.util.List<io.wolverine.proto.WolverineProto.Option> getOptionsList() {
         if (optionsBuilder_ == null) {
@@ -4728,7 +4989,7 @@ public final class WolverineProto {
         }
       }
       /**
-       * <code>repeated .Option options = 7;</code>
+       * <code>repeated .Option options = 10;</code>
        */
       public int getOptionsCount() {
         if (optionsBuilder_ == null) {
@@ -4738,7 +4999,7 @@ public final class WolverineProto {
         }
       }
       /**
-       * <code>repeated .Option options = 7;</code>
+       * <code>repeated .Option options = 10;</code>
        */
       public io.wolverine.proto.WolverineProto.Option getOptions(int index) {
         if (optionsBuilder_ == null) {
@@ -4748,7 +5009,7 @@ public final class WolverineProto {
         }
       }
       /**
-       * <code>repeated .Option options = 7;</code>
+       * <code>repeated .Option options = 10;</code>
        */
       public Builder setOptions(
           int index, io.wolverine.proto.WolverineProto.Option value) {
@@ -4765,7 +5026,7 @@ public final class WolverineProto {
         return this;
       }
       /**
-       * <code>repeated .Option options = 7;</code>
+       * <code>repeated .Option options = 10;</code>
        */
       public Builder setOptions(
           int index, io.wolverine.proto.WolverineProto.Option.Builder builderForValue) {
@@ -4779,7 +5040,7 @@ public final class WolverineProto {
         return this;
       }
       /**
-       * <code>repeated .Option options = 7;</code>
+       * <code>repeated .Option options = 10;</code>
        */
       public Builder addOptions(io.wolverine.proto.WolverineProto.Option value) {
         if (optionsBuilder_ == null) {
@@ -4795,7 +5056,7 @@ public final class WolverineProto {
         return this;
       }
       /**
-       * <code>repeated .Option options = 7;</code>
+       * <code>repeated .Option options = 10;</code>
        */
       public Builder addOptions(
           int index, io.wolverine.proto.WolverineProto.Option value) {
@@ -4812,7 +5073,7 @@ public final class WolverineProto {
         return this;
       }
       /**
-       * <code>repeated .Option options = 7;</code>
+       * <code>repeated .Option options = 10;</code>
        */
       public Builder addOptions(
           io.wolverine.proto.WolverineProto.Option.Builder builderForValue) {
@@ -4826,7 +5087,7 @@ public final class WolverineProto {
         return this;
       }
       /**
-       * <code>repeated .Option options = 7;</code>
+       * <code>repeated .Option options = 10;</code>
        */
       public Builder addOptions(
           int index, io.wolverine.proto.WolverineProto.Option.Builder builderForValue) {
@@ -4840,7 +5101,7 @@ public final class WolverineProto {
         return this;
       }
       /**
-       * <code>repeated .Option options = 7;</code>
+       * <code>repeated .Option options = 10;</code>
        */
       public Builder addAllOptions(
           java.lang.Iterable<? extends io.wolverine.proto.WolverineProto.Option> values) {
@@ -4855,12 +5116,12 @@ public final class WolverineProto {
         return this;
       }
       /**
-       * <code>repeated .Option options = 7;</code>
+       * <code>repeated .Option options = 10;</code>
        */
       public Builder clearOptions() {
         if (optionsBuilder_ == null) {
           options_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000040);
+          bitField0_ = (bitField0_ & ~0x00000200);
           onChanged();
         } else {
           optionsBuilder_.clear();
@@ -4868,7 +5129,7 @@ public final class WolverineProto {
         return this;
       }
       /**
-       * <code>repeated .Option options = 7;</code>
+       * <code>repeated .Option options = 10;</code>
        */
       public Builder removeOptions(int index) {
         if (optionsBuilder_ == null) {
@@ -4881,14 +5142,14 @@ public final class WolverineProto {
         return this;
       }
       /**
-       * <code>repeated .Option options = 7;</code>
+       * <code>repeated .Option options = 10;</code>
        */
       public io.wolverine.proto.WolverineProto.Option.Builder getOptionsBuilder(
           int index) {
         return getOptionsFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .Option options = 7;</code>
+       * <code>repeated .Option options = 10;</code>
        */
       public io.wolverine.proto.WolverineProto.OptionOrBuilder getOptionsOrBuilder(
           int index) {
@@ -4898,7 +5159,7 @@ public final class WolverineProto {
         }
       }
       /**
-       * <code>repeated .Option options = 7;</code>
+       * <code>repeated .Option options = 10;</code>
        */
       public java.util.List<? extends io.wolverine.proto.WolverineProto.OptionOrBuilder> 
            getOptionsOrBuilderList() {
@@ -4909,14 +5170,14 @@ public final class WolverineProto {
         }
       }
       /**
-       * <code>repeated .Option options = 7;</code>
+       * <code>repeated .Option options = 10;</code>
        */
       public io.wolverine.proto.WolverineProto.Option.Builder addOptionsBuilder() {
         return getOptionsFieldBuilder().addBuilder(
             io.wolverine.proto.WolverineProto.Option.getDefaultInstance());
       }
       /**
-       * <code>repeated .Option options = 7;</code>
+       * <code>repeated .Option options = 10;</code>
        */
       public io.wolverine.proto.WolverineProto.Option.Builder addOptionsBuilder(
           int index) {
@@ -4924,7 +5185,7 @@ public final class WolverineProto {
             index, io.wolverine.proto.WolverineProto.Option.getDefaultInstance());
       }
       /**
-       * <code>repeated .Option options = 7;</code>
+       * <code>repeated .Option options = 10;</code>
        */
       public java.util.List<io.wolverine.proto.WolverineProto.Option.Builder> 
            getOptionsBuilderList() {
@@ -4937,7 +5198,7 @@ public final class WolverineProto {
           optionsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               io.wolverine.proto.WolverineProto.Option, io.wolverine.proto.WolverineProto.Option.Builder, io.wolverine.proto.WolverineProto.OptionOrBuilder>(
                   options_,
-                  ((bitField0_ & 0x00000040) == 0x00000040),
+                  ((bitField0_ & 0x00000200) == 0x00000200),
                   getParentForChildren(),
                   isClean());
           options_ = null;
@@ -4948,9 +5209,9 @@ public final class WolverineProto {
       private java.util.List<io.wolverine.proto.WolverineProto.Limit> limits_ =
         java.util.Collections.emptyList();
       private void ensureLimitsIsMutable() {
-        if (!((bitField0_ & 0x00000080) == 0x00000080)) {
+        if (!((bitField0_ & 0x00000400) == 0x00000400)) {
           limits_ = new java.util.ArrayList<io.wolverine.proto.WolverineProto.Limit>(limits_);
-          bitField0_ |= 0x00000080;
+          bitField0_ |= 0x00000400;
          }
       }
 
@@ -4958,7 +5219,7 @@ public final class WolverineProto {
           io.wolverine.proto.WolverineProto.Limit, io.wolverine.proto.WolverineProto.Limit.Builder, io.wolverine.proto.WolverineProto.LimitOrBuilder> limitsBuilder_;
 
       /**
-       * <code>repeated .Limit limits = 8;</code>
+       * <code>repeated .Limit limits = 11;</code>
        */
       public java.util.List<io.wolverine.proto.WolverineProto.Limit> getLimitsList() {
         if (limitsBuilder_ == null) {
@@ -4968,7 +5229,7 @@ public final class WolverineProto {
         }
       }
       /**
-       * <code>repeated .Limit limits = 8;</code>
+       * <code>repeated .Limit limits = 11;</code>
        */
       public int getLimitsCount() {
         if (limitsBuilder_ == null) {
@@ -4978,7 +5239,7 @@ public final class WolverineProto {
         }
       }
       /**
-       * <code>repeated .Limit limits = 8;</code>
+       * <code>repeated .Limit limits = 11;</code>
        */
       public io.wolverine.proto.WolverineProto.Limit getLimits(int index) {
         if (limitsBuilder_ == null) {
@@ -4988,7 +5249,7 @@ public final class WolverineProto {
         }
       }
       /**
-       * <code>repeated .Limit limits = 8;</code>
+       * <code>repeated .Limit limits = 11;</code>
        */
       public Builder setLimits(
           int index, io.wolverine.proto.WolverineProto.Limit value) {
@@ -5005,7 +5266,7 @@ public final class WolverineProto {
         return this;
       }
       /**
-       * <code>repeated .Limit limits = 8;</code>
+       * <code>repeated .Limit limits = 11;</code>
        */
       public Builder setLimits(
           int index, io.wolverine.proto.WolverineProto.Limit.Builder builderForValue) {
@@ -5019,7 +5280,7 @@ public final class WolverineProto {
         return this;
       }
       /**
-       * <code>repeated .Limit limits = 8;</code>
+       * <code>repeated .Limit limits = 11;</code>
        */
       public Builder addLimits(io.wolverine.proto.WolverineProto.Limit value) {
         if (limitsBuilder_ == null) {
@@ -5035,7 +5296,7 @@ public final class WolverineProto {
         return this;
       }
       /**
-       * <code>repeated .Limit limits = 8;</code>
+       * <code>repeated .Limit limits = 11;</code>
        */
       public Builder addLimits(
           int index, io.wolverine.proto.WolverineProto.Limit value) {
@@ -5052,7 +5313,7 @@ public final class WolverineProto {
         return this;
       }
       /**
-       * <code>repeated .Limit limits = 8;</code>
+       * <code>repeated .Limit limits = 11;</code>
        */
       public Builder addLimits(
           io.wolverine.proto.WolverineProto.Limit.Builder builderForValue) {
@@ -5066,7 +5327,7 @@ public final class WolverineProto {
         return this;
       }
       /**
-       * <code>repeated .Limit limits = 8;</code>
+       * <code>repeated .Limit limits = 11;</code>
        */
       public Builder addLimits(
           int index, io.wolverine.proto.WolverineProto.Limit.Builder builderForValue) {
@@ -5080,7 +5341,7 @@ public final class WolverineProto {
         return this;
       }
       /**
-       * <code>repeated .Limit limits = 8;</code>
+       * <code>repeated .Limit limits = 11;</code>
        */
       public Builder addAllLimits(
           java.lang.Iterable<? extends io.wolverine.proto.WolverineProto.Limit> values) {
@@ -5095,12 +5356,12 @@ public final class WolverineProto {
         return this;
       }
       /**
-       * <code>repeated .Limit limits = 8;</code>
+       * <code>repeated .Limit limits = 11;</code>
        */
       public Builder clearLimits() {
         if (limitsBuilder_ == null) {
           limits_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000080);
+          bitField0_ = (bitField0_ & ~0x00000400);
           onChanged();
         } else {
           limitsBuilder_.clear();
@@ -5108,7 +5369,7 @@ public final class WolverineProto {
         return this;
       }
       /**
-       * <code>repeated .Limit limits = 8;</code>
+       * <code>repeated .Limit limits = 11;</code>
        */
       public Builder removeLimits(int index) {
         if (limitsBuilder_ == null) {
@@ -5121,14 +5382,14 @@ public final class WolverineProto {
         return this;
       }
       /**
-       * <code>repeated .Limit limits = 8;</code>
+       * <code>repeated .Limit limits = 11;</code>
        */
       public io.wolverine.proto.WolverineProto.Limit.Builder getLimitsBuilder(
           int index) {
         return getLimitsFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .Limit limits = 8;</code>
+       * <code>repeated .Limit limits = 11;</code>
        */
       public io.wolverine.proto.WolverineProto.LimitOrBuilder getLimitsOrBuilder(
           int index) {
@@ -5138,7 +5399,7 @@ public final class WolverineProto {
         }
       }
       /**
-       * <code>repeated .Limit limits = 8;</code>
+       * <code>repeated .Limit limits = 11;</code>
        */
       public java.util.List<? extends io.wolverine.proto.WolverineProto.LimitOrBuilder> 
            getLimitsOrBuilderList() {
@@ -5149,14 +5410,14 @@ public final class WolverineProto {
         }
       }
       /**
-       * <code>repeated .Limit limits = 8;</code>
+       * <code>repeated .Limit limits = 11;</code>
        */
       public io.wolverine.proto.WolverineProto.Limit.Builder addLimitsBuilder() {
         return getLimitsFieldBuilder().addBuilder(
             io.wolverine.proto.WolverineProto.Limit.getDefaultInstance());
       }
       /**
-       * <code>repeated .Limit limits = 8;</code>
+       * <code>repeated .Limit limits = 11;</code>
        */
       public io.wolverine.proto.WolverineProto.Limit.Builder addLimitsBuilder(
           int index) {
@@ -5164,7 +5425,7 @@ public final class WolverineProto {
             index, io.wolverine.proto.WolverineProto.Limit.getDefaultInstance());
       }
       /**
-       * <code>repeated .Limit limits = 8;</code>
+       * <code>repeated .Limit limits = 11;</code>
        */
       public java.util.List<io.wolverine.proto.WolverineProto.Limit.Builder> 
            getLimitsBuilderList() {
@@ -5177,7 +5438,7 @@ public final class WolverineProto {
           limitsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               io.wolverine.proto.WolverineProto.Limit, io.wolverine.proto.WolverineProto.Limit.Builder, io.wolverine.proto.WolverineProto.LimitOrBuilder>(
                   limits_,
-                  ((bitField0_ & 0x00000080) == 0x00000080),
+                  ((bitField0_ & 0x00000400) == 0x00000400),
                   getParentForChildren(),
                   isClean());
           limits_ = null;
@@ -5228,6 +5489,1073 @@ public final class WolverineProto {
     }
 
     public io.wolverine.proto.WolverineProto.CreateTaskMsg getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface TaskIdMsgOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:TaskIdMsg)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required string taskId = 1;</code>
+     */
+    boolean hasTaskId();
+    /**
+     * <code>required string taskId = 1;</code>
+     */
+    java.lang.String getTaskId();
+    /**
+     * <code>required string taskId = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getTaskIdBytes();
+
+    /**
+     * <code>required string jobId = 2;</code>
+     */
+    boolean hasJobId();
+    /**
+     * <code>required string jobId = 2;</code>
+     */
+    java.lang.String getJobId();
+    /**
+     * <code>required string jobId = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getJobIdBytes();
+
+    /**
+     * <code>optional string containerId = 3;</code>
+     */
+    boolean hasContainerId();
+    /**
+     * <code>optional string containerId = 3;</code>
+     */
+    java.lang.String getContainerId();
+    /**
+     * <code>optional string containerId = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getContainerIdBytes();
+
+    /**
+     * <code>optional string processId = 4;</code>
+     */
+    boolean hasProcessId();
+    /**
+     * <code>optional string processId = 4;</code>
+     */
+    java.lang.String getProcessId();
+    /**
+     * <code>optional string processId = 4;</code>
+     */
+    com.google.protobuf.ByteString
+        getProcessIdBytes();
+  }
+  /**
+   * Protobuf type {@code TaskIdMsg}
+   */
+  public  static final class TaskIdMsg extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:TaskIdMsg)
+      TaskIdMsgOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use TaskIdMsg.newBuilder() to construct.
+    private TaskIdMsg(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private TaskIdMsg() {
+      taskId_ = "";
+      jobId_ = "";
+      containerId_ = "";
+      processId_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TaskIdMsg(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000001;
+              taskId_ = bs;
+              break;
+            }
+            case 18: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000002;
+              jobId_ = bs;
+              break;
+            }
+            case 26: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000004;
+              containerId_ = bs;
+              break;
+            }
+            case 34: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000008;
+              processId_ = bs;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return io.wolverine.proto.WolverineProto.internal_static_TaskIdMsg_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return io.wolverine.proto.WolverineProto.internal_static_TaskIdMsg_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              io.wolverine.proto.WolverineProto.TaskIdMsg.class, io.wolverine.proto.WolverineProto.TaskIdMsg.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int TASKID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object taskId_;
+    /**
+     * <code>required string taskId = 1;</code>
+     */
+    public boolean hasTaskId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string taskId = 1;</code>
+     */
+    public java.lang.String getTaskId() {
+      java.lang.Object ref = taskId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          taskId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string taskId = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTaskIdBytes() {
+      java.lang.Object ref = taskId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        taskId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int JOBID_FIELD_NUMBER = 2;
+    private volatile java.lang.Object jobId_;
+    /**
+     * <code>required string jobId = 2;</code>
+     */
+    public boolean hasJobId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string jobId = 2;</code>
+     */
+    public java.lang.String getJobId() {
+      java.lang.Object ref = jobId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          jobId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string jobId = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getJobIdBytes() {
+      java.lang.Object ref = jobId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        jobId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int CONTAINERID_FIELD_NUMBER = 3;
+    private volatile java.lang.Object containerId_;
+    /**
+     * <code>optional string containerId = 3;</code>
+     */
+    public boolean hasContainerId() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional string containerId = 3;</code>
+     */
+    public java.lang.String getContainerId() {
+      java.lang.Object ref = containerId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          containerId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string containerId = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getContainerIdBytes() {
+      java.lang.Object ref = containerId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        containerId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int PROCESSID_FIELD_NUMBER = 4;
+    private volatile java.lang.Object processId_;
+    /**
+     * <code>optional string processId = 4;</code>
+     */
+    public boolean hasProcessId() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional string processId = 4;</code>
+     */
+    public java.lang.String getProcessId() {
+      java.lang.Object ref = processId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          processId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string processId = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getProcessIdBytes() {
+      java.lang.Object ref = processId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        processId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasTaskId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasJobId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, taskId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, jobId_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, containerId_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, processId_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, taskId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, jobId_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, containerId_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, processId_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof io.wolverine.proto.WolverineProto.TaskIdMsg)) {
+        return super.equals(obj);
+      }
+      io.wolverine.proto.WolverineProto.TaskIdMsg other = (io.wolverine.proto.WolverineProto.TaskIdMsg) obj;
+
+      boolean result = true;
+      result = result && (hasTaskId() == other.hasTaskId());
+      if (hasTaskId()) {
+        result = result && getTaskId()
+            .equals(other.getTaskId());
+      }
+      result = result && (hasJobId() == other.hasJobId());
+      if (hasJobId()) {
+        result = result && getJobId()
+            .equals(other.getJobId());
+      }
+      result = result && (hasContainerId() == other.hasContainerId());
+      if (hasContainerId()) {
+        result = result && getContainerId()
+            .equals(other.getContainerId());
+      }
+      result = result && (hasProcessId() == other.hasProcessId());
+      if (hasProcessId()) {
+        result = result && getProcessId()
+            .equals(other.getProcessId());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasTaskId()) {
+        hash = (37 * hash) + TASKID_FIELD_NUMBER;
+        hash = (53 * hash) + getTaskId().hashCode();
+      }
+      if (hasJobId()) {
+        hash = (37 * hash) + JOBID_FIELD_NUMBER;
+        hash = (53 * hash) + getJobId().hashCode();
+      }
+      if (hasContainerId()) {
+        hash = (37 * hash) + CONTAINERID_FIELD_NUMBER;
+        hash = (53 * hash) + getContainerId().hashCode();
+      }
+      if (hasProcessId()) {
+        hash = (37 * hash) + PROCESSID_FIELD_NUMBER;
+        hash = (53 * hash) + getProcessId().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static io.wolverine.proto.WolverineProto.TaskIdMsg parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.wolverine.proto.WolverineProto.TaskIdMsg parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.wolverine.proto.WolverineProto.TaskIdMsg parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.wolverine.proto.WolverineProto.TaskIdMsg parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.wolverine.proto.WolverineProto.TaskIdMsg parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.wolverine.proto.WolverineProto.TaskIdMsg parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.wolverine.proto.WolverineProto.TaskIdMsg parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static io.wolverine.proto.WolverineProto.TaskIdMsg parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static io.wolverine.proto.WolverineProto.TaskIdMsg parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static io.wolverine.proto.WolverineProto.TaskIdMsg parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static io.wolverine.proto.WolverineProto.TaskIdMsg parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static io.wolverine.proto.WolverineProto.TaskIdMsg parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(io.wolverine.proto.WolverineProto.TaskIdMsg prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code TaskIdMsg}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:TaskIdMsg)
+        io.wolverine.proto.WolverineProto.TaskIdMsgOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return io.wolverine.proto.WolverineProto.internal_static_TaskIdMsg_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return io.wolverine.proto.WolverineProto.internal_static_TaskIdMsg_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                io.wolverine.proto.WolverineProto.TaskIdMsg.class, io.wolverine.proto.WolverineProto.TaskIdMsg.Builder.class);
+      }
+
+      // Construct using io.wolverine.proto.WolverineProto.TaskIdMsg.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        taskId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        jobId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        containerId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        processId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return io.wolverine.proto.WolverineProto.internal_static_TaskIdMsg_descriptor;
+      }
+
+      public io.wolverine.proto.WolverineProto.TaskIdMsg getDefaultInstanceForType() {
+        return io.wolverine.proto.WolverineProto.TaskIdMsg.getDefaultInstance();
+      }
+
+      public io.wolverine.proto.WolverineProto.TaskIdMsg build() {
+        io.wolverine.proto.WolverineProto.TaskIdMsg result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public io.wolverine.proto.WolverineProto.TaskIdMsg buildPartial() {
+        io.wolverine.proto.WolverineProto.TaskIdMsg result = new io.wolverine.proto.WolverineProto.TaskIdMsg(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.taskId_ = taskId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.jobId_ = jobId_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.containerId_ = containerId_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.processId_ = processId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof io.wolverine.proto.WolverineProto.TaskIdMsg) {
+          return mergeFrom((io.wolverine.proto.WolverineProto.TaskIdMsg)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(io.wolverine.proto.WolverineProto.TaskIdMsg other) {
+        if (other == io.wolverine.proto.WolverineProto.TaskIdMsg.getDefaultInstance()) return this;
+        if (other.hasTaskId()) {
+          bitField0_ |= 0x00000001;
+          taskId_ = other.taskId_;
+          onChanged();
+        }
+        if (other.hasJobId()) {
+          bitField0_ |= 0x00000002;
+          jobId_ = other.jobId_;
+          onChanged();
+        }
+        if (other.hasContainerId()) {
+          bitField0_ |= 0x00000004;
+          containerId_ = other.containerId_;
+          onChanged();
+        }
+        if (other.hasProcessId()) {
+          bitField0_ |= 0x00000008;
+          processId_ = other.processId_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasTaskId()) {
+          return false;
+        }
+        if (!hasJobId()) {
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        io.wolverine.proto.WolverineProto.TaskIdMsg parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (io.wolverine.proto.WolverineProto.TaskIdMsg) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object taskId_ = "";
+      /**
+       * <code>required string taskId = 1;</code>
+       */
+      public boolean hasTaskId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string taskId = 1;</code>
+       */
+      public java.lang.String getTaskId() {
+        java.lang.Object ref = taskId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            taskId_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string taskId = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTaskIdBytes() {
+        java.lang.Object ref = taskId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          taskId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string taskId = 1;</code>
+       */
+      public Builder setTaskId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        taskId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string taskId = 1;</code>
+       */
+      public Builder clearTaskId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        taskId_ = getDefaultInstance().getTaskId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string taskId = 1;</code>
+       */
+      public Builder setTaskIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        taskId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object jobId_ = "";
+      /**
+       * <code>required string jobId = 2;</code>
+       */
+      public boolean hasJobId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string jobId = 2;</code>
+       */
+      public java.lang.String getJobId() {
+        java.lang.Object ref = jobId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            jobId_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string jobId = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getJobIdBytes() {
+        java.lang.Object ref = jobId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          jobId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string jobId = 2;</code>
+       */
+      public Builder setJobId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        jobId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string jobId = 2;</code>
+       */
+      public Builder clearJobId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        jobId_ = getDefaultInstance().getJobId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string jobId = 2;</code>
+       */
+      public Builder setJobIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        jobId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object containerId_ = "";
+      /**
+       * <code>optional string containerId = 3;</code>
+       */
+      public boolean hasContainerId() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional string containerId = 3;</code>
+       */
+      public java.lang.String getContainerId() {
+        java.lang.Object ref = containerId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            containerId_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string containerId = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getContainerIdBytes() {
+        java.lang.Object ref = containerId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          containerId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string containerId = 3;</code>
+       */
+      public Builder setContainerId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        containerId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string containerId = 3;</code>
+       */
+      public Builder clearContainerId() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        containerId_ = getDefaultInstance().getContainerId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string containerId = 3;</code>
+       */
+      public Builder setContainerIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        containerId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object processId_ = "";
+      /**
+       * <code>optional string processId = 4;</code>
+       */
+      public boolean hasProcessId() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional string processId = 4;</code>
+       */
+      public java.lang.String getProcessId() {
+        java.lang.Object ref = processId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            processId_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string processId = 4;</code>
+       */
+      public com.google.protobuf.ByteString
+          getProcessIdBytes() {
+        java.lang.Object ref = processId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          processId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string processId = 4;</code>
+       */
+      public Builder setProcessId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        processId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string processId = 4;</code>
+       */
+      public Builder clearProcessId() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        processId_ = getDefaultInstance().getProcessId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string processId = 4;</code>
+       */
+      public Builder setProcessIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        processId_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:TaskIdMsg)
+    }
+
+    // @@protoc_insertion_point(class_scope:TaskIdMsg)
+    private static final io.wolverine.proto.WolverineProto.TaskIdMsg DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new io.wolverine.proto.WolverineProto.TaskIdMsg();
+    }
+
+    public static io.wolverine.proto.WolverineProto.TaskIdMsg getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<TaskIdMsg>
+        PARSER = new com.google.protobuf.AbstractParser<TaskIdMsg>() {
+      public TaskIdMsg parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TaskIdMsg(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<TaskIdMsg> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TaskIdMsg> getParserForType() {
+      return PARSER;
+    }
+
+    public io.wolverine.proto.WolverineProto.TaskIdMsg getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -8669,6 +9997,11 @@ public final class WolverineProto {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_CreateTaskMsg_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_TaskIdMsg_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_TaskIdMsg_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_HeartBeatMsg_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -8703,23 +10036,27 @@ public final class WolverineProto {
       "TaskMsg\022\016\n\006taskId\030\001 \002(\t\022\r\n\005jobId\030\002 \002(\t\022\033" +
       "\n\010taskType\030\003 \002(\0162\t.TaskType\022!\n\013commandTy" +
       "pe\030\004 \002(\0162\014.CommandType\022\033\n\010dataType\030\005 \002(\016" +
-      "2\t.DataType\022\014\n\004data\030\006 \001(\014\"\254\001\n\rCreateTask" +
+      "2\t.DataType\022\014\n\004data\030\006 \001(\014\"\326\001\n\rCreateTask" +
       "Msg\022\016\n\006taskId\030\001 \002(\t\022\r\n\005jobId\030\002 \001(\t\022\023\n\013im" +
       "ageAndTag\030\003 \001(\t\022\020\n\010imageUri\030\004 \001(\t\022\017\n\007com" +
-      "mand\030\005 \001(\t\022\022\n\nentryPoint\030\006 \001(\t\022\030\n\007option" +
-      "s\030\007 \003(\0132\007.Option\022\026\n\006limits\030\010 \003(\0132\006.Limit" +
-      "\"-\n\014HeartBeatMsg\022\016\n\006taskId\030\001 \002(\t\022\r\n\005jobI" +
-      "d\030\002 \001(\t\"=\n\014PauseTaskMsg\022\016\n\006taskId\030\001 \002(\t\022" +
-      "\r\n\005jobId\030\002 \001(\t\022\016\n\006reason\030\003 \001(\t\"?\n\016Restar" +
-      "tTaskMsg\022\016\n\006taskId\030\001 \002(\t\022\r\n\005jobId\030\002 \001(\t\022" +
-      "\016\n\006reason\030\003 \001(\t\"<\n\013KillTaskMsg\022\016\n\006taskId" +
-      "\030\001 \002(\t\022\r\n\005jobId\030\002 \001(\t\022\016\n\006reason\030\003 \001(\t*\"\n" +
-      "\010DataType\022\010\n\004JSON\020\000\022\014\n\010PROTOBUF\020\001*_\n\013Com" +
-      "mandType\022\017\n\013CREATE_TASK\020\000\022\016\n\nHEART_BEAT\020" +
-      "\001\022\016\n\nPAUSE_TASK\020\002\022\020\n\014RESTART_TASK\020\003\022\r\n\tK" +
-      "ILL_TASK\020\004*C\n\010TaskType\022\017\n\013DYNAMIC_LIB\020\000\022" +
-      "\017\n\013SPRING_BOOT\020\001\022\t\n\005SHELL\020\002\022\n\n\006DOCKER\020\003B" +
-      "$\n\022io.wolverine.protoB\016WolverineProto"
+      "mand\030\005 \001(\t\022\022\n\nentryPoint\030\006 \001(\t\022\013\n\003mem\030\007 " +
+      "\001(\005\022\r\n\005cores\030\010 \001(\005\022\014\n\004disk\030\t \001(\005\022\030\n\007opti" +
+      "ons\030\n \003(\0132\007.Option\022\026\n\006limits\030\013 \003(\0132\006.Lim" +
+      "it\"R\n\tTaskIdMsg\022\016\n\006taskId\030\001 \002(\t\022\r\n\005jobId" +
+      "\030\002 \002(\t\022\023\n\013containerId\030\003 \001(\t\022\021\n\tprocessId" +
+      "\030\004 \001(\t\"-\n\014HeartBeatMsg\022\016\n\006taskId\030\001 \002(\t\022\r" +
+      "\n\005jobId\030\002 \001(\t\"=\n\014PauseTaskMsg\022\016\n\006taskId\030" +
+      "\001 \002(\t\022\r\n\005jobId\030\002 \001(\t\022\016\n\006reason\030\003 \001(\t\"?\n\016" +
+      "RestartTaskMsg\022\016\n\006taskId\030\001 \002(\t\022\r\n\005jobId\030" +
+      "\002 \001(\t\022\016\n\006reason\030\003 \001(\t\"<\n\013KillTaskMsg\022\016\n\006" +
+      "taskId\030\001 \002(\t\022\r\n\005jobId\030\002 \001(\t\022\016\n\006reason\030\003 " +
+      "\001(\t*\"\n\010DataType\022\010\n\004JSON\020\000\022\014\n\010PROTOBUF\020\001*" +
+      "_\n\013CommandType\022\017\n\013CREATE_TASK\020\000\022\016\n\nHEART" +
+      "_BEAT\020\001\022\016\n\nPAUSE_TASK\020\002\022\020\n\014RESTART_TASK\020" +
+      "\003\022\r\n\tKILL_TASK\020\004*C\n\010TaskType\022\017\n\013DYNAMIC_" +
+      "LIB\020\000\022\017\n\013SPRING_BOOT\020\001\022\t\n\005SHELL\020\002\022\n\n\006DOC" +
+      "KER\020\003B$\n\022io.wolverine.protoB\016WolverinePr" +
+      "oto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -8756,27 +10093,33 @@ public final class WolverineProto {
     internal_static_CreateTaskMsg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CreateTaskMsg_descriptor,
-        new java.lang.String[] { "TaskId", "JobId", "ImageAndTag", "ImageUri", "Command", "EntryPoint", "Options", "Limits", });
-    internal_static_HeartBeatMsg_descriptor =
+        new java.lang.String[] { "TaskId", "JobId", "ImageAndTag", "ImageUri", "Command", "EntryPoint", "Mem", "Cores", "Disk", "Options", "Limits", });
+    internal_static_TaskIdMsg_descriptor =
       getDescriptor().getMessageTypes().get(4);
+    internal_static_TaskIdMsg_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_TaskIdMsg_descriptor,
+        new java.lang.String[] { "TaskId", "JobId", "ContainerId", "ProcessId", });
+    internal_static_HeartBeatMsg_descriptor =
+      getDescriptor().getMessageTypes().get(5);
     internal_static_HeartBeatMsg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_HeartBeatMsg_descriptor,
         new java.lang.String[] { "TaskId", "JobId", });
     internal_static_PauseTaskMsg_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_PauseTaskMsg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PauseTaskMsg_descriptor,
         new java.lang.String[] { "TaskId", "JobId", "Reason", });
     internal_static_RestartTaskMsg_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_RestartTaskMsg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RestartTaskMsg_descriptor,
         new java.lang.String[] { "TaskId", "JobId", "Reason", });
     internal_static_KillTaskMsg_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_KillTaskMsg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_KillTaskMsg_descriptor,
