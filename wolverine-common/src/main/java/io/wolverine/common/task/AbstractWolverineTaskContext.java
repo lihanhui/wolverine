@@ -19,36 +19,36 @@ public abstract class AbstractWolverineTaskContext implements WolverineTaskConte
 
 	@Override
 	public void sendRunningStatus(byte[] data) {
-		TaskID taskId = task.getTaskInfo().getTaskId();
+		TaskID taskId = TaskID.newBuilder().setValue(task.getTaskId()).build();
 		taskManager.sendStatusUpdate(taskId, TaskState.TASK_RUNNING, data);
 	}
 	
 	@Override
 	public void sendStopStatus(byte[] data) {
-		TaskID taskId = task.getTaskInfo().getTaskId();
+		TaskID taskId = TaskID.newBuilder().setValue(task.getTaskId()).build();
 		taskManager.sendStatusUpdate(taskId, TaskState.TASK_KILLING, data);
 	}
 	
 	@Override
 	public void sendStartStatus(byte[] data) {
-		TaskID taskId = task.getTaskInfo().getTaskId();
+		TaskID taskId = TaskID.newBuilder().setValue(task.getTaskId()).build();
 		taskManager.sendStatusUpdate(taskId, TaskState.TASK_STARTING, data);
 	}
 	@Override
 	public void sendStartedStatus(byte[] data) {
-		TaskID taskId = task.getTaskInfo().getTaskId();
+		TaskID taskId = TaskID.newBuilder().setValue(task.getTaskId()).build();
 		taskManager.sendStatusUpdate(taskId, TaskState.TASK_RUNNING, data);
 	}
 
 	@Override
 	public void sendFinishedStatus(byte[] data) {
-		TaskID taskId = task.getTaskInfo().getTaskId();
+		TaskID taskId = TaskID.newBuilder().setValue(task.getTaskId()).build();
 		taskManager.sendStatusUpdate(taskId, TaskState.TASK_FINISHED, data);
 	}
 
 	@Override
 	public void sendStoppedStatus(byte[] data) {
-		TaskID taskId = task.getTaskInfo().getTaskId();
+		TaskID taskId = TaskID.newBuilder().setValue(task.getTaskId()).build();
 		taskManager.sendStatusUpdate(taskId, TaskState.TASK_KILLED, data);
 	}
 }

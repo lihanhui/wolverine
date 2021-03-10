@@ -41,7 +41,7 @@ public class WolverineJobService
 		job.setJobName(msg.getJobName());
 		job.setCores(msg.getCores());
 		job.setDisk(msg.getDisk());
-		job.setEntryPoint(msg.getEntryPoint());
+		//job.setEntryPoint(msg.getEntryPoint());
 		job.setImageUri(msg.getImageUri());
 		job.setMem(msg.getMem());
 		job.setMode(msg.getMode());

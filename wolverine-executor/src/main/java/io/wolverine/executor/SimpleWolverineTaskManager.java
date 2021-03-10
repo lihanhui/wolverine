@@ -1,11 +1,11 @@
 package io.wolverine.executor;
 
 import org.apache.mesos.ExecutorDriver;
-import org.apache.mesos.Protos.TaskInfo;
 
 import io.wolverine.common.task.AbstractWolverineTaskManager;
 import io.wolverine.common.task.WolverineTask;
 import io.wolverine.executor.task.TaskFactory;
+import io.wolverine.proto.WolverineProto.WolverineTaskMsg;
 
 public class SimpleWolverineTaskManager extends AbstractWolverineTaskManager {
 
@@ -14,8 +14,8 @@ public class SimpleWolverineTaskManager extends AbstractWolverineTaskManager {
 	}
 
 	@Override
-	protected WolverineTask buildTask(TaskInfo task) {
-		return TaskFactory.build(task);
+	protected WolverineTask buildTask(WolverineTaskMsg msg) {
+		return TaskFactory.build(msg);
 	}
 
 }

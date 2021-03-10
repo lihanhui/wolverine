@@ -1,12 +1,24 @@
 package io.wolverine.common.job;
 
+import java.util.Map;
+
 public class TaskSpec {
+	private String jobId;
 	private String jobName;
 	private ExecutorSpec executorSpec;
 	private ResourceSpec resourceSpec;
 	private String archiveUri;
 	private String command;
+	private Integer taskType;
+	private Map<String, String> options;
 	private int tasks;	//任务数
+	
+	public String getJobId() {
+		return jobId;
+	}
+	public void setJobId(String jobId) {
+		this.jobId = jobId;
+	}
 	public String getJobName() {
 		return jobName;
 	}
@@ -43,19 +55,32 @@ public class TaskSpec {
 	public void setTasks(int tasks) {
 		this.tasks = tasks;
 	}
-	@Override
-	public String toString() {
-		return "TaskSpec [jobName=" + jobName + ", executorSpec=" + executorSpec + ", resourceSpec=" + resourceSpec
-				+ ", archiveUri=" + archiveUri + ", command=" + command + ", tasks=" + tasks + "]";
+	public Integer getTaskType() {
+		return taskType;
 	}
-	public TaskSpec(String jobName, ExecutorSpec executorSpec, ResourceSpec resourceSpec, String archiveUri,
-			String command, int tasks) {
+	public void setTaskType(Integer taskType) {
+		this.taskType = taskType;
+	}
+	public Map<String, String> getOptions() {
+		return options;
+	}
+	public void setOptions(Map<String, String> options) {
+		this.options = options;
+	}
+	public TaskSpec(String jobId, String jobName, ExecutorSpec executorSpec, ResourceSpec resourceSpec,
+			String archiveUri, String command, Integer taskType, Map<String, String> options, int tasks) {
 		super();
+		this.jobId = jobId;
 		this.jobName = jobName;
 		this.executorSpec = executorSpec;
 		this.resourceSpec = resourceSpec;
 		this.archiveUri = archiveUri;
 		this.command = command;
+		this.taskType = taskType;
+		this.options = options;
 		this.tasks = tasks;
+	}
+	public TaskSpec() {
+		super();
 	}
 }

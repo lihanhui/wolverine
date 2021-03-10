@@ -19,7 +19,6 @@ public class Job {
 	private Integer status;
 	private Integer taskType;
 	private String imageUri; // Or image-and-tag
-	private String entryPoint; // for docker or simple command
 	private String target;
 	private Map<String, String> options;
 	private Long createDate;
@@ -89,12 +88,6 @@ public class Job {
 	}
 	public void setImageUri(String imageUri) {
 		this.imageUri = imageUri;
-	}
-	public String getEntryPoint() {
-		return entryPoint;
-	}
-	public void setEntryPoint(String entryPoint) {
-		this.entryPoint = entryPoint;
 	}
 	public String getTarget() {
 		return target;

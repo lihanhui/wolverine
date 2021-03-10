@@ -13,8 +13,8 @@ public class AbstractWolverineJobContext implements WolverineJobContext{
 	}
 
 	@Override
-	public void launchTasks(String jobId, TaskSpec taskSpec) {
-		this.jobManager.launchTasks(jobId, taskSpec);
+	public void launchTasks(TaskSpec taskSpec) {
+		this.jobManager.launchTasks(taskSpec);
 	}
 
 }

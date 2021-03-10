@@ -10,8 +10,10 @@ import org.apache.mesos.Protos.TaskState;
 import org.apache.mesos.Protos.TaskStatus;
 
 import com.google.protobuf.ByteString;
+import com.google.protobuf.InvalidProtocolBufferException;
 
 import io.wolverine.common.executor.WolverineExecutorListener;
+import io.wolverine.proto.WolverineProto.WolverineTaskMsg;
 
 public abstract class AbstractWolverineTaskManager implements WolverineTaskManager, WolverineExecutorListener{
 	private ExecutorDriver executorDriver;
@@ -22,12 +24,20 @@ public abstract class AbstractWolverineTaskManager implements WolverineTaskManag
 		this.executorDriver = executorDriver;
 	}
 	public void launchTask(TaskInfo task) {
-		WolverineTask task2 = buildTask(task);
-		WolverineTaskContext ctx = new DefaultWolverineTaskContext(this, task2);
-		task2.start(ctx);
-		this.taskMap.put(task2.getTaskInfo().getTaskId().getValue(), task2);
+		try {
+			WolverineTaskMsg msg = WolverineTaskMsg.parseFrom(task.getData());
+			WolverineTask task2 = buildTask(msg);
+			WolverineTaskContext ctx = new DefaultWolverineTaskContext(this, task2);
+			task2.create(ctx);
+			this.taskMap.put(task.getTaskId().getValue(), task2);
+		} catch (InvalidProtocolBufferException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	protected abstract WolverineTask buildTask(TaskInfo task);
+	
+	protected abstract WolverineTask buildTask(WolverineTaskMsg msg);
+	
 	public ExecutorInfo getExecutorInfo() {
 		return executorInfo;
 	}
@@ -48,8 +58,17 @@ public abstract class AbstractWolverineTaskManager implements WolverineTaskManag
 	}
 
 	public void onFrameworkMsg(byte[] data) {
-		// TODO Auto-generated method stub
-		//executorDriver
+		try {
+			WolverineTaskMsg msg = WolverineTaskMsg.parseFrom(data);
+			WolverineTask task = this.taskMap.get(msg.getTaskId());
+			if(task == null) {
+				task = this.buildTask(msg);
+			}
+			task.onMessage(new DefaultWolverineTaskContext(this, task), msg);
+		} catch (InvalidProtocolBufferException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void sendFrameworkMsg(byte[] data) {

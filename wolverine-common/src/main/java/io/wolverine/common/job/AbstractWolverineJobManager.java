@@ -3,6 +3,7 @@ package io.wolverine.common.job;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.mesos.Protos;
@@ -18,7 +19,14 @@ import org.apache.mesos.Protos.TaskStatus;
 import org.apache.mesos.Protos.Value;
 import org.apache.mesos.SchedulerDriver;
 
+import com.google.protobuf.ByteString;
+
 import io.wolverine.common.scheduler.WolverineSchedulerListener;
+import io.wolverine.proto.WolverineProto.CommandType;
+import io.wolverine.proto.WolverineProto.CreateTaskMsg;
+import io.wolverine.proto.WolverineProto.DataType;
+import io.wolverine.proto.WolverineProto.TaskType;
+import io.wolverine.proto.WolverineProto.WolverineTaskMsg;
 
 public abstract class AbstractWolverineJobManager implements WolverineJobManager, WolverineSchedulerListener{
 	private SchedulerDriver schedulerDriver;
@@ -91,10 +99,30 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 		b4.setScalar(b42);
 		b.addResources(b4);
 	}
+	private CreateTaskMsg composeCreateTaskMsg(String taskId, TaskSpec taskSpec) {
+		WolverineTaskMsg.Builder b = WolverineTaskMsg.newBuilder();
+		b.setCommandType(CommandType.CREATE_TASK);
+		b.setDataType(DataType.PROTOBUF);
+		b.setJobId(taskSpec.getJobId());
+		b.setTaskId(taskId);
+		b.setTaskType(TaskType.forNumber(taskSpec.getTaskType()));
+		return null;
+	}
+	private WolverineTaskMsg composeWolverineTaskMsg(String taskId, TaskSpec taskSpec) {
+		WolverineTaskMsg.Builder b = WolverineTaskMsg.newBuilder();
+		b.setCommandType(CommandType.CREATE_TASK);
+		b.setDataType(DataType.PROTOBUF);
+		b.setJobId(taskSpec.getJobId());
+		b.setTaskId(taskId);
+		b.setTaskType(TaskType.forNumber(taskSpec.getTaskType()));
+		b.setData(composeCreateTaskMsg(taskId, taskSpec).toByteString());
+		return b.build();
+	}
 	private TaskInfo composeTaskInfo(Offer o, TaskSpec taskSpec) {
+		String taskId = "taskId-" + String.valueOf(UUID.randomUUID());
 		TaskInfo.Builder b = TaskInfo.newBuilder();
 		TaskID.Builder b1 = TaskID.newBuilder();
-		b1.setValue("taskId-" + String.valueOf(System.currentTimeMillis()));
+		b1.setValue(taskId);
 		b.setTaskId(b1);
 		
 		b.setName(taskSpec.getJobName());
@@ -118,10 +146,12 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 		b.setExecutor(b2);  // executorInfo
 		
 		composeResources(b, taskSpec);
+		WolverineTaskMsg msg = this.composeWolverineTaskMsg(taskId, taskSpec);
+		b.setData(ByteString.copyFrom(msg.toByteArray()));
 		return b.build();
 	}
 	@Override
-	public void launchTasks(String jobId, TaskSpec taskSpec) {
+	public void launchTasks(TaskSpec taskSpec) {
 		List<Offer> offers = queryOffers(taskSpec);
 		for(Offer o: offers) {
 			this.launchTask(o.getId(), composeTaskInfo(o, taskSpec));

@@ -1,7 +1,8 @@
 package io.wolverine.common.task;
 
 import org.apache.mesos.ExecutorDriver;
-import org.apache.mesos.Protos.TaskInfo;
+
+import io.wolverine.proto.WolverineProto.WolverineTaskMsg;
 
 public class DefaultWolverineTaskManager extends AbstractWolverineTaskManager {
 
@@ -10,9 +11,11 @@ public class DefaultWolverineTaskManager extends AbstractWolverineTaskManager {
 	}
 
 	@Override
-	protected WolverineTask buildTask(TaskInfo task) {
+	protected WolverineTask buildTask(WolverineTaskMsg msg) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }

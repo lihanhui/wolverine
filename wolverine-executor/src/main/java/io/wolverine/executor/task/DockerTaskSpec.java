@@ -1,15 +1,10 @@
 package io.wolverine.executor.task;
 
-import org.apache.mesos.Protos.TaskInfo;
-
-import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 
-import io.doraemon.json.JsonUtil;
 import io.wolverine.container.docker.DockerContainer;
 import io.wolverine.container.docker.HostConfig;
 import io.wolverine.container.docker.SimpleDockerContainer;
-import io.wolverine.proto.WolverineProto;
 import io.wolverine.proto.WolverineProto.CommandType;
 import io.wolverine.proto.WolverineProto.CreateTaskMsg;
 import io.wolverine.proto.WolverineProto.TaskIdMsg;
@@ -19,7 +14,7 @@ public class DockerTaskSpec {
 	private static SimpleDockerContainer container = new SimpleDockerContainer();
 	private String containerId;
 	private HostConfig hostConfig;
-	private TaskInfo taskInfo;
+	private String taskId;
 	private String imageAndTag;
 	
 	public String getContainerId() {
@@ -35,22 +30,23 @@ public class DockerTaskSpec {
 	public String getImageAndTag() {
 		return imageAndTag;
 	}
-	public TaskInfo getTaskInfo() {
-		return taskInfo;
+	public String getTaskId() {
+		return taskId;
 	}
 	public static Builder builder() {
 		return new Builder();
 	}
 	public static class Builder{
 		private DockerTaskSpec taskSpec;
-		private TaskInfo taskInfo;
+		private WolverineTaskMsg taskMsg;
 		
 		private Builder(){}
 		private void build(CreateTaskMsg msg) {
 			HostConfig.Builder b = HostConfig.builder();
-			if(msg.hasCommand()) b.withCmd(msg.getCommand());
-			if(msg.hasCores()) b.withCpuCount(Long.valueOf(msg.getCores()));
-			if(msg.hasMem()) b.withMemory(Long.valueOf(msg.getMem()));
+			b.withCmd(msg.getCommand())
+			.withCpuCount(Long.valueOf(msg.getCores()))
+			.withMemory(Long.valueOf(msg.getMem()))
+			.withDiskQuota(Long.valueOf(msg.getDisk()));
 			// TODO: entry point ...
 			this.taskSpec.hostConfig = b.build();
 			this.taskSpec.imageAndTag = msg.getImageAndTag();
@@ -58,21 +54,15 @@ public class DockerTaskSpec {
 		private void build(TaskIdMsg msg) {
 			taskSpec.containerId = msg.getContainerId();
 		}
-		private void build(TaskInfo taskInfo) {
-			ByteString byteStr = taskInfo.getData();
+		private void build(WolverineTaskMsg taskMsg) {
 			try {
-				WolverineTaskMsg taskMsg = WolverineTaskMsg.parseFrom(taskInfo.getData());
-				
-				byteStr = taskMsg.getData();
-				byte[] data = byteStr.asReadOnlyByteBuffer().array();
-				String dataStr = data.toString();
 				CommandType cmdType = taskMsg.getCommandType();
 				switch(cmdType.getNumber()) {
 					case CommandType.CREATE_TASK_VALUE:
-						build(JsonUtil.fromJson(dataStr, CreateTaskMsg.class)); 
+						build(CreateTaskMsg.parseFrom(taskMsg.getData())); 
 						break;
 					default:
-						build(JsonUtil.fromJson(dataStr, TaskIdMsg.class));
+						build(TaskIdMsg.parseFrom(taskMsg.getData()));
 						break;
 				}
 			} catch (InvalidProtocolBufferException e) {
@@ -81,14 +71,13 @@ public class DockerTaskSpec {
 			}
 			
 		}
-		public Builder withTaskInfo(TaskInfo taskInfo) {
-			this.taskInfo = taskInfo;
+		public Builder withWolverineTaskMsg(WolverineTaskMsg taskMsg) {
+			this.taskMsg = taskMsg;
 			return this;
 		}
 		
 		public DockerTaskSpec build() {
-			this.taskSpec.taskInfo = taskInfo;
-			this.build(taskInfo);
+			this.build(taskMsg);
 			return taskSpec;
 		}
 	}

@@ -38,27 +38,39 @@ public class HostConfig {
         	return HostConfig.this;
         }
     	public Builder withCmd(String cmd) {
-    		HostConfig.this.cmd = cmd;
+    		if(cmd != null) {
+    			HostConfig.this.cmd = cmd;
+    		}
     		return this;
     	}
     	public Builder withHostName(String hostName) {
-    		HostConfig.this.hostName = hostName; 
+    		if(hostName != null) {
+    			HostConfig.this.hostName = hostName; 
+    		}
     		return this;
     	}
     	public Builder withCpuCount(Long cpuCount) {
-    		HostConfig.this.hostConfig.withCpuCount(cpuCount);
+    		if(cpuCount != null) {
+    			HostConfig.this.hostConfig.withCpuCount(cpuCount);
+    		}
     		return this;
     	}
     	public Builder withDiskQuota(Long diskQuota) {
-    		HostConfig.this.hostConfig.withDiskQuota(diskQuota);
+    		if(diskQuota != null) {
+    			HostConfig.this.hostConfig.withDiskQuota(diskQuota);
+    		}
     		return this;
     	}
     	public Builder withMemory(Long memory){
-    		HostConfig.this.hostConfig.withMemory(memory);
+    		if(memory != null) {
+    			HostConfig.this.hostConfig.withMemory(memory);
+    		}
     		return this;
     	}
     	public Builder withMemorySwap(Long memorySwap) {
-    		HostConfig.this.hostConfig.withMemorySwap(memorySwap);
+    		if(memorySwap != null) {
+    			HostConfig.this.hostConfig.withMemorySwap(memorySwap);
+    		}
     		return this;
     	}
     	public Builder withDns(String... dnses) {

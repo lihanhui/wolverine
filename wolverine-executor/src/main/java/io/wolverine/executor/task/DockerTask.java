@@ -1,7 +1,5 @@
 package io.wolverine.executor.task;
 
-import org.apache.mesos.Protos.TaskInfo;
-
 import io.wolverine.common.task.WolverineTask;
 import io.wolverine.common.task.WolverineTaskContext;
 import io.wolverine.proto.WolverineProto.WolverineTaskMsg;
@@ -18,12 +16,20 @@ public class DockerTask implements WolverineTask{
 	}
 	@Override
 	public void start(WolverineTaskContext ctx) {
-		containerId = taskSpec.getContainer().create(taskSpec.getImageAndTag(), taskSpec.getHostConfig());
+		if(containerId != null ){		
+			taskSpec.getContainer().start(containerId);
+		}else {
+			taskSpec.getContainer().start(this.taskSpec.getContainerId());
+		}
 	}
 
 	@Override
 	public void stop(WolverineTaskContext ctx) {
-		taskSpec.getContainer().start(containerId);
+		if(containerId != null ){		
+			taskSpec.getContainer().stop(containerId);
+		}else {
+			taskSpec.getContainer().stop(this.taskSpec.getContainerId());
+		}
 	}
 
 	@Override
@@ -33,8 +39,12 @@ public class DockerTask implements WolverineTask{
 	}
 
 	@Override
-	public TaskInfo getTaskInfo() {
-		return this.taskSpec.getTaskInfo();
+	public String getTaskId() {
+		return taskSpec.getTaskId();
+	}
+	@Override
+	public void create(WolverineTaskContext ctx) {
+		containerId = taskSpec.getContainer().create(taskSpec.getImageAndTag(), taskSpec.getHostConfig());
 	}
 
 }
