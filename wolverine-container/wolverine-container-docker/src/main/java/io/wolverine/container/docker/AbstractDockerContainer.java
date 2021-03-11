@@ -39,6 +39,7 @@ public abstract class AbstractDockerContainer implements DockerContainer {
 		if(hostConfig.getCmd() != null) { cmd.withCmd(hostConfig.getCmd() );}
 		if(hostConfig.getHostName() != null) { cmd.withHostName(hostConfig.getHostName() );}
 		if(hostConfig.getEnvs() != null) { cmd.withEnv(hostConfig.getEnvs() );}
+		cmd.withTty(true);
 		CreateContainerResponse response = cmd.exec();
 		return response.getId();
 	}

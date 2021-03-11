@@ -29,6 +29,7 @@ public abstract class AbstractWolverineTaskManager implements WolverineTaskManag
 			WolverineTask task2 = buildTask(msg);
 			WolverineTaskContext ctx = new DefaultWolverineTaskContext(this, task2);
 			task2.create(ctx);
+			task2.start(ctx);
 			this.taskMap.put(task.getTaskId().getValue(), task2);
 		} catch (InvalidProtocolBufferException e) {
 			// TODO Auto-generated catch block
