@@ -111,6 +111,7 @@ public class HostConfig {
         	HostConfig.this.hostConfig.withNetworkMode("host");
         	return this;
         }
+        //public Builder withNetworkMode(withPortBindings(PortBinding.parse("9999:27017"))
     }
     
     

@@ -45,7 +45,9 @@ public class DockerTaskSpec {
 		}
 		private void build(CreateTaskMsg msg) {
 			HostConfig.Builder b = HostConfig.builder();
-			b.withCmd(msg.getCommand())
+			b.withCmd("--bind_ip_all")
+			.withHostName(msg.getIp())
+			.withEnv("application.port="+msg.getPort())
 			.withCpuCount(Long.valueOf(msg.getCores()))
 			.withMemory(Long.valueOf(msg.getMem()))
 			.withDiskQuota(Long.valueOf(msg.getDisk()));
