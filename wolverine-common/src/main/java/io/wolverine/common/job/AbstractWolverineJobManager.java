@@ -3,6 +3,7 @@ package io.wolverine.common.job;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -17,10 +18,13 @@ import org.apache.mesos.Protos.TaskID;
 import org.apache.mesos.Protos.TaskInfo;
 import org.apache.mesos.Protos.TaskStatus;
 import org.apache.mesos.Protos.Value;
+import org.apache.mesos.Protos.Value.Range;
+import org.apache.mesos.Protos.Value.Ranges;
 import org.apache.mesos.SchedulerDriver;
 
 import com.google.protobuf.ByteString;
 
+import io.doraemon.random.RandomUtil;
 import io.wolverine.common.scheduler.WolverineSchedulerListener;
 import io.wolverine.proto.WolverineProto.CommandType;
 import io.wolverine.proto.WolverineProto.CreateTaskMsg;
@@ -99,7 +103,20 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 		b4.setScalar(b42);
 		b.addResources(b4);
 	}
-	private CreateTaskMsg composeCreateTaskMsg(String taskId, TaskSpec taskSpec) {
+	private Integer applicationPort(List<Resource> resources) {
+		for(Resource r: resources){
+			if(!"ports".equals(r.getName())){
+				continue;
+			}
+			Ranges s = r.getRanges();
+			int count = s.getRangeCount();
+			if(count == 0) continue;
+			Range range = s.getRange(0);
+			return RandomUtil.randomInt((int)range.getBegin(), (int)range.getEnd());
+		}
+		return 0;
+	}
+	private CreateTaskMsg composeCreateTaskMsg(Offer o, String taskId, TaskSpec taskSpec) {
 		CreateTaskMsg.Builder b = CreateTaskMsg.newBuilder();
 		b.setJobId(taskSpec.getJobId());
 		b.setCores(taskSpec.getResourceSpec().getCores());
@@ -107,18 +124,19 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 		b.setMem(taskSpec.getResourceSpec().getMemory());
 		b.setImageAndTag(taskSpec.getArchiveUri());
 		b.setImageUri(taskSpec.getArchiveUri());
-		
+		b.setIp(o.getHostname());
+		b.setPort(applicationPort(o.getResourcesList()));
 		b.setTaskId(taskId);
 		return b.build();
 	}
-	private WolverineTaskMsg composeWolverineTaskMsg(String taskId, TaskSpec taskSpec) {
+	private WolverineTaskMsg composeWolverineTaskMsg(Offer o, String taskId, TaskSpec taskSpec) {
 		WolverineTaskMsg.Builder b = WolverineTaskMsg.newBuilder();
 		b.setCommandType(CommandType.CREATE_TASK);
 		b.setDataType(DataType.PROTOBUF);
 		b.setJobId(taskSpec.getJobId());
 		b.setTaskId(taskId);
 		b.setTaskType(TaskType.forNumber(taskSpec.getTaskType()));
-		b.setData(composeCreateTaskMsg(taskId, taskSpec).toByteString());
+		b.setData(composeCreateTaskMsg(o, taskId, taskSpec).toByteString());
 		return b.build();
 	}
 	private TaskInfo composeTaskInfo(Offer o, TaskSpec taskSpec) {
@@ -149,7 +167,7 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 		b.setExecutor(b2);  // executorInfo
 		
 		composeResources(b, taskSpec);
-		WolverineTaskMsg msg = this.composeWolverineTaskMsg(taskId, taskSpec);
+		WolverineTaskMsg msg = this.composeWolverineTaskMsg(o, taskId, taskSpec);
 		b.setData(ByteString.copyFrom(msg.toByteArray()));
 		return b.build();
 	}
