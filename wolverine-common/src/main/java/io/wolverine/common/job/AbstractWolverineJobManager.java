@@ -23,6 +23,7 @@ import org.apache.mesos.Protos.Value.Ranges;
 import org.apache.mesos.SchedulerDriver;
 
 import com.google.protobuf.ByteString;
+import com.google.protobuf.InvalidProtocolBufferException;
 
 import io.doraemon.random.RandomUtil;
 import io.wolverine.common.scheduler.WolverineSchedulerListener;
@@ -61,7 +62,13 @@ public abstract class AbstractWolverineJobManager implements WolverineJobManager
 	@Override
 	public void frameworkMessage(byte[] data) {
 		// TODO Auto-generated method stub
-		
+		try {
+			WolverineTaskMsg msg = WolverineTaskMsg.parseFrom(data);
+			System.out.println("framework msg received: " + msg);
+		} catch (InvalidProtocolBufferException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

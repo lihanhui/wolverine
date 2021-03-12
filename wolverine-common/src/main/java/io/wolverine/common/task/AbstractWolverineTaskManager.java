@@ -13,6 +13,10 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import io.wolverine.common.executor.WolverineExecutorListener;
+import io.wolverine.proto.WolverineProto.CommandType;
+import io.wolverine.proto.WolverineProto.DataType;
+import io.wolverine.proto.WolverineProto.HeartBeatMsg;
+import io.wolverine.proto.WolverineProto.TaskType;
 import io.wolverine.proto.WolverineProto.WolverineTaskMsg;
 
 public abstract class AbstractWolverineTaskManager implements WolverineTaskManager, WolverineExecutorListener{
@@ -30,6 +34,19 @@ public abstract class AbstractWolverineTaskManager implements WolverineTaskManag
 			WolverineTaskContext ctx = new DefaultWolverineTaskContext(this, task2);
 			task2.create(ctx);
 			task2.start(ctx);
+			WolverineTaskMsg.Builder b = WolverineTaskMsg.newBuilder();
+			b.setJobId(msg.getJobId());
+			b.setTaskId(msg.getTaskId());
+			b.setCommandType(CommandType.HEART_BEAT);
+			b.setTaskType(msg.getTaskType());
+			b.setDataType(DataType.PROTOBUF);
+			b.setData(
+					HeartBeatMsg.newBuilder()
+					.setJobId(msg.getJobId())
+					.setTaskId(msg.getTaskId())
+					.build()
+					.toByteString());
+			this.executorDriver.sendFrameworkMessage(b.build().toByteArray());
 			this.taskMap.put(task.getTaskId().getValue(), task2);
 		} catch (InvalidProtocolBufferException e) {
 			// TODO Auto-generated catch block
