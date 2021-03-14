@@ -1,5 +1,7 @@
 import record
 from threading import Thread
+import kazoo.recipe.watchers
+import time
 
 class Cache( Thread ):
     def __init__(self):
@@ -15,4 +17,4 @@ class Cache( Thread ):
 
     def run(self):
         while(True):
-            Thread.sleep(10)
+            time.sleep(10)

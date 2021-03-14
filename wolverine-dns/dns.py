@@ -1,17 +1,20 @@
 import socket
 import udp
+import sys
+import configure
+import manager
 
-localIP     = "0.0.0.0"
-localPort   = 53
-bufferSize  = 1024
-
-msgFromServer       = "Hello UDP Client"
-bytesToSend         = str.encode(msgFromServer)
-
-def main():
-    udpServer = udp.UdpServer(None);
+def main(conf):
+    json = configure.Config(conf)
+    udpServer = udp.UdpServer(manager.Manager());
     udpServer.start()
     udpServer.join();
  	
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) == 2:
+        config = sys.argv[1]
+        try:
+            main(config)
+        except KeyboardInterrupt:
+            # quit
+            sys.exit()

@@ -3,9 +3,10 @@ import record
 
 class Manager():
     def __init__(self):
-       self.cache = Cache()
-
+       self.cache = cache.Cache()
+       self.cache.start()
     def getRecord(self, hostname):
-        return None 
+        return self.cache.getRecord(hostname)
+ 
     def getRecords(self, service):
-        return None
+        return self.cache.getRecords(servicename)
