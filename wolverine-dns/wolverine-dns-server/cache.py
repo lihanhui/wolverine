@@ -12,14 +12,14 @@ class Cache( Thread ):
         self.hostmap = {}
         self.servicemap = {}
         self.masterUri = None
-        zk = KazooClient(hosts=configure.Config.getConfig().getVal("zks"))
-        zk.start()
+        #zk = KazooClient(hosts=configure.Config.getConfig().getVal("zks"))
+        #zk.start()
         
         ########################################
-        @zk.ChildrenWatch("/wolverine/scheduler")
-        def watch_children(children):
-            print("who is calling")
-            print(self)
+        #@zk.ChildrenWatch("/wolverine/scheduler")
+        #def watch_children(children):
+        #    print("who is calling")
+        #    print(self)
         print "xxxxxxxxxxxxx" 
 
     def getRecrod(self, hostname):

@@ -11,6 +11,6 @@
   <version>1.0</version>
   <packaging>pom</packaging>
   <modules>
-    <!--module>wolverine-dns-client</module-->
+    <module>wolverine-dns-client</module>
   </modules>
 </project>
