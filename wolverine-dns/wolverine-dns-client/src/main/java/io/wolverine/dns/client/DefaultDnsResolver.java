@@ -8,6 +8,8 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
+import io.doraemon.json.JsonUtil;
+
 public class DefaultDnsResolver extends AbstractDnsResolver{
 
 	private String get(String json) {
@@ -40,8 +42,7 @@ public class DefaultDnsResolver extends AbstractDnsResolver{
 	protected String getHostFromRemote(String json) {
 		String result = this.get(json);
 		if(result == null) return null;
-		Gson gson = new Gson();
-		HostToIp hostToIp = gson.fromJson(result, HostToIp.class);
+		HostToIp hostToIp = JsonUtil.fromJson(result, HostToIp.class);
 		if(hostToIp == null) {
 			return null;
 		}
@@ -58,8 +59,7 @@ public class DefaultDnsResolver extends AbstractDnsResolver{
 	protected List<String> getHostListFromRemote(String json) {
 		String result = this.get(json);
 		if(result == null) return null;
-		Gson gson = new Gson();
-		HostToIpList hostToIpList = gson.fromJson(result, HostToIpList.class);
+		HostToIpList hostToIpList = JsonUtil.fromJson(result, HostToIpList.class);
 		if(hostToIpList == null ) {
 			return null;
 		}
