@@ -42,6 +42,10 @@ public abstract class AbstractDnsResolver implements DnsResolver{
 		    "\"hostname\": \"%s\"}";
 		return String.format(json, hostname);
 	}
+	protected abstract String getHostFromRemote(String json) ;
+	protected abstract String getHostFromLocal(String hostname) ;
+	protected abstract List<String> getHostListFromRemote(String json) ;
+	protected abstract List<String> getHostListFromLocal(String servicename) ;
 	@Override
 	public String getIp(String hostname) {
 		String json = this.composeHostnameReq(hostname);
@@ -88,6 +92,8 @@ public abstract class AbstractDnsResolver implements DnsResolver{
 				         .port(1053)
 				         .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000)
 				         .wiretap(true)
+				         //.doOnChannelInit((observer, channel, remoteAddress) ->
+				         //	channel.pipeline().addFirst(new LoggingHandler("reactor.netty.examples"))) 
 				         .handle( new BiFunction<UdpInbound, UdpOutbound, Publisher<Void>>(){
 							@Override
 							public Publisher<Void> apply(UdpInbound in, UdpOutbound out) {
@@ -95,7 +101,8 @@ public abstract class AbstractDnsResolver implements DnsResolver{
 								//out.sendString(Mono.just(json)).then().;
 								in.receive().subscribe(subscriber);
 								NettyOutbound outbound = out.sendString(Mono.just(json));
-								return outbound.then();
+								outbound.then().subscribe();
+								return outbound;
 							}
 				         });
                 
