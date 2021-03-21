@@ -21,7 +21,7 @@ import reactor.netty.udp.UdpInbound;
 import reactor.netty.udp.UdpOutbound;
 
 public abstract class AbstractDnsResolver implements DnsResolver{
-	private List<String> nameservers;
+	private List<DnsServer> nameservers;
 	private NettyOutbound createUdpOutbound(String ip) {
 		Connection connection =
 				UdpClient.create()
@@ -34,13 +34,29 @@ public abstract class AbstractDnsResolver implements DnsResolver{
 	public AbstractDnsResolver() {
 		nameservers = new ArrayList<>();
 		DnsConfig.init();
-		nameservers.addAll(DnsConfig.getDnsConfig().getNameservers());
+		for(String ip: DnsConfig.getDnsConfig().getNameservers()) {
+			nameservers.add(new DnsServer(ip));
+		}
 	}
-	private String composeHostnameReq(String hostname) {
+	protected String getDnsServerIp() {
+		for(DnsServer dns: this.nameservers) {
+			if(dns.active()) {
+				return dns.getIp();
+			}
+		}
+		return null;
+	}
+	private String composeHostReq(String hostname) {
 		final String json = "{" +  
 		    "\"method\":\"translate-domain-name\"," + 
 		    "\"hostname\": \"%s\"}";
 		return String.format(json, hostname);
+	}
+	private String composeHostListReq(String servicename) {
+		final String json = "{" +  
+		    "\"method\":\"translate-domain-name\"," + 
+		    "\"servicename\": \"%s\"}";
+		return String.format(json, servicename);
 	}
 	protected abstract String getHostFromRemote(String json) ;
 	protected abstract String getHostFromLocal(String hostname) ;
@@ -48,9 +64,10 @@ public abstract class AbstractDnsResolver implements DnsResolver{
 	protected abstract List<String> getHostListFromLocal(String servicename) ;
 	@Override
 	public String getIp(String hostname) {
-		String json = this.composeHostnameReq(hostname);
-		String dnsIp = nameservers.get(0);
-		Consumer<String> consumer = new Consumer<String>() {
+		String ip = getHostFromLocal(hostname);
+		if(ip != null) { return ip;}
+		return this.getHostFromRemote(this.composeHostReq(hostname));
+		/*Consumer<String> consumer = new Consumer<String>() {
 
 			@Override
 			public void accept(String t) {
@@ -106,34 +123,43 @@ public abstract class AbstractDnsResolver implements DnsResolver{
 							}
 				         });
                 
-		// * */
 		Connection conn = udpClient.connectNow();
 		conn.onDispose().block();
-		//udpClient.
-		while(true) {
-			try {
-				
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				break;
-			}
-		}
-		//Mono mono = connection.inbound().receive().then();
-		//System.out.println(flux.asString().blockLast());
-		//System.out.println(result);
-		//connection.inbound().receive().;
 		
-		return null;
+		return null;//*/
 	}
 	@Override
 	public List<String> getIps(String servicename) {
-		// TODO Auto-generated method stub
-		return null;
+		List<String> ips = getHostListFromLocal(servicename);
+		if(ips != null && ips.size() > 0) { return ips;}
+		return this.getHostListFromRemote(this.composeHostListReq(servicename));
 	}
 	public static void main(String[] args) {
-		AbstractDnsResolver resolver = new AbstractDnsResolver() {};
+		AbstractDnsResolver resolver = new AbstractDnsResolver() {
+
+			@Override
+			protected String getHostFromRemote(String json) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected String getHostFromLocal(String hostname) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected List<String> getHostListFromRemote(String json) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected List<String> getHostListFromLocal(String servicename) {
+				// TODO Auto-generated method stub
+				return null;
+			}};
 		resolver.getIp("www.sina.com.cn");
 		
 	}
