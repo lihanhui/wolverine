@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface DnsClient {
 	String getIp(String hostname);
-	List<String> getIps(String servicename);
+	List<String> getIps(String servicename); 
 }

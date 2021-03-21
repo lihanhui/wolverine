@@ -35,6 +35,11 @@
         <groupId>io.doraemon</groupId>
         <artifactId>doraemon-all</artifactId>
         <version>1.2</version>
-    </dependency>    
+    </dependency> 
+    <dependency>
+        <groupId>io.nezha</groupId>
+        <artifactId>nezha-all</artifactId>
+        <version>1.1</version>  
+    </dependency> 
   </dependencies>
 </project>
