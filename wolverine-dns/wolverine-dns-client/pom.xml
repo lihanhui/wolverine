@@ -25,6 +25,11 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+	  <groupId>dnsjava</groupId>
+	  <artifactId>dnsjava</artifactId>
+	  <version>3.3.0</version>
+	</dependency>
     <!-- https://mvnrepository.com/artifact/io.projectreactor.netty/reactor-netty -->
 	<dependency>
 	    <groupId>io.projectreactor.netty</groupId>
