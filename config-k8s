@@ -79,4 +79,5 @@ kubeadm join 172.26.150.204:6443 --token sqyh66.3ifzbho1jgkytlmc \
     --discovery-token-ca-cert-hash sha256:defe7ecf644bcbb337902cd6713bd2f2b8c4b583961ee764026adab237d5932b
     
     
-    
+#IMPORTANT: create user to login dashboard    
+https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
