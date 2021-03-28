@@ -1,5 +1,6 @@
 
-Install step：https://www.kubernetes.org.cn/7189.html
+Install steps explianed: https://github.com/opsnull/follow-me-install-kubernetes-cluster
+Install steps：https://www.kubernetes.org.cn/7189.html
 
 #kubeadm init --kubernetes-version=1.20.0  --apiserver-advertise-address=172.26.150.204   --image-repository registry.aliyuncs.com/google_containers  --service-cidr=10.10.0.0/16 --pod-network-cidr=10.122.0.0/16
 [init] Using Kubernetes version: v1.20.0
