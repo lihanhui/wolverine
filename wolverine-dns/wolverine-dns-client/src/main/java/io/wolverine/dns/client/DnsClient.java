@@ -1,8 +1,8 @@
 package io.wolverine.dns.client;
 
-import java.util.List;
+import io.nezha.event.AsyncResult;
 
 public interface DnsClient {
-	String getIp(String hostname);
-	List<String> getIps(String servicename); 
+	void getServiceHost(String hostname, AsyncResult asyncResult);
+	void getMultiServiceHosts(String servicename, AsyncResult asyncResult); 
 }

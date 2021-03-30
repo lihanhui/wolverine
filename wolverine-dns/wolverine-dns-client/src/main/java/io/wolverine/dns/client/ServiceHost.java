@@ -1,6 +1,6 @@
 package io.wolverine.dns.client;
 
-public class HostToIp {
+public class ServiceHost {
 	private String hostname;
 	private String record;
 	
@@ -20,7 +20,7 @@ public class HostToIp {
 	public String toString() {
 		return "HostToIp [hostname=" + hostname + ", record=" + record + "]";
 	}
-	public HostToIp() {
+	public ServiceHost() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

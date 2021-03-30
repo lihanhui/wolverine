@@ -4,15 +4,16 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
-import java.util.function.Consumer;
 
 import org.reactivestreams.Publisher;
-import org.reactivestreams.Subscription;
 
-import io.netty.buffer.ByteBuf;
+import io.doraemon.restful.ResultMsg;
 import io.netty.channel.ChannelOption;
+import io.nezha.event.AsyncResult;
+import io.nezha.event.Result;
 import io.wolverine.dns.client.config.DnsConfig;
-import reactor.core.CoreSubscriber;
+import io.wolverine.dns.client.subscriber.DnsRecordSubscriber;
+import io.wolverine.dns.client.subscriber.MultiDnsRecordsSubscriber;
 import reactor.core.publisher.Mono;
 import reactor.netty.Connection;
 import reactor.netty.NettyOutbound;
@@ -58,109 +59,85 @@ public abstract class AbstractDnsResolver implements DnsResolver{
 		    "\"servicename\": \"%s\"}";
 		return String.format(json, servicename);
 	}
-	protected abstract String getHostFromRemote(String json) ;
-	protected abstract String getHostFromLocal(String hostname) ;
-	protected abstract List<String> getHostListFromRemote(String json) ;
-	protected abstract List<String> getHostListFromLocal(String servicename) ;
-	@Override
-	public String getIp(String hostname) {
-		String ip = getHostFromLocal(hostname);
-		if(ip != null) { return ip;}
-		return this.getHostFromRemote(this.composeHostReq(hostname));
-		/*Consumer<String> consumer = new Consumer<String>() {
-
-			@Override
-			public void accept(String t) {
-				System.out.println("xxxx" + t);
-			}
-			
-		};
-		CoreSubscriber<ByteBuf> subscriber = new CoreSubscriber<ByteBuf>() {
-			@Override
-			public void onNext(ByteBuf t) {
-				// TODO Auto-generated method stub
-				System.out.println(t);
-			}
-
-			@Override
-			public void onError(Throwable t) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onComplete() {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onSubscribe(Subscription s) {
-				// TODO Auto-generated method stub
-				System.out.println("onSubscribe");
-				s.request(1);
-			}
-			
-		};
-		
+	private void getServiceHostFromRemote(String json, AsyncResult asyncResult) {
 		UdpClient udpClient =
 				UdpClient.create()
-				         .host(dnsIp)
+				         .host(getDnsServerIp())
 				         .port(1053)
 				         .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000)
 				         .wiretap(true)
-				         //.doOnChannelInit((observer, channel, remoteAddress) ->
-				         //	channel.pipeline().addFirst(new LoggingHandler("reactor.netty.examples"))) 
 				         .handle( new BiFunction<UdpInbound, UdpOutbound, Publisher<Void>>(){
 							@Override
 							public Publisher<Void> apply(UdpInbound in, UdpOutbound out) {
 								System.out.println("Publisher<Void> apply(" + in + out);
-								//out.sendString(Mono.just(json)).then().;
-								in.receive().subscribe(subscriber);
+								in.receive().subscribe(new DnsRecordSubscriber(asyncResult));
 								NettyOutbound outbound = out.sendString(Mono.just(json));
 								outbound.then().subscribe();
-								return outbound;
+								return outbound.neverComplete();
 							}
 				         });
                 
-		Connection conn = udpClient.connectNow();
-		conn.onDispose().block();
-		
-		return null;//*/
+		udpClient.connect();
+	}
+	
+	private void getMultiServiceHostsFromRemote(String json, AsyncResult asyncResult) {
+		UdpClient udpClient =
+				UdpClient.create()
+				         .host(getDnsServerIp())
+				         .port(1053)
+				         .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000)
+				         .wiretap(true)
+				         .handle( new BiFunction<UdpInbound, UdpOutbound, Publisher<Void>>(){
+							@Override
+							public Publisher<Void> apply(UdpInbound in, UdpOutbound out) {
+								System.out.println("Publisher<Void> apply(" + in + out);
+								in.receive().subscribe(new MultiDnsRecordsSubscriber(asyncResult));
+								NettyOutbound outbound = out.sendString(Mono.just(json));
+								outbound.then().subscribe();
+								return outbound.neverComplete();
+							}
+				         });
+                
+		udpClient.connect();
+	}
+	protected abstract ServiceHost getServiceHostFromLocal(String hostname) ;
+	protected abstract MultiServiceHosts getMultiServiceHostsFromLocal(String servicename) ;
+	
+	@Override
+	public void getServiceHost(String hostname, AsyncResult asyncResult) {
+		ServiceHost serviceHost = getServiceHostFromLocal(hostname);
+		if(serviceHost != null) { 
+			asyncResult.setResult(new Result<>(new ResultMsg<>(serviceHost)));
+			return;
+		}
+		getServiceHostFromRemote(composeHostReq(hostname), asyncResult);
 	}
 	@Override
-	public List<String> getIps(String servicename) {
-		List<String> ips = getHostListFromLocal(servicename);
-		if(ips != null && ips.size() > 0) { return ips;}
-		return this.getHostListFromRemote(this.composeHostListReq(servicename));
+	public void getMultiServiceHosts(String servicename, AsyncResult asyncResult) {
+		MultiServiceHosts multiServiceHosts = this.getMultiServiceHostsFromLocal(servicename);
+		if(multiServiceHosts != null) { 
+			asyncResult.setResult(new Result<>(new ResultMsg<>(multiServiceHosts)));
+			return;
+		}
+		
+		this.getMultiServiceHostsFromRemote(this.composeHostListReq(servicename), asyncResult);
 	}
 	public static void main(String[] args) {
 		AbstractDnsResolver resolver = new AbstractDnsResolver() {
 
 			@Override
-			protected String getHostFromRemote(String json) {
+			protected ServiceHost getServiceHostFromLocal(String hostname) {
 				// TODO Auto-generated method stub
 				return null;
 			}
 
 			@Override
-			protected String getHostFromLocal(String hostname) {
+			protected MultiServiceHosts getMultiServiceHostsFromLocal(String servicename) {
 				// TODO Auto-generated method stub
 				return null;
 			}
-
-			@Override
-			protected List<String> getHostListFromRemote(String json) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			protected List<String> getHostListFromLocal(String servicename) {
-				// TODO Auto-generated method stub
-				return null;
-			}};
-		resolver.getIp("www.sina.com.cn");
 		
+		};
+		resolver.getServiceHost("www.sina.com.cn", null);
 	}
 }
