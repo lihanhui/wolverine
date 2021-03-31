@@ -12,14 +12,14 @@ class Cache( Thread ):
         self.hostmap = {}
         self.servicemap = {}
         self.masterUri = None
-        #zk = KazooClient(hosts=configure.Config.getConfig().getVal("zks"))
-        #zk.start()
+        zk = KazooClient(hosts=configure.Config.getConfig().getVal("zks"))
+        zk.start()
         
         ########################################
-        #@zk.ChildrenWatch("/wolverine/scheduler")
-        #def watch_children(children):
-        #    print("who is calling")
-        #    print(self)
+        @zk.ChildrenWatch("/wolverine/scheduler")
+        def watch_children(children):
+            print("who is calling")
+            print(self)
         print "xxxxxxxxxxxxx" 
 
     def getRecrod(self, hostname):
@@ -29,6 +29,6 @@ class Cache( Thread ):
         return self.servicemap[service]
 
     def run(self):
-        while(True):
+        while(True): # to load dns records from wolverine-scheduler (may be proxied by api server)
             time.sleep(10)
 

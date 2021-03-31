@@ -29,8 +29,8 @@ class UdpServer(Thread):
             packet = str(data)
             print(packet)
             packet = json.loads(packet)
-            #result = self.handle(packet)
-            result = {"ok": "ok"}
+            result = self.handle(packet)
+            # result = {"ok": "ok"}
             # Sending a reply to client - bytes(test_string, 'utf-8') 
             self.UDPServerSocket.sendto(str.encode(json.dumps(result)), addr)
         
