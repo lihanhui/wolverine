@@ -18,9 +18,14 @@ class Cache( Thread ):
         ########################################
         @zk.ChildrenWatch("/wolverine/scheduler")
         def watch_children(children):
-            print("who is calling")
-            print(self)
-        print "xxxxxxxxxxxxx" 
+            for node in children:
+                if "lock" in node:
+                    value, stat = zk.get("/wolverine/scheduler/"+node)
+                    print ("get wolverine scheduler master: " + value)
+                    self.scheduler_ip = value if value else None
+                    return;
+            self.scheduler_ip = None
+        print "dns cache initialized ..." 
 
     def getRecrod(self, hostname):
         return self.hostmap[hostname];
@@ -29,6 +34,7 @@ class Cache( Thread ):
         return self.servicemap[service]
 
     def run(self):
-        while(True): # to load dns records from wolverine-scheduler (may be proxied by api server)
+        while(self.scheduler_ip): # to load dns records from wolverine-scheduler (may be proxied by api server)
+            # we get scheduler ip from zk, it is written by wolverine scheduler master
             time.sleep(10)
 
