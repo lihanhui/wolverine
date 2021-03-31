@@ -1,4 +1,4 @@
-package io.wolverine.dns.client;
+package io.wolverine.dns.client.record;
 
 import java.util.List;
 

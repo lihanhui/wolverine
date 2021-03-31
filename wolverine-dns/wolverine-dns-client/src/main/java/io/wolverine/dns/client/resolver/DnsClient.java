@@ -1,4 +1,4 @@
-package io.wolverine.dns.client;
+package io.wolverine.dns.client.resolver;
 
 import io.nezha.event.AsyncResult;
 

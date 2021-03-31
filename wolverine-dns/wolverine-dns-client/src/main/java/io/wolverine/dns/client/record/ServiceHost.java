@@ -1,8 +1,9 @@
-package io.wolverine.dns.client;
+package io.wolverine.dns.client.record;
 
 public class ServiceHost {
 	private String hostname;
 	private String record;
+	private int port;
 	
 	public String getHostname() {
 		return hostname;
@@ -16,9 +17,15 @@ public class ServiceHost {
 	public void setRecord(String record) {
 		this.record = record;
 	}
+	public int getPort() {
+		return port;
+	}
+	public void setPort(int port) {
+		this.port = port;
+	}
 	@Override
 	public String toString() {
-		return "HostToIp [hostname=" + hostname + ", record=" + record + "]";
+		return "ServiceHost [hostname=" + hostname + ", record=" + record + ", port=" + port + "]";
 	}
 	public ServiceHost() {
 		super();

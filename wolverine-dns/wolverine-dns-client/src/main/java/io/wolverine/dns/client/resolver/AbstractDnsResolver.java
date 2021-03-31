@@ -1,4 +1,4 @@
-package io.wolverine.dns.client;
+package io.wolverine.dns.client.resolver;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -11,7 +11,11 @@ import io.doraemon.restful.ResultMsg;
 import io.netty.channel.ChannelOption;
 import io.nezha.event.AsyncResult;
 import io.nezha.event.Result;
+import io.wolverine.dns.client.DnsServer;
 import io.wolverine.dns.client.config.DnsConfig;
+import io.wolverine.dns.client.listener.RecordListener;
+import io.wolverine.dns.client.record.MultiServiceHosts;
+import io.wolverine.dns.client.record.ServiceHost;
 import io.wolverine.dns.client.subscriber.DnsRecordSubscriber;
 import io.wolverine.dns.client.subscriber.MultiDnsRecordsSubscriber;
 import reactor.core.publisher.Mono;
@@ -21,17 +25,9 @@ import reactor.netty.udp.UdpClient;
 import reactor.netty.udp.UdpInbound;
 import reactor.netty.udp.UdpOutbound;
 
-public abstract class AbstractDnsResolver implements DnsResolver{
+public abstract class AbstractDnsResolver implements DnsResolver, RecordListener{
 	private List<DnsServer> nameservers;
-	private NettyOutbound createUdpOutbound(String ip) {
-		Connection connection =
-				UdpClient.create()
-				         .host(ip)
-				         .port(1053)
-				         .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000)
-				         .connectNow(Duration.ofSeconds(30));
-		return connection.outbound();
-	}
+	// TODO: let request wait for the dns response;
 	public AbstractDnsResolver() {
 		nameservers = new ArrayList<>();
 		DnsConfig.init();
@@ -70,7 +66,7 @@ public abstract class AbstractDnsResolver implements DnsResolver{
 							@Override
 							public Publisher<Void> apply(UdpInbound in, UdpOutbound out) {
 								System.out.println("Publisher<Void> apply(" + in + out);
-								in.receive().subscribe(new DnsRecordSubscriber(asyncResult));
+								in.receive().subscribe(new DnsRecordSubscriber(AbstractDnsResolver.this, asyncResult));
 								NettyOutbound outbound = out.sendString(Mono.just(json));
 								outbound.then().subscribe();
 								return outbound.neverComplete();
@@ -91,7 +87,7 @@ public abstract class AbstractDnsResolver implements DnsResolver{
 							@Override
 							public Publisher<Void> apply(UdpInbound in, UdpOutbound out) {
 								System.out.println("Publisher<Void> apply(" + in + out);
-								in.receive().subscribe(new MultiDnsRecordsSubscriber(asyncResult));
+								in.receive().subscribe(new MultiDnsRecordsSubscriber(AbstractDnsResolver.this, asyncResult));
 								NettyOutbound outbound = out.sendString(Mono.just(json));
 								outbound.then().subscribe();
 								return outbound.neverComplete();
@@ -135,6 +131,18 @@ public abstract class AbstractDnsResolver implements DnsResolver{
 			protected MultiServiceHosts getMultiServiceHostsFromLocal(String servicename) {
 				// TODO Auto-generated method stub
 				return null;
+			}
+
+			@Override
+			public void onServiceHost(ServiceHost serviceHost) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onMultiServiceHosts(MultiServiceHosts multiServiceHosts) {
+				// TODO Auto-generated method stub
+				
 			}
 		
 		};
